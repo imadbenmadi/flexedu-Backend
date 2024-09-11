@@ -15,7 +15,7 @@ const allowedOrigins = [
     "https://dzidcom.skate.dz",
     "https://dzidcom.skate.dz/",
     "http://dzidcom-ensm.dz/",
-    "http://api.dzidcom-ensm.dz/",
+    "http://api.dzidcom-ensm.dz/", 
     "https://api.dzidcom-ensm.dz/",
     "https://dashboard.dzidcom-ensm.dz/",
     "http://dashboard.dzidcom-ensm.dz/",
