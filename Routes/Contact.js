@@ -3,8 +3,8 @@ const router = express.Router();
 const { Contact_Messages } = require("../Models/Contact_Messages");
 const handle_send_contact_message = async (req, res) => {
     try {
-        const { email, message, lastName, firstName } = req.body;
-        if (!email || !message || !firstName || !lastName) {
+        const { email, message, Name } = req.body;
+        if (!email || !message || !Name ) {
             return res.status(409).json({ message: "Missing Data" });
         } else if (
             email &&
@@ -15,8 +15,7 @@ const handle_send_contact_message = async (req, res) => {
         await Contact_Messages.create({
             email,
             message,
-            lastName,
-            firstName,
+            Name,
         });
         return res.status(200).json({
             message: "Message Sent Successfully via email",
