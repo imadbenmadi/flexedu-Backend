@@ -28,9 +28,9 @@ const handleLogin = async (req, res) => {
         } else if (user && userType && user.password === password) {
             const Access_Secrute =
                 userType == "client"
-                    ? process.env.Client_ACCESS_TOKEN_SECRET
+                    ? process.env.Teacher_ACCESS_TOKEN_SECRET
                     : userType == "freelancer"
-                    ? process.env.Freelancer_ACCESS_TOKEN_SECRET
+                    ? process.env.Student_ACCESS_TOKEN_SECRET
                     : null;
             const Refresh_Secrute =
                 userType == "client"
@@ -42,8 +42,8 @@ const handleLogin = async (req, res) => {
             const accessToken = jwt.sign(
                 { userId: user.id, userType: userType },
                 // userType == "client"
-                //     ? process.env.Client_ACCESS_TOKEN_SECRET
-                //     : process.env.Freelancer_ACCESS_TOKEN_SECRET,
+                //     ? process.env.Teacher_ACCESS_TOKEN_SECRET
+                //     : process.env.Student_ACCESS_TOKEN_SECRET,
                 Access_Secrute,
                 { expiresIn: "1h" }
             );

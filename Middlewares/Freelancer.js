@@ -29,7 +29,7 @@ const verifyUser = async (req, res, next) => {
 
         decoded = jwt.verify(
             accessToken,
-            process.env.Freelancer_ACCESS_TOKEN_SECRET
+            process.env.Student_ACCESS_TOKEN_SECRET
         );
         if (!decoded.userId || !decoded.userType)
             return res.status(401).json({
@@ -99,7 +99,7 @@ const verifyUser = async (req, res, next) => {
                                     userId: decoded.userId,
                                     userType: decoded.userType,
                                 },
-                                process.env.Freelancer_ACCESS_TOKEN_SECRET,
+                                process.env.Student_ACCESS_TOKEN_SECRET,
                                 { expiresIn: "1h" }
                             );
 

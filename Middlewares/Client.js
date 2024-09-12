@@ -6,29 +6,29 @@ const { Refresh_tokens } = require("../Models/RefreshTokens");
 const verifyUser = async (req, res, next) => {
     const accessToken = req.cookies.accessToken;
     const refreshToken = req.cookies.refreshToken;
-     if (!accessToken || !refreshToken) {
-         if (accessToken)
-             res.clearCookie("accessToken", {
-                 httpOnly: true,
-                 sameSite: "None",
-                 secure: true,
-             });
-         if (refreshToken)
-             res.clearCookie("refreshToken", {
-                 httpOnly: true,
-                 sameSite: "None",
-                 secure: true,
-             });
+    if (!accessToken || !refreshToken) {
+        if (accessToken)
+            res.clearCookie("accessToken", {
+                httpOnly: true,
+                sameSite: "None",
+                secure: true,
+            });
+        if (refreshToken)
+            res.clearCookie("refreshToken", {
+                httpOnly: true,
+                sameSite: "None",
+                secure: true,
+            });
 
-         return res.status(401).json({
-             message: "Unauthorized : No tokens found",
-         });
-     }
+        return res.status(401).json({
+            message: "Unauthorized : No tokens found",
+        });
+    }
     try {
         let decoded = null;
         decoded = jwt.verify(
             accessToken,
-            process.env.Client_ACCESS_TOKEN_SECRET
+            process.env.Teacher_ACCESS_TOKEN_SECRET
         );
 
         if (!decoded.userId || !decoded.userType)
@@ -96,7 +96,7 @@ const verifyUser = async (req, res, next) => {
                                     userId: decoded.userId,
                                     userType: decoded.userType,
                                 },
-                                process.env.Client_ACCESS_TOKEN_SECRET,
+                                process.env.Teacher_ACCESS_TOKEN_SECRET,
                                 { expiresIn: "1h" }
                             );
                             res.cookie("accessToken", newAccessToken, {

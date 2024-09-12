@@ -8,9 +8,9 @@ const { Clients } = require("../../Models/Client");
 
 router.get("/", async (req, res) => {
     const {
-        Freelancer_ACCESS_TOKEN_SECRET,
+        Student_ACCESS_TOKEN_SECRET,
         Freelancer_REFRESH_TOKEN_SECRET,
-        Client_ACCESS_TOKEN_SECRET,
+        Teacher_ACCESS_TOKEN_SECRET,
         Client_REFRESH_TOKEN_SECRET,
     } = process.env;
 
@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
                 sameSite: "None",
                 secure: true,
             });
-        
+
         return res.status(401).json({
             message: "Unauthorized : No tokens found",
         });
@@ -131,7 +131,7 @@ router.get("/", async (req, res) => {
             // if (!accessToken) throw new Error("No access token found");
             decoded = await verifyToken(
                 accessToken,
-                Freelancer_ACCESS_TOKEN_SECRET
+                Student_ACCESS_TOKEN_SECRET
             );
             user = await Freelancers.findOne({ where: { id: decoded.userId } });
             userType = "freelancer";
@@ -141,7 +141,7 @@ router.get("/", async (req, res) => {
                     const result = await handleTokenExpired(
                         refreshToken,
                         Freelancer_REFRESH_TOKEN_SECRET,
-                        Freelancer_ACCESS_TOKEN_SECRET
+                        Student_ACCESS_TOKEN_SECRET
                     );
                     return res.status(200);
                     //     .json({
@@ -160,7 +160,7 @@ router.get("/", async (req, res) => {
             try {
                 decoded = await verifyToken(
                     accessToken,
-                    Client_ACCESS_TOKEN_SECRET
+                    Teacher_ACCESS_TOKEN_SECRET
                 );
                 user = await Clients.findOne({ where: { id: decoded.userId } });
                 userType = "client";
@@ -170,7 +170,7 @@ router.get("/", async (req, res) => {
                         const result = await handleTokenExpired(
                             refreshToken,
                             Client_REFRESH_TOKEN_SECRET,
-                            Client_ACCESS_TOKEN_SECRET
+                            Teacher_ACCESS_TOKEN_SECRET
                         );
                         return res.status(200).json({
                             message:
