@@ -40,7 +40,7 @@ Freelancers.hasMany(Applications, {
     foreignKey: "FreelancerId",
 });
 Applications.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 

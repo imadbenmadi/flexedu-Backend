@@ -99,13 +99,13 @@ router.get("/", async (req, res) => {
                     let user = await Freelancers.findOne({
                         where: { id: decoded.userId },
                     });
-                    let userType = "freelancer";
+                    let userType = "student";
 
                     if (!user) {
                         user = await Clients.findOne({
                             where: { id: decoded.userId },
                         });
-                        userType = "client";
+                        userType = "teacher";
                     }
 
                     if (!user) {
@@ -134,7 +134,7 @@ router.get("/", async (req, res) => {
                 Student_ACCESS_TOKEN_SECRET
             );
             user = await Freelancers.findOne({ where: { id: decoded.userId } });
-            userType = "freelancer";
+            userType = "student";
         } catch (err) {
             if (err.name === "TokenExpiredError" || !accessToken) {
                 try {
@@ -163,7 +163,7 @@ router.get("/", async (req, res) => {
                     Teacher_ACCESS_TOKEN_SECRET
                 );
                 user = await Clients.findOne({ where: { id: decoded.userId } });
-                userType = "client";
+                userType = "teacher";
             } catch (err) {
                 if (err.name === "TokenExpiredError" || !accessToken) {
                     try {

@@ -16,7 +16,7 @@ const PaymentStatus = async (req, res) => {
             // include: [
             //     {
             //         model: Freelancers,
-            //         as: "freelancer",
+            //         as: "student",
             //         required: false,
             //     },
             //     {

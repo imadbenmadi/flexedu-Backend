@@ -24,11 +24,11 @@ router.get("/", adminMiddleware, async (req, res) => {
         // Add userType to each user object
         const freelancerUsers = freelancers.map((freelancer) => ({
             ...freelancer.toJSON(),
-            userType: "freelancer",
+            userType: "student",
         }));
         const clientUsers = clients.map((client) => ({
             ...client.toJSON(),
-            userType: "client",
+            userType: "teacher",
         }));
 
         const users = [...freelancerUsers, ...clientUsers];
@@ -92,8 +92,8 @@ router.get("/Freelancers/:id/Feedbacks", adminMiddleware, async (req, res) => {
                 FreelancerId: userId,
             },
             include: [
-                { model: Freelancers, as: "Freelancer" },
-                { model: Clients, as: "Client" },
+                { model: Freelancers, as: "student" },
+                { model: Clients, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -115,8 +115,8 @@ router.get("/Clients/:id/Feedbacks", adminMiddleware, async (req, res) => {
                 ClientId: userId,
             },
             include: [
-                { model: Freelancers, as: "Freelancer" },
-                { model: Clients, as: "Client" },
+                { model: Freelancers, as: "student" },
+                { model: Clients, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });

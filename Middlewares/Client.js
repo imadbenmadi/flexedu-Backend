@@ -35,11 +35,11 @@ const verifyUser = async (req, res, next) => {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
             });
-        else if (decoded.userType != "client") {
+        else if (decoded.userType != "teacher") {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
             });
-        } else if (decoded.userType == "client") {
+        } else if (decoded.userType == "teacher") {
             let client = await Clients.findOne({
                 where: { id: decoded.userId },
             });
@@ -90,7 +90,7 @@ const verifyUser = async (req, res, next) => {
                             });
                         }
                         let newAccessToken = null;
-                        if (decoded.userType == "client") {
+                        if (decoded.userType == "teacher") {
                             newAccessToken = jwt.sign(
                                 {
                                     userId: decoded.userId,

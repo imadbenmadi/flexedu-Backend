@@ -94,7 +94,7 @@ Freelancers.hasMany(Client_Feedbacks, {
     foreignKey: "FreelancerId",
 });
 Client_Feedbacks.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 
@@ -103,7 +103,7 @@ Freelancers.hasMany(Freelancer_Feedbacks, {
     foreignKey: "FreelancerId",
 });
 Freelancer_Feedbacks.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 
@@ -112,7 +112,7 @@ Clients.hasMany(Freelancer_Feedbacks, {
     foreignKey: "ClientId",
 });
 Freelancer_Feedbacks.belongsTo(Clients, {
-    as: "Client",
+    as: "teacher",
     foreignKey: "ClientId",
 });
 
@@ -121,10 +121,8 @@ Clients.hasMany(Client_Feedbacks, {
     foreignKey: "ClientId",
 });
 Client_Feedbacks.belongsTo(Clients, {
-    as: "Client",
+    as: "teacher",
     foreignKey: "ClientId",
 });
-
-
 
 module.exports = { Client_Feedbacks, Freelancer_Feedbacks, Home_Feedbacks };

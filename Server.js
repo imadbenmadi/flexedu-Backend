@@ -38,7 +38,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(path.join(__dirname, "/public")));
 app.use("/", express.static(path.join(__dirname, "/public/ProfilePics")));
 
-
 app.get("/", (req, res) => {
     res.send("Hello from flexEducation");
 });
@@ -49,12 +48,6 @@ app.use("/Logout", require("./Routes/Auth/Logout"));
 
 app.use("/Contact", require("./Routes/Contact"));
 app.use("/Privacy", require("./Routes/Privacy"));
-
-
-
-
-
-
 
 // _________________________________________________________
 app.use("/Freelancers", require("./Routes/Freelancers"));
@@ -74,8 +67,8 @@ app.get("/Home_Feedbacks", async (req, res) => {
     const Feedbacks = await Home_Feedbacks.findAll({
         where: {},
         // include: [
-        //     { model: Freelancers, as: "Freelancer" },
-        //     { model: Clients, as: "Client" },
+        //     { model: Freelancers, as: "student" },
+        //     { model: Clients, as: "teacher" },
         // ],
         order: [["createdAt", "DESC"]],
     });

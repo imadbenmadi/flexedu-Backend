@@ -21,11 +21,11 @@
 //         allowNull: false,
 //     },
 //     senderType: {
-//         type: DataTypes.ENUM("freelancer", "client"),
+//         type: DataTypes.ENUM("student", "teacher"),
 //         allowNull: false,
 //     },
 //     receiverType: {
-//         type: DataTypes.ENUM("freelancer", "client"),
+//         type: DataTypes.ENUM("student", "teacher"),
 //         allowNull: false,
 //     },
 // });
@@ -50,14 +50,14 @@
 // Messages.addHook("afterFind", (findResult) => {
 //     if (!Array.isArray(findResult)) findResult = [findResult];
 //     for (const instance of findResult) {
-//         if (instance.senderType === "freelancer" && instance.senderId) {
+//         if (instance.senderType === "student" && instance.senderId) {
 //             instance.sender = instance.getFreelancerSender();
-//         } else if (instance.senderType === "client" && instance.senderId) {
+//         } else if (instance.senderType === "teacher" && instance.senderId) {
 //             instance.sender = instance.getClientSender();
 //         }
-//         if (instance.receiverType === "freelancer" && instance.receiverId) {
+//         if (instance.receiverType === "student" && instance.receiverId) {
 //             instance.receiver = instance.getFreelancerReceiver();
-//         } else if (instance.receiverType === "client" && instance.receiverId) {
+//         } else if (instance.receiverType === "teacher" && instance.receiverId) {
 //             instance.receiver = instance.getClientReceiver();
 //         }
 //     }

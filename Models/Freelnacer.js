@@ -110,7 +110,7 @@ const Skills = sequelize.define("Skills", {
 
 Freelancers.hasMany(Skills, { as: "Skills", foreignKey: "FreelancerId" });
 Skills.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 
@@ -119,7 +119,7 @@ Freelancers.hasMany(PortfolioItems, {
     foreignKey: "FreelancerId",
 });
 PortfolioItems.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 

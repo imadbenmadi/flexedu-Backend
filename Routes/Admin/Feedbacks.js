@@ -15,8 +15,8 @@ router.get("/Clients", adminMiddleware, async (req, res) => {
         const feedbacks = await Client_Feedbacks.findAll({
             where: {},
             include: [
-                { model: Freelancers, as: "Freelancer" },
-                { model: Clients, as: "Client" },
+                { model: Freelancers, as: "student" },
+                { model: Clients, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -31,8 +31,8 @@ router.get("/Freelancers", adminMiddleware, async (req, res) => {
     try {
         const feedbacks = await Freelancer_Feedbacks.findAll({
             include: [
-                { model: Freelancers, as: "Freelancer" },
-                { model: Clients, as: "Client" },
+                { model: Freelancers, as: "student" },
+                { model: Clients, as: "teacher" },
             ],
             where: {},
             order: [["createdAt", "DESC"]],
@@ -122,7 +122,7 @@ router.post(
                 full_user_name: `${client.firstName} ${client.lastName}`,
                 Rate: feedback.Rate,
                 Comment: feedback.Comment,
-                userType: "Client",
+                userType: "teacher",
             });
 
             await Client_Feedbacks.update(
@@ -174,7 +174,7 @@ router.post(
                 full_user_name: `${freelancer.firstName} ${freelancer.lastName}`,
                 Rate: feedback.Rate,
                 Comment: feedback.Comment,
-                userType: "Freelancer",
+                userType: "student",
             });
             // console.log(newFeedback);
             await Freelancer_Feedbacks.update(
@@ -204,12 +204,12 @@ router.delete(
             if (!feedback)
                 return res.status(404).json({ message: "Feedback not found" });
 
-            if (feedback.userType === "Client") {
+            if (feedback.userType === "teacher") {
                 await Client_Feedbacks.update(
                     { inHome: false },
                     { where: { id: feedback.FeedbackId } }
                 );
-            } else if (feedback.userType === "Freelancer") {
+            } else if (feedback.userType === "student") {
                 await Freelancer_Feedbacks.update(
                     { inHome: false },
                     { where: { id: feedback.FeedbackId } }

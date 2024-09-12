@@ -72,7 +72,7 @@ const Freelancer_Notifications = sequelize.define("Freelancer_Notifications", {
 });
 
 Freelancer_Notifications.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 Freelancers.hasMany(Freelancer_Notifications, {
@@ -81,7 +81,7 @@ Freelancers.hasMany(Freelancer_Notifications, {
 });
 
 Client_Notifications.belongsTo(Clients, {
-    as: "Client",
+    as: "teacher",
     foreignKey: "ClientId",
 });
 Clients.hasMany(Client_Notifications, {

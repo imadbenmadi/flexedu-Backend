@@ -51,7 +51,7 @@ const handleRegister = async (req, res) => {
             });
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
             return res.status(409).json({ message: "Invalid email" });
-        } else if (userType !== "client" && userType !== "freelancer") {
+        } else if (userType !== "teacher" && userType !== "student") {
             return res.status(409).json({ message: "Invalid user type" });
         }
         // if (!(await isemailValid(email))) {
@@ -69,14 +69,14 @@ const handleRegister = async (req, res) => {
             });
         }
         let newUser = null;
-        if (userType === "client") {
+        if (userType === "teacher") {
             newUser = await Clients.create({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 password: password,
             });
-        } else if (userType === "freelancer") {
+        } else if (userType === "student") {
             newUser = await Freelancers.create({
                 firstName: firstName,
                 lastName: lastName,

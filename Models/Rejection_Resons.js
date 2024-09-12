@@ -21,7 +21,7 @@ const Rejection_Resons = sequelize.define("Rejection_Resons", {
     },
 });
 
-Rejection_Resons.belongsTo(Clients, { as: "Client", foreignKey: "ClientId" });
+Rejection_Resons.belongsTo(Clients, { as: "teacher", foreignKey: "ClientId" });
 Clients.hasMany(Rejection_Resons, {
     as: "Rejection_Resons",
     foreignKey: "ClientId",

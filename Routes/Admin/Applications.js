@@ -77,7 +77,7 @@ router.get("/:projectId", Admin_midllware, async (req, res) => {
                     as: "Project",
                     include: [{ model: Clients, as: "owner" }],
                 },
-                { model: Freelancers, as: "Freelancer" },
+                { model: Freelancers, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });

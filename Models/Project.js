@@ -122,11 +122,9 @@ Projects.belongsTo(Clients, { as: "owner", foreignKey: "ClientId" });
 Clients.hasMany(Projects, { as: "Projects", foreignKey: "ClientId" });
 
 Projects.belongsTo(Freelancers, {
-    as: "Freelancer",
+    as: "student",
     foreignKey: "FreelancerId",
 });
 Freelancers.hasMany(Projects, { as: "Projects", foreignKey: "FreelancerId" });
-
-
 
 module.exports = { Projects };

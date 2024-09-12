@@ -11,8 +11,8 @@ const GetFeedbacks = async (req, res) => {
                 ClientId: userId,
             },
             include: [
-                { model: Freelancers, as: "Freelancer" },
-                { model: Clients, as: "Client" },
+                { model: Freelancers, as: "student" },
+                { model: Clients, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });

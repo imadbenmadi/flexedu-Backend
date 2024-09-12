@@ -12,7 +12,7 @@ router.get("/", Admin_midllware, async (req, res) => {
     try {
         const projects = await Projects.findAll({
             include: [{ model: Clients, as: "owner" }],
-            include: [{ model: Freelancers, as: "Freelancer" }],
+            include: [{ model: Freelancers, as: "student" }],
             order: [["createdAt", "DESC"]],
         });
         res.status(200).json({ Projects: projects });
@@ -46,7 +46,7 @@ router.get("/requests", Admin_midllware, async (req, res) => {
 //                     as: "Project",
 //                     include: [{ model: Clients, as: "owner" }],
 //                 },
-//                 { model: Freelancers, as: "Freelancer" },
+//                 { model: Freelancers, as: "student" },
 //             ],
 //             order: [["createdAt", "DESC"]],
 //         });
@@ -68,7 +68,7 @@ router.get("/Payments", Admin_midllware, async (req, res) => {
             },
             include: [
                 { model: Clients, as: "owner" },
-                { model: Freelancers, as: "Freelancer" },
+                { model: Freelancers, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -88,7 +88,7 @@ router.get("/Payments", Admin_midllware, async (req, res) => {
 //             where: { id: projectId },
 //             include: [
 //                 { model: Clients, as: "owner" },
-//                 { model: Freelancers, as: "Freelancer" },
+//                 { model: Freelancers, as: "student" },
 //             ],
 //         });
 //         if (!project)

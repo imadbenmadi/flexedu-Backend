@@ -21,11 +21,11 @@ const Messages = sequelize.define("Messages", {
         allowNull: false,
     },
     senderType: {
-        type: DataTypes.ENUM("freelancer", "client", "admin"),
+        type: DataTypes.ENUM("student", "teacher", "admin"),
         allowNull: false,
     },
     receiverType: {
-        type: DataTypes.ENUM("freelancer", "client", "admin"),
+        type: DataTypes.ENUM("student", "teacher", "admin"),
         allowNull: false,
     },
     roomId: {

@@ -16,10 +16,10 @@ const handleLogin = async (req, res) => {
         let user = null;
         let userType = null;
         user = await Clients.findOne({ where: { email: email } });
-        userType = "client";
+        userType = "teacher";
         if (!user) {
             user = await Freelancers.findOne({ where: { email: email } });
-            userType = "freelancer";
+            userType = "student";
         }
         if (!user) {
             return res.status(401).json({
@@ -27,21 +27,21 @@ const handleLogin = async (req, res) => {
             });
         } else if (user && userType && user.password === password) {
             const Access_Secrute =
-                userType == "client"
+                userType == "teacher"
                     ? process.env.Teacher_ACCESS_TOKEN_SECRET
-                    : userType == "freelancer"
+                    : userType == "student"
                     ? process.env.Student_ACCESS_TOKEN_SECRET
                     : null;
             const Refresh_Secrute =
-                userType == "client"
+                userType == "teacher"
                     ? process.env.Client_REFRESH_TOKEN_SECRET
-                    : userType == "freelancer"
+                    : userType == "student"
                     ? process.env.Freelancer_REFRESH_TOKEN_SECRET
                     : null;
 
             const accessToken = jwt.sign(
                 { userId: user.id, userType: userType },
-                // userType == "client"
+                // userType == "teacher"
                 //     ? process.env.Teacher_ACCESS_TOKEN_SECRET
                 //     : process.env.Student_ACCESS_TOKEN_SECRET,
                 Access_Secrute,
@@ -49,7 +49,7 @@ const handleLogin = async (req, res) => {
             );
             const refreshToken = jwt.sign(
                 { userId: user.id, userType: userType },
-                // userType == "client"
+                // userType == "teacher"
                 // ? process.env.Client_REFRESH_TOKEN_SECRET
                 // : process.env.Freelancer_REFRESH_TOKEN_SECRET,
                 Refresh_Secrute,

@@ -35,11 +35,11 @@ const verifyUser = async (req, res, next) => {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens",
             });
-        else if (decoded.userType != "freelancer") {
+        else if (decoded.userType != "student") {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
             });
-        } else if (decoded.userType == "freelancer") {
+        } else if (decoded.userType == "student") {
             let freelancer = await Freelancers.findOne({
                 where: { id: decoded.userId },
             });
@@ -49,7 +49,7 @@ const verifyUser = async (req, res, next) => {
                 });
             }
             // req.user = freelancer;
-        } else if (decoded.userType != "freelancer") {
+        } else if (decoded.userType != "student") {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
             });
@@ -93,7 +93,7 @@ const verifyUser = async (req, res, next) => {
                                 message: "unauthorized : Invalid tokens",
                             });
                         }
-                        if (decoded.userType == "freelancer") {
+                        if (decoded.userType == "student") {
                             let newAccessToken = jwt.sign(
                                 {
                                     userId: decoded.userId,

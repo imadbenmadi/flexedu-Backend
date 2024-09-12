@@ -23,7 +23,7 @@ router.get("/", Admin_midllware, async (req, res) => {
             },
             include: [
                 { model: Clients, as: "owner" },
-                { model: Freelancers, as: "Freelancer" },
+                { model: Freelancers, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -53,7 +53,7 @@ router.get("/:projectId", Admin_midllware, async (req, res) => {
             },
             include: [
                 { model: Clients, as: "owner" },
-                { model: Freelancers, as: "Freelancer" },
+                { model: Freelancers, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });

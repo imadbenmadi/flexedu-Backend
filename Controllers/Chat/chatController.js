@@ -36,8 +36,8 @@ const get_Freelancer_Rooms = async (req, res) => {
                     // attributes: ["message"],
                     where: {
                         senderId: freelancerId,
-                        senderType: "freelancer",
-                        receiverType: "client",
+                        senderType: "student",
+                        receiverType: "teacher",
                     },
                     order: [["createdAt", "DESC"]],
                     limit: 1,
@@ -97,8 +97,8 @@ const get_Client_Rooms = async (req, res) => {
                     // attributes: ["message"],
                     where: {
                         receiverId: clientId,
-                        receiverType: "client",
-                        senderType: "freelancer",
+                        receiverType: "teacher",
+                        senderType: "student",
                     },
                     order: [["createdAt", "DESC"]],
                     limit: 1,
@@ -275,8 +275,8 @@ const post_Freelancer_Message = async (req, res) => {
             message,
             senderId: freelancerId,
             receiverId: clientId,
-            senderType: "freelancer",
-            receiverType: "client",
+            senderType: "student",
+            receiverType: "teacher",
             roomId,
         });
 
@@ -332,8 +332,8 @@ const post_Client_Message = async (req, res) => {
             message,
             senderId: clientId,
             receiverId: freelancerId,
-            senderType: "client",
-            receiverType: "freelancer",
+            senderType: "teacher",
+            receiverType: "student",
             roomId,
         });
 
