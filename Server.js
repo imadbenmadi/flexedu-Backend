@@ -9,16 +9,6 @@ const allowedOrigins = [
     "http://localhost:5174",
     "http://localhost:5174/",
     // "http://localhost:3500",
-    "https://dzidcom-front.vercel.app",
-    "https://dashboard.dzidcom.skate.dz",
-    "https://dashboard.dzidcom.skate.dz/",
-    "https://dzidcom.skate.dz",
-    "https://dzidcom.skate.dz/",
-    "http://dzidcom-ensm.dz/",
-    "http://api.dzidcom-ensm.dz/", 
-    "https://api.dzidcom-ensm.dz/",
-    "https://dashboard.dzidcom-ensm.dz/",
-    "http://dashboard.dzidcom-ensm.dz/",
 ];
 const corsOptions = {
     origin: (origin, callback) => {
@@ -47,11 +37,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", express.static(path.join(__dirname, "/public")));
 app.use("/", express.static(path.join(__dirname, "/public/ProfilePics")));
-app.use("/", express.static(path.join(__dirname, "/public/Work")));
-app.use("/", express.static(path.join(__dirname, "/Public/Portfolio")));
+
 
 app.get("/", (req, res) => {
-    res.send("Hello from DzidCom");
+    res.send("Hello from flexEducation");
 });
 app.use("/check_Auth", require("./Routes/Auth/check_Auth"));
 app.use("/Login", require("./Routes/Auth/Login"));
@@ -60,6 +49,14 @@ app.use("/Logout", require("./Routes/Auth/Logout"));
 
 app.use("/Contact", require("./Routes/Contact"));
 app.use("/Privacy", require("./Routes/Privacy"));
+
+
+
+
+
+
+
+// _________________________________________________________
 app.use("/Freelancers", require("./Routes/Freelancers"));
 app.use("/Clients", require("./Routes/Clients"));
 app.use("/upload", require("./Routes/Uploads/Upload"));
