@@ -1,6 +1,6 @@
-const { Students } = require("../../Models/Freelnacer");
-const { PortfolioItems } = require("../../Models/Freelnacer");
-const { Skills } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Student");
+const { PortfolioItems } = require("../../Models/Student");
+const { Skills } = require("../../Models/Student");
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
 

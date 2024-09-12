@@ -1,6 +1,6 @@
 // const { Teachers } = require("../../Models/Client");
 const { Teachers } = require("../../../Models/Client");
-const { Students } = require("../../../Models/Freelnacer");
+const { Students } = require("../../../Models/Student");
 const { Projects } = require("../../../Models/Project");
 const GetProject = async (req, res) => {
     const projectId = req.params.projectId;

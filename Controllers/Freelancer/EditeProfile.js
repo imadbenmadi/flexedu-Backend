@@ -1,4 +1,4 @@
-const { Students, Skills, PortfolioItems } = require("../../Models/Freelnacer");
+const { Students, Skills, PortfolioItems } = require("../../Models/Student");
 
 const EditeProfile = async (req, res) => {
     const userId = req.decoded.userId;
