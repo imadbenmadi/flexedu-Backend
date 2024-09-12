@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { PortfolioItems } = require("../../../Models/Freelnacer");
+const { PortfolioItems } = require("../../../Models/Student");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({

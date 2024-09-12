@@ -1,5 +1,5 @@
 const { Messages } = require("../../Models/Messages");
-const { Students } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Student");
 const { Teachers } = require("../../Models/Teacher");
 const { MessagesRoom } = require("../../Models/Messages");
 

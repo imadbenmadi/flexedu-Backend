@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { Students } = require("../Models/Freelnacer");
+const { Students } = require("../Models/Student");
 const { Refresh_tokens } = require("../Models/RefreshTokens");
 
 const verifyUser = async (req, res, next) => {

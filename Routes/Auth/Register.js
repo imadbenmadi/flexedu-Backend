@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Students } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Student");
 const { Teachers } = require("../../Models/Teacher");
 const dns = require("dns");
 // const {Project} = require("../../Models/Project");

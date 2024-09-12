@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const { Students } = require("./Freelnacer");
+const { Students } = require("./Student");
 const { Teachers } = require("./Teacher");
 const Client_Notifications = sequelize.define("Client_Notifications", {
     ClientId: {

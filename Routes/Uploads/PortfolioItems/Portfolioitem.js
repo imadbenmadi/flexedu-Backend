@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { PortfolioItems } = require("../../../Models/Freelnacer");
+const { PortfolioItems } = require("../../../Models/Student");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
@@ -65,7 +65,7 @@ const Upload_Freelancer_PortfolioItem = async (req, res) => {
         }
         // Move the file to the desired location
         // fs.renameSync(image.path, path.join("public/Portfolio/", uniqueSuffix));
-        
+
         const targetPath = path.join("public/Portfolio/", uniqueSuffix);
         fs.copyFileSync(image.path, targetPath);
         fs.unlinkSync(image.path);

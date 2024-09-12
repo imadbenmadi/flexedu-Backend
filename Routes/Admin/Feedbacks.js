@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
-const { Students } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Student");
 const { Teachers } = require("../../Models/Teacher");
 const { Projects } = require("../../Models/Project");
 const {
