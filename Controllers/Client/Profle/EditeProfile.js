@@ -1,4 +1,4 @@
-const { Clients } = require("../../../Models/Client");
+const { Teachers } = require("../../../Models/Client");
 
 const EditeProfile = async (req, res) => {
     const userId = req.decoded.userId;
@@ -6,7 +6,7 @@ const EditeProfile = async (req, res) => {
 
     try {
         // Find the Client by their ID
-        const Client = await Clients.findByPk(userId);
+        const Client = await Teachers.findByPk(userId);
 
         if (!Client) {
             return res.status(404).json({ error: "Client not found." });

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const { Refresh_tokens } = require("../../Models/RefreshTokens");
 
 const handleLogin = async (req, res) => {
@@ -15,10 +15,10 @@ const handleLogin = async (req, res) => {
         }
         let user = null;
         let userType = null;
-        user = await Clients.findOne({ where: { email: email } });
+        user = await Teachers.findOne({ where: { email: email } });
         userType = "teacher";
         if (!user) {
-            user = await Freelancers.findOne({ where: { email: email } });
+            user = await Students.findOne({ where: { email: email } });
             userType = "student";
         }
         if (!user) {

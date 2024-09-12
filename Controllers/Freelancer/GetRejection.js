@@ -1,4 +1,4 @@
-// const { Clients } = require("../../Models/Client");
+// const { Teachers } = require("../../Models/Client");
 
 const { Rejection_Resons } = require("../../Models/Rejection_Resons");
 const { Op } = require("sequelize");

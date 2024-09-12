@@ -1,6 +1,6 @@
-// const { Clients } = require("../../Models/Client");
+// const { Teachers } = require("../../Models/Client");
 const { Projects } = require("../../../Models/Project");
-const { Clients } = require("../../../Models/Client");
+const { Teachers } = require("../../../Models/Client");
 const { Rejection_Resons } = require("../../../Models/Rejection_Resons");
 const {
     Freelancer_Notifications,
@@ -23,7 +23,7 @@ const Accept_work = async (req, res) => {
     //     return res.status(400).json({ error: "Please provide the Reason." });
     try {
         // Find the Client by their ID
-        const Client = await Clients.findByPk(userId);
+        const Client = await Teachers.findByPk(userId);
         if (!Client) {
             return res.status(404).json({ error: "Client not found." });
         }
@@ -91,7 +91,7 @@ const Reject_work = async (req, res) => {
         return res.status(400).json({ error: "Please provide the Reason." });
     try {
         // Find the Client by their ID
-        const Client = await Clients.findByPk(userId);
+        const Client = await Teachers.findByPk(userId);
         if (!Client) {
             return res.status(404).json({ error: "Client not found." });
         }

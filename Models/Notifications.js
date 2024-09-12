@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const { Freelancers } = require("./Freelnacer");
-const { Clients } = require("./Client");
+const { Students } = require("./Freelnacer");
+const { Teachers } = require("./Teacher");
 const Client_Notifications = sequelize.define("Client_Notifications", {
     ClientId: {
         type: DataTypes.INTEGER,
@@ -71,20 +71,20 @@ const Freelancer_Notifications = sequelize.define("Freelancer_Notifications", {
     },
 });
 
-Freelancer_Notifications.belongsTo(Freelancers, {
+Freelancer_Notifications.belongsTo(Students, {
     as: "student",
     foreignKey: "FreelancerId",
 });
-Freelancers.hasMany(Freelancer_Notifications, {
+Students.hasMany(Freelancer_Notifications, {
     as: "Freelancer_Notifications",
     foreignKey: "FreelancerId",
 });
 
-Client_Notifications.belongsTo(Clients, {
+Client_Notifications.belongsTo(Teachers, {
     as: "teacher",
     foreignKey: "ClientId",
 });
-Clients.hasMany(Client_Notifications, {
+Teachers.hasMany(Client_Notifications, {
     as: "Client_Notifications",
     foreignKey: "ClientId",
 });

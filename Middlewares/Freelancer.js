@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { Freelancers } = require("../Models/Freelnacer");
+const { Students } = require("../Models/Freelnacer");
 const { Refresh_tokens } = require("../Models/RefreshTokens");
 
 const verifyUser = async (req, res, next) => {
@@ -40,7 +40,7 @@ const verifyUser = async (req, res, next) => {
                 message: "unauthorized : Invalid tokens ",
             });
         } else if (decoded.userType == "student") {
-            let freelancer = await Freelancers.findOne({
+            let freelancer = await Students.findOne({
                 where: { id: decoded.userId },
             });
             if (!freelancer) {

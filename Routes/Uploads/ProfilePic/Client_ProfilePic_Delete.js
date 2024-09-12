@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Clients } = require("../../../Models/Client");
+const { Teachers } = require("../../../Models/Teacher");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
@@ -14,7 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const uploadClientProfilePic = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const client = await Clients.findOne({ where: { id: userId } });
+        const client = await Teachers.findOne({ where: { id: userId } });
         if (!client) {
             return res.status(404).send({
                 message: "Client not found for the given userId",
@@ -38,7 +38,7 @@ const uploadClientProfilePic = async (req, res) => {
                 message: "Profile Picture Not Found",
             });
         }
-        await Clients.update(
+        await Teachers.update(
             { profile_pic_link: null },
             { where: { id: userId } }
         );

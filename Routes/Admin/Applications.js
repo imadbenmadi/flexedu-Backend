@@ -3,8 +3,8 @@ const router = express.Router();
 const { Projects } = require("../../Models/Project");
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Applications } = require("../../Models/Applications");
-const { Clients } = require("../../Models/Client");
-const { Freelancers } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
+const { Students } = require("../../Models/Freelnacer");
 const { Op } = require("sequelize");
 const { Sequelize, DataTypes } = require("sequelize");
 const { MessagesRoom } = require("../../Models/Messages");
@@ -28,7 +28,7 @@ router.get("/", Admin_midllware, async (req, res) => {
                     attributes: [],
                 },
                 {
-                    model: Clients,
+                    model: Teachers,
                     as: "owner",
                     attributes: ["company_Name"], // Assuming "name" is the client's company name
                 },
@@ -75,9 +75,9 @@ router.get("/:projectId", Admin_midllware, async (req, res) => {
                 {
                     model: Projects,
                     as: "Project",
-                    include: [{ model: Clients, as: "owner" }],
+                    include: [{ model: Teachers, as: "owner" }],
                 },
-                { model: Freelancers, as: "student" },
+                { model: Students, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });

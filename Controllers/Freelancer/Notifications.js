@@ -1,4 +1,4 @@
-// const { Clients } = require("../../Models/Client");
+// const { Teachers } = require("../../Models/Client");
 const { Freelancer_Notifications } = require("../../Models/Notifications");
 const GetNotifications = async (req, res) => {
     const userId = req.decoded.userId;

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const dns = require("dns");
 // const {Project} = require("../../Models/Project");
 const isemailValid = (email) => {
@@ -57,10 +57,10 @@ const handleRegister = async (req, res) => {
         // if (!(await isemailValid(email))) {
         //     return res.status(409).json({ message: "Invalid email domain" });
         // }
-        const exist_freelancer = await Clients.findOne({
+        const exist_freelancer = await Teachers.findOne({
             where: { email: email },
         });
-        const exist_client = await Freelancers.findOne({
+        const exist_client = await Students.findOne({
             where: { email: email },
         });
         if (exist_client || exist_freelancer) {
@@ -70,14 +70,14 @@ const handleRegister = async (req, res) => {
         }
         let newUser = null;
         if (userType === "teacher") {
-            newUser = await Clients.create({
+            newUser = await Teachers.create({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 password: password,
             });
         } else if (userType === "student") {
-            newUser = await Freelancers.create({
+            newUser = await Students.create({
                 firstName: firstName,
                 lastName: lastName,
                 email: email,

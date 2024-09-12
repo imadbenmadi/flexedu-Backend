@@ -1,8 +1,4 @@
-const {
-    Freelancers,
-    Skills,
-    PortfolioItems,
-} = require("../../Models/Freelnacer");
+const { Students, Skills, PortfolioItems } = require("../../Models/Freelnacer");
 
 const EditeProfile = async (req, res) => {
     const userId = req.decoded.userId;
@@ -10,7 +6,7 @@ const EditeProfile = async (req, res) => {
 
     try {
         // Find the freelancer by their ID
-        const freelancer = await Freelancers.findByPk(userId);
+        const freelancer = await Students.findByPk(userId);
 
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found." });

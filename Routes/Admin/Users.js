@@ -1,32 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
-const { Freelancers } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Freelnacer");
 const { PortfolioItems } = require("../../Models/Freelnacer");
 const { Skills } = require("../../Models/Freelnacer");
 
-const { Clients } = require("../../Models/Client");
+const { Teachers } = require("../../Models/Teacher");
 const {
     Freelancer_Feedbacks,
     Client_Feedbacks,
 } = require("../../Models/Feedbacks");
 router.get("/", adminMiddleware, async (req, res) => {
     try {
-        const freelancers = await Freelancers.findAll({
+        const Students = await Students.findAll({
             attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
-        const clients = await Clients.findAll({
+        const Teachers = await Teachers.findAll({
             attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
 
         // Add userType to each user object
-        const freelancerUsers = freelancers.map((freelancer) => ({
+        const freelancerUsers = Students.map((freelancer) => ({
             ...freelancer.toJSON(),
             userType: "student",
         }));
-        const clientUsers = clients.map((client) => ({
+        const clientUsers = Teachers.map((client) => ({
             ...client.toJSON(),
             userType: "teacher",
         }));
@@ -42,12 +42,12 @@ router.get("/", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-router.get("/Clients/:id", adminMiddleware, async (req, res) => {
+router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
     const clientId = req.params.id;
     if (!clientId)
         return res.status(409).json({ message: "Client ID is required" });
     try {
-        const client = await Clients.findOne({
+        const client = await Teachers.findOne({
             where: { id: clientId },
             attributes: { exclude: ["password"] },
         });
@@ -60,12 +60,12 @@ router.get("/Clients/:id", adminMiddleware, async (req, res) => {
     }
 });
 
-router.get("/Freelancers/:id", adminMiddleware, async (req, res) => {
+router.get("/Students/:id", adminMiddleware, async (req, res) => {
     const freelancerId = req.params.id;
     if (!freelancerId)
         return res.status(409).json({ message: "Freelancer ID is required" });
     try {
-        const freelancer = await Freelancers.findOne({
+        const freelancer = await Students.findOne({
             where: { id: freelancerId },
             include: [
                 { model: PortfolioItems, as: "PortfolioItems" },
@@ -82,7 +82,7 @@ router.get("/Freelancers/:id", adminMiddleware, async (req, res) => {
     }
 });
 
-router.get("/Freelancers/:id/Feedbacks", adminMiddleware, async (req, res) => {
+router.get("/Students/:id/Feedbacks", adminMiddleware, async (req, res) => {
     const userId = req.params.id;
     if (!userId)
         return res.status(409).json({ error: "Unauthorized , missing userId" });
@@ -92,8 +92,8 @@ router.get("/Freelancers/:id/Feedbacks", adminMiddleware, async (req, res) => {
                 FreelancerId: userId,
             },
             include: [
-                { model: Freelancers, as: "student" },
-                { model: Clients, as: "teacher" },
+                { model: Students, as: "student" },
+                { model: Teachers, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -105,7 +105,7 @@ router.get("/Freelancers/:id/Feedbacks", adminMiddleware, async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 });
-router.get("/Clients/:id/Feedbacks", adminMiddleware, async (req, res) => {
+router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
     const userId = req.params.id;
     if (!userId)
         return res.status(409).json({ error: "Unauthorized , missing userId" });
@@ -115,8 +115,8 @@ router.get("/Clients/:id/Feedbacks", adminMiddleware, async (req, res) => {
                 ClientId: userId,
             },
             include: [
-                { model: Freelancers, as: "student" },
-                { model: Clients, as: "teacher" },
+                { model: Students, as: "student" },
+                { model: Teachers, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -134,7 +134,7 @@ router.delete("/Client/:id", adminMiddleware, async (req, res) => {
     if (!clientId)
         return res.status(409).json({ message: "client id is required" });
     try {
-        await Clients.destroy({ where: { id: clientId } });
+        await Teachers.destroy({ where: { id: clientId } });
         res.status(200).json({ message: "client deleted successfully" });
     } catch (err) {
         console.error("Error fetching deleting client:", err);
@@ -146,7 +146,7 @@ router.delete("/Freelancer/:id", adminMiddleware, async (req, res) => {
     if (!freelancerId)
         return res.status(409).json({ message: "Freelancer id is required" });
     try {
-        await Freelancers.destroy({ where: { id: freelancerId } });
+        await Students.destroy({ where: { id: freelancerId } });
         res.status(200).json({ message: "Freelancer deleted successfully" });
     } catch (err) {
         console.error("Error fetching deleting Freelancer:", err);

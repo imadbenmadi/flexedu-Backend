@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const Clients = sequelize.define("Clients", {
+const Teachers = sequelize.define("Teachers", {
     firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -77,4 +77,4 @@ const Clients = sequelize.define("Clients", {
     },
 });
 
-module.exports = { Clients };
+module.exports = { Teachers };

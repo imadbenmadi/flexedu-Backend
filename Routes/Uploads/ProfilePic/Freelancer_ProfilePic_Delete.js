@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Freelancers } = require("../../../Models/Freelnacer");
+const { Students } = require("../../../Models/Freelnacer");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
@@ -14,7 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const uploadFreelancerProfilePic = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const Freelancer = await Freelancers.findOne({ where: { id: userId } });
+        const Freelancer = await Students.findOne({ where: { id: userId } });
         if (!Freelancer) {
             return res.status(404).send({
                 message: "Freelancer not found for the given userId",
@@ -40,7 +40,7 @@ const uploadFreelancerProfilePic = async (req, res) => {
                 message: "Profile Picture Not Found",
             });
         }
-        await Freelancers.update(
+        await Students.update(
             { profile_pic_link: null },
             { where: { id: userId } }
         );

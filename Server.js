@@ -45,13 +45,11 @@ app.use("/check_Auth", require("./Routes/Auth/check_Auth"));
 app.use("/Login", require("./Routes/Auth/Login"));
 app.use("/Register", require("./Routes/Auth/Register"));
 app.use("/Logout", require("./Routes/Auth/Logout"));
-
 app.use("/Contact", require("./Routes/Contact"));
-app.use("/Privacy", require("./Routes/Privacy"));
 
 // _________________________________________________________
-app.use("/Freelancers", require("./Routes/Freelancers"));
-app.use("/Clients", require("./Routes/Clients"));
+app.use("/Students", require("./Routes/Students"));
+app.use("/Teachers", require("./Routes/Teachers"));
 app.use("/upload", require("./Routes/Uploads/Upload"));
 
 app.use("/Admin", require("./Routes/Admin/Admin"));
@@ -61,14 +59,14 @@ app.use("/Add_Admin", require("./Routes/Auth/Admin/Admin_Add"));
 app.use("/Admin_CheckAuth", require("./Routes/Auth/Admin/Admin_CheckAuth"));
 app.use("/Messages", require("./Routes/Messages"));
 const { Home_Feedbacks } = require("./Models/Feedbacks");
-const { Clients } = require("./Models/Client");
-const { Freelancers } = require("./Models/Freelnacer");
+const { Teachers } = require("./Models/Teacher");
+const { Students } = require("./Models/Freelnacer");
 app.get("/Home_Feedbacks", async (req, res) => {
     const Feedbacks = await Home_Feedbacks.findAll({
         where: {},
         // include: [
-        //     { model: Freelancers, as: "student" },
-        //     { model: Clients, as: "teacher" },
+        //     { model: Students, as: "student" },
+        //     { model: Teachers, as: "teacher" },
         // ],
         order: [["createdAt", "DESC"]],
     });

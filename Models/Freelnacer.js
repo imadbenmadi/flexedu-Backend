@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const Freelancers = sequelize.define("Freelancers", {
+const Students = sequelize.define("Students", {
     firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -108,23 +108,23 @@ const Skills = sequelize.define("Skills", {
     },
 });
 
-Freelancers.hasMany(Skills, { as: "Skills", foreignKey: "FreelancerId" });
-Skills.belongsTo(Freelancers, {
+Students.hasMany(Skills, { as: "Skills", foreignKey: "FreelancerId" });
+Skills.belongsTo(Students, {
     as: "student",
     foreignKey: "FreelancerId",
 });
 
-Freelancers.hasMany(PortfolioItems, {
+Students.hasMany(PortfolioItems, {
     as: "PortfolioItems",
     foreignKey: "FreelancerId",
 });
-PortfolioItems.belongsTo(Freelancers, {
+PortfolioItems.belongsTo(Students, {
     as: "student",
     foreignKey: "FreelancerId",
 });
 
 module.exports = {
-    Freelancers,
+    Students,
     PortfolioItems,
     Skills,
 };

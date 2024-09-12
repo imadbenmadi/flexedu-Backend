@@ -3,16 +3,16 @@ const router = express.Router();
 const { Projects } = require("../../Models/Project");
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Client_Notifications } = require("../../Models/Notifications");
-const { Clients } = require("../../Models/Client");
-const { Freelancers } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
+const { Students } = require("../../Models/Freelnacer");
 const { Rejection_Resons } = require("../../Models/Rejection_Resons");
 const { Applications } = require("../../Models/Applications");
 const { Op } = require("sequelize");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
         const projects = await Projects.findAll({
-            include: [{ model: Clients, as: "owner" }],
-            include: [{ model: Freelancers, as: "student" }],
+            include: [{ model: Teachers, as: "owner" }],
+            include: [{ model: Students, as: "student" }],
             order: [["createdAt", "DESC"]],
         });
         res.status(200).json({ Projects: projects });
@@ -25,7 +25,7 @@ router.get("/requests", Admin_midllware, async (req, res) => {
     try {
         const requests = await Projects.findAll({
             where: { status: "Pending" },
-            include: [{ model: Clients, as: "owner" }],
+            include: [{ model: Teachers, as: "owner" }],
             order: [["createdAt", "DESC"]],
         });
         res.status(200).json({ Projects: requests });
@@ -44,9 +44,9 @@ router.get("/requests", Admin_midllware, async (req, res) => {
 //                 {
 //                     model: Projects,
 //                     as: "Project",
-//                     include: [{ model: Clients, as: "owner" }],
+//                     include: [{ model: Teachers, as: "owner" }],
 //                 },
-//                 { model: Freelancers, as: "student" },
+//                 { model: Students, as: "student" },
 //             ],
 //             order: [["createdAt", "DESC"]],
 //         });
@@ -67,8 +67,8 @@ router.get("/Payments", Admin_midllware, async (req, res) => {
                 // isPayment_ScreenShot_uploaded: false,
             },
             include: [
-                { model: Clients, as: "owner" },
-                { model: Freelancers, as: "student" },
+                { model: Teachers, as: "owner" },
+                { model: Students, as: "student" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -87,8 +87,8 @@ router.get("/Payments", Admin_midllware, async (req, res) => {
 //         const project = await Projects.findOne({
 //             where: { id: projectId },
 //             include: [
-//                 { model: Clients, as: "owner" },
-//                 { model: Freelancers, as: "student" },
+//                 { model: Teachers, as: "owner" },
+//                 { model: Students, as: "student" },
 //             ],
 //         });
 //         if (!project)

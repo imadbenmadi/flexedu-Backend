@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { Freelancers } = require("../../Models/Freelnacer");
+const { Students } = require("../../Models/Freelnacer");
 const { Refresh_tokens } = require("../../Models/RefreshTokens");
-const { Clients } = require("../../Models/Client");
+const { Teachers } = require("../../Models/Teacher");
 
 router.get("/", async (req, res) => {
     const {
@@ -96,13 +96,13 @@ router.get("/", async (req, res) => {
                         maxAge: 60 * 60 * 1000, // 1 hour in milliseconds
                     });
 
-                    let user = await Freelancers.findOne({
+                    let user = await Students.findOne({
                         where: { id: decoded.userId },
                     });
                     let userType = "student";
 
                     if (!user) {
-                        user = await Clients.findOne({
+                        user = await Teachers.findOne({
                             where: { id: decoded.userId },
                         });
                         userType = "teacher";
@@ -133,7 +133,7 @@ router.get("/", async (req, res) => {
                 accessToken,
                 Student_ACCESS_TOKEN_SECRET
             );
-            user = await Freelancers.findOne({ where: { id: decoded.userId } });
+            user = await Students.findOne({ where: { id: decoded.userId } });
             userType = "student";
         } catch (err) {
             if (err.name === "TokenExpiredError" || !accessToken) {
@@ -162,7 +162,9 @@ router.get("/", async (req, res) => {
                     accessToken,
                     Teacher_ACCESS_TOKEN_SECRET
                 );
-                user = await Clients.findOne({ where: { id: decoded.userId } });
+                user = await Teachers.findOne({
+                    where: { id: decoded.userId },
+                });
                 userType = "teacher";
             } catch (err) {
                 if (err.name === "TokenExpiredError" || !accessToken) {

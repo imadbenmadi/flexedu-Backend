@@ -1,6 +1,6 @@
 const { Messages } = require("../../Models/Messages");
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const { MessagesRoom } = require("../../Models/Messages");
 
 const openChatRoom = async (req, res) => {
@@ -19,13 +19,13 @@ const openChatRoom = async (req, res) => {
         }
 
         // Check if the freelancer exists
-        const freelancer = await Freelancers.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(freelancerId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
 
         // Check if the client exists
-        const client = await Clients.findByPk(clientId);
+        const client = await Teachers.findByPk(clientId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }

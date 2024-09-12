@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const { Projects } = require("../../Models/Project");
 const {
     Freelancer_Feedbacks,
@@ -10,13 +10,13 @@ const {
     Home_Feedbacks,
 } = require("../../Models/Feedbacks");
 
-router.get("/Clients", adminMiddleware, async (req, res) => {
+router.get("/Teachers", adminMiddleware, async (req, res) => {
     try {
         const feedbacks = await Client_Feedbacks.findAll({
             where: {},
             include: [
-                { model: Freelancers, as: "student" },
-                { model: Clients, as: "teacher" },
+                { model: Students, as: "student" },
+                { model: Teachers, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });
@@ -27,12 +27,12 @@ router.get("/Clients", adminMiddleware, async (req, res) => {
     }
 });
 
-router.get("/Freelancers", adminMiddleware, async (req, res) => {
+router.get("/Students", adminMiddleware, async (req, res) => {
     try {
         const feedbacks = await Freelancer_Feedbacks.findAll({
             include: [
-                { model: Freelancers, as: "student" },
-                { model: Clients, as: "teacher" },
+                { model: Students, as: "student" },
+                { model: Teachers, as: "teacher" },
             ],
             where: {},
             order: [["createdAt", "DESC"]],
@@ -44,7 +44,7 @@ router.get("/Freelancers", adminMiddleware, async (req, res) => {
     }
 });
 
-router.delete("/Clients/:feedbackId", adminMiddleware, async (req, res) => {
+router.delete("/Teachers/:feedbackId", adminMiddleware, async (req, res) => {
     try {
         const feedbackId = req.params.feedbackId;
         const feedback = await Client_Feedbacks.findOne({
@@ -67,7 +67,7 @@ router.delete("/Clients/:feedbackId", adminMiddleware, async (req, res) => {
     }
 });
 
-router.delete("/Freelancers/:feedbackId", adminMiddleware, async (req, res) => {
+router.delete("/Students/:feedbackId", adminMiddleware, async (req, res) => {
     try {
         const feedbackId = req.params.feedbackId;
         const feedback = await Freelancer_Feedbacks.findOne({
@@ -110,7 +110,7 @@ router.post(
             //         .status(409)
             //         .json({ message: "Feedback already exists on homepage" });
 
-            const client = await Clients.findOne({
+            const client = await Teachers.findOne({
                 where: { id: feedback.ClientId },
             });
             if (!client)
@@ -160,7 +160,7 @@ router.post(
             //         .status(409)
             //         .json({ message: "Feedback already exists on homepage" });
 
-            const freelancer = await Freelancers.findOne({
+            const freelancer = await Students.findOne({
                 where: { id: feedback.FreelancerId },
             });
             if (!freelancer)

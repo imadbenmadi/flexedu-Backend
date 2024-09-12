@@ -1,4 +1,4 @@
-// const { Clients } = require("../../Models/Client");
+// const { Teachers } = require("../../Models/Client");
 
 const { Projects } = require("../../Models/Project");
 const { Op } = require("sequelize");

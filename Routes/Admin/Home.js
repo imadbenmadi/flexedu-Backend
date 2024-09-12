@@ -3,16 +3,16 @@ const router = express.Router();
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Op } = require("sequelize");
 
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const { Projects } = require("../../Models/Project");
 const { Applications } = require("../../Models/Applications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
-        let freelancers_nbr = await Freelancers.count({
+        let Students_nbr = await Students.count({
             where: {},
         });
-        let clients_nbr = await Clients.count({
+        let Teachers_nbr = await Teachers.count({
             where: {},
         });
         let projects_nbr = await Projects.count({
@@ -28,10 +28,10 @@ router.get("/", Admin_midllware, async (req, res) => {
         // let applications = await Applications.count({
         //     where: {},
         // });
-        let freelancers = await Freelancers.findAll({
+        let Students = await Students.findAll({
             where: {},
         });
-        let clients = await Clients.findAll({
+        let Teachers = await Teachers.findAll({
             where: {},
         });
         let projects = await Projects.findAll({
@@ -41,15 +41,15 @@ router.get("/", Admin_midllware, async (req, res) => {
                 },
             },
         });
-        if (!freelancers_nbr) freelancers_nbr = 0;
-        if (!clients_nbr) clients_nbr = 0;
+        if (!Students_nbr) Students_nbr = 0;
+        if (!Teachers_nbr) Teachers_nbr = 0;
         if (!projects_nbr) projects_nbr = 0;
         res.status(200).json({
-            freelancers_nbr: freelancers_nbr,
-            clients_nbr: clients_nbr,
+            Students_nbr: Students_nbr,
+            Teachers_nbr: Teachers_nbr,
             projects_nbr: projects_nbr,
-            freelancers: freelancers,
-            clients: clients,
+            Students: Students,
+            Teachers: Teachers,
             projects: projects,
         });
     } catch (err) {

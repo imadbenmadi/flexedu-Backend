@@ -1,8 +1,8 @@
-const { Clients } = require("../../../Models/Client");
+const { Teachers } = require("../../../Models/Client");
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
     try {
-        const user_in_db = await Clients.findByPk(userId, {
+        const user_in_db = await Teachers.findByPk(userId, {
             attributes: { exclude: ["password"] },
         });
 

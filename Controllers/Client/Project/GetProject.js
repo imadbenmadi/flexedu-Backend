@@ -1,6 +1,6 @@
-// const { Clients } = require("../../Models/Client");
-const { Clients } = require("../../../Models/Client");
-const { Freelancers } = require("../../../Models/Freelnacer");
+// const { Teachers } = require("../../Models/Client");
+const { Teachers } = require("../../../Models/Client");
+const { Students } = require("../../../Models/Freelnacer");
 const { Projects } = require("../../../Models/Project");
 const GetProject = async (req, res) => {
     const projectId = req.params.projectId;
@@ -15,12 +15,12 @@ const GetProject = async (req, res) => {
             },
             // include: [
             //     {
-            //         model: Freelancers,
+            //         model: Students,
             //         as: "student",
             //         required: false,
             //     },
             //     {
-            //         model: Clients,
+            //         model: Teachers,
             //         as: "owner",
             //     },
             // ],

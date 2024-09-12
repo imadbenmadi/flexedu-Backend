@@ -1,6 +1,6 @@
 const { Freelancer_Feedbacks } = require("../../Models/Feedbacks");
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Client");
 const GetFeedbacks = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -11,8 +11,8 @@ const GetFeedbacks = async (req, res) => {
                 ClientId: userId,
             },
             include: [
-                { model: Freelancers, as: "student" },
-                { model: Clients, as: "teacher" },
+                { model: Students, as: "student" },
+                { model: Teachers, as: "teacher" },
             ],
             order: [["createdAt", "DESC"]],
         });

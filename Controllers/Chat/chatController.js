@@ -1,6 +1,6 @@
 const { Messages, MessagesRoom } = require("../../Models/Messages");
-const { Freelancers } = require("../../Models/Freelnacer");
-const { Clients } = require("../../Models/Client");
+const { Students } = require("../../Models/Freelnacer");
+const { Teachers } = require("../../Models/Teacher");
 const { Sequelize } = require("sequelize");
 const { Op } = require("sequelize");
 const get_Freelancer_Rooms = async (req, res) => {
@@ -14,7 +14,7 @@ const get_Freelancer_Rooms = async (req, res) => {
             },
             include: [
                 {
-                    model: Clients,
+                    model: Teachers,
                     attributes: [
                         "id",
                         "firstName",
@@ -23,7 +23,7 @@ const get_Freelancer_Rooms = async (req, res) => {
                     ],
                 },
                 {
-                    model: Freelancers,
+                    model: Students,
                     attributes: [
                         "id",
                         "firstName",
@@ -75,7 +75,7 @@ const get_Client_Rooms = async (req, res) => {
             },
             include: [
                 {
-                    model: Clients,
+                    model: Teachers,
                     attributes: [
                         "id",
                         "firstName",
@@ -84,7 +84,7 @@ const get_Client_Rooms = async (req, res) => {
                     ],
                 },
                 {
-                    model: Freelancers,
+                    model: Students,
                     attributes: [
                         "id",
                         "firstName",
@@ -132,22 +132,22 @@ const fetchMessages = async (roomId) => {
         order: [["createdAt", "ASC"]],
         include: [
             {
-                model: Freelancers,
-                as: "freelancerSender",
+                model: Students,
+                as: "Studentsender",
                 attributes: ["id", "firstName", "lastName"],
             },
             {
-                model: Clients,
-                as: "clientSender",
+                model: Teachers,
+                as: "Teachersender",
                 attributes: ["id", "firstName", "lastName"],
             },
             {
-                model: Freelancers,
+                model: Students,
                 as: "freelancerReceiver",
                 attributes: ["id", "firstName", "lastName"],
             },
             {
-                model: Clients,
+                model: Teachers,
                 as: "clientReceiver",
                 attributes: ["id", "firstName", "lastName"],
             },
@@ -172,7 +172,7 @@ const get_Freelancer_ChatRoom = async (req, res) => {
             },
             include: [
                 {
-                    model: Clients,
+                    model: Teachers,
                     attributes: [
                         "id",
                         "firstName",
@@ -181,7 +181,7 @@ const get_Freelancer_ChatRoom = async (req, res) => {
                     ],
                 },
                 {
-                    model: Freelancers,
+                    model: Students,
                     attributes: [
                         "id",
                         "firstName",
@@ -215,7 +215,7 @@ const get_Client_ChatRoom = async (req, res) => {
             },
             include: [
                 {
-                    model: Clients,
+                    model: Teachers,
                     attributes: [
                         "id",
                         "firstName",
@@ -224,7 +224,7 @@ const get_Client_ChatRoom = async (req, res) => {
                     ],
                 },
                 {
-                    model: Freelancers,
+                    model: Students,
                     attributes: [
                         "id",
                         "firstName",
@@ -259,13 +259,13 @@ const post_Freelancer_Message = async (req, res) => {
         message = message.replace(/\n+/g, " "); // Replace multiple newline characters with a single space
         message = message.replace(/\s+/g, " ").trim(); // Replace multiple spaces with a single space and trim again
 
-        const freelancer = await Freelancers.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(freelancerId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
 
         // Check if the client exists
-        const client = await Clients.findByPk(clientId);
+        const client = await Teachers.findByPk(clientId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
@@ -316,13 +316,13 @@ const post_Client_Message = async (req, res) => {
         message = message.replace(/\n+/g, " "); // Replace multiple newline characters with a single space
         message = message.replace(/\s+/g, " ").trim(); // Replace multiple spaces with a single space and trim again
 
-        const client = await Clients.findByPk(clientId);
+        const client = await Teachers.findByPk(clientId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
 
         // Check if the freelancer exists
-        const freelancer = await Freelancers.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(freelancerId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
