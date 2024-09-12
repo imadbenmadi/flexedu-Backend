@@ -3,8 +3,8 @@ const { Projects } = require("../../../Models/Project");
 const { Teachers } = require("../../../Models/Client");
 const { Rejection_Resons } = require("../../../Models/Rejection_Resons");
 const {
-    Freelancer_Notifications,
-    Client_Notifications,
+    Student_Notifications,
+    Teacher_Notifications,
 } = require("../../../Models/Notifications");
 const { MessagesRoom } = require("../../../Models/Messages");
 const { Messages } = require("../../../Models/Messages");
@@ -43,7 +43,7 @@ const Accept_work = async (req, res) => {
             isWorkUploaded: true,
         });
         try {
-            await Freelancer_Notifications.create({
+            await Student_Notifications.create({
                 title: "Work Accepted",
                 text: "We are pleased to inform you that your work has been accepted. ower Team gonna contact you soon .",
                 type: "Project_Accepted",
@@ -117,7 +117,7 @@ const Reject_work = async (req, res) => {
             Reason,
         });
         try {
-            await Freelancer_Notifications.create({
+            await Student_Notifications.create({
                 title: "Work Refused",
                 text: "We regret to inform you that your work has been refused by the Client.please check teh Rejection History for more details.",
                 type: "payment_rejected",

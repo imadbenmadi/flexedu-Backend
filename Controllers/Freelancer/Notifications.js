@@ -1,11 +1,11 @@
 // const { Teachers } = require("../../Models/Client");
-const { Freelancer_Notifications } = require("../../Models/Notifications");
+const { Student_Notifications } = require("../../Models/Notifications");
 const GetNotifications = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
         return res.status(401).json({ error: "Unauthorized , missing userId" });
     try {
-        const notifications = await Freelancer_Notifications.findAll({
+        const notifications = await Student_Notifications.findAll({
             where: {
                 FreelancerId: userId,
             },
@@ -27,7 +27,7 @@ const DeleteNotification = async (req, res) => {
             .status(409)
             .json({ error: "Unauthorized , missing userId or notificationId" });
     try {
-        const notification = await Freelancer_Notifications.findOne({
+        const notification = await Student_Notifications.findOne({
             where: {
                 id: notificationId,
                 FreelancerId: userId,

@@ -3,8 +3,8 @@ const path = require("path");
 const { Projects } = require("../../../Models/Project");
 const formidableMiddleware = require("express-formidable");
 const {
-    Freelancer_Notifications,
-    Client_Notifications,
+    Student_Notifications,
+    Teacher_Notifications,
 } = require("../../../Models/Notifications");
 const uploadMiddleware = formidableMiddleware({
     uploadDir: "public/Work/",
@@ -77,7 +77,7 @@ const Upload_Work = async (req, res) => {
             },
             { where: { id: projectId } }
         );
-        await Client_Notifications.create({
+        await Teacher_Notifications.create({
             title: "Freelancer uploaded the work",
             text: "the freelancer has successfully uploaded the completed work, and it is now available for your review.",
             type: "Freelancer_uploaded_work",

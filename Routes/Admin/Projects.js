@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Projects } = require("../../Models/Project");
 const Admin_midllware = require("../../Middlewares/Admin");
-const { Client_Notifications } = require("../../Models/Notifications");
+const { Teacher_Notifications } = require("../../Models/Notifications");
 const { Teachers } = require("../../Models/Teacher");
 const { Students } = require("../../Models/Student");
 const { Rejection_Resons } = require("../../Models/Rejection_Resons");
@@ -156,7 +156,7 @@ router.post(
 
             await Project.update({ status: "Accepted" });
             try {
-                await Client_Notifications.create({
+                await Teacher_Notifications.create({
                     title: "Project Accepted",
                     text: "We have accepted the project you requested. Click here to see the rest of the details",
                     type: "Project_Accepted",
@@ -189,7 +189,7 @@ router.post(
 
             await Project.update({ status: "Rejected" });
             try {
-                await Client_Notifications.create({
+                await Teacher_Notifications.create({
                     title: "Project refused",
                     text: "It was rejected for a number of reasons related to our platform, Click here to create a new project",
                     type: "Projet_refused",

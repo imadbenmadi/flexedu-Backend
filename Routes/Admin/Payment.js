@@ -7,8 +7,8 @@ const Admin_midllware = require("../../Middlewares/Admin");
 const { Op } = require("sequelize");
 
 const {
-    Freelancer_Notifications,
-    Client_Notifications,
+    Student_Notifications,
+    Teacher_Notifications,
 } = require("../../Models/Notifications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
@@ -132,14 +132,14 @@ router.post("/:projectId/Accept", Admin_midllware, async (req, res) => {
             { where: { id: projectId } }
         );
         try {
-            await Client_Notifications.create({
+            await Teacher_Notifications.create({
                 title: "Payment Accepted",
                 text: "your payment has been successfully accepted and processed",
                 type: "payment_accepted",
                 ClientId: project.ClientId,
                 link: `/Client/Projects/${project.id}`,
             });
-            await Freelancer_Notifications.create({
+            await Student_Notifications.create({
                 title: "Client payed the fees",
                 text: "We are pleased to inform you that the Client has paid the fees, and you may now begin working on the project.",
                 type: "payment_accepted",
@@ -188,7 +188,7 @@ router.post("/:projectId/Reject", Admin_midllware, async (req, res) => {
             { where: { id: projectId } }
         );
         try {
-            await Client_Notifications.create({
+            await Teacher_Notifications.create({
                 title: "Payment Rejected",
                 text: "We regret to inform you that your payment has been rejected, and we kindly request you to review your payment details and try again.",
                 type: "payment_rejected",

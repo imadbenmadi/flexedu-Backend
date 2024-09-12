@@ -10,8 +10,8 @@ const { Sequelize, DataTypes } = require("sequelize");
 const { MessagesRoom } = require("../../Models/Messages");
 
 const {
-    Freelancer_Notifications,
-    Client_Notifications,
+    Student_Notifications,
+    Teacher_Notifications,
 } = require("../../Models/Notifications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
@@ -174,14 +174,14 @@ router.post(
                 { where: { id: projectId } }
             );
             try {
-                await Freelancer_Notifications.create({
+                await Student_Notifications.create({
                     title: "Application accepted",
                     text: "Your Application to the project have been accepted . we are waiting the Client Payment to start the project",
                     type: "Project_Accepted",
                     FreelancerId: application.FreelancerId,
                     link: `/Freelancer/Process/${project.id}`,
                 });
-                await Client_Notifications.create({
+                await Teacher_Notifications.create({
                     title: "Freelancer Found",
                     text: "Pay the fees so the freelancer can start working",
                     type: "Freelancer_found",

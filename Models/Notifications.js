@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
 const { Students } = require("./Student");
 const { Teachers } = require("./Teacher");
-const Client_Notifications = sequelize.define("Client_Notifications", {
+const Teacher_Notifications = sequelize.define("Teacher_Notifications", {
     ClientId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -36,7 +36,7 @@ const Client_Notifications = sequelize.define("Client_Notifications", {
         allowNull: true,
     },
 });
-const Freelancer_Notifications = sequelize.define("Freelancer_Notifications", {
+const Student_Notifications = sequelize.define("Student_Notifications", {
     FreelancerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -71,21 +71,21 @@ const Freelancer_Notifications = sequelize.define("Freelancer_Notifications", {
     },
 });
 
-Freelancer_Notifications.belongsTo(Students, {
+Student_Notifications.belongsTo(Students, {
     as: "student",
     foreignKey: "FreelancerId",
 });
-Students.hasMany(Freelancer_Notifications, {
-    as: "Freelancer_Notifications",
+Students.hasMany(Student_Notifications, {
+    as: "Student_Notifications",
     foreignKey: "FreelancerId",
 });
 
-Client_Notifications.belongsTo(Teachers, {
+Teacher_Notifications.belongsTo(Teachers, {
     as: "teacher",
     foreignKey: "ClientId",
 });
-Teachers.hasMany(Client_Notifications, {
-    as: "Client_Notifications",
+Teachers.hasMany(Teacher_Notifications, {
+    as: "Teacher_Notifications",
     foreignKey: "ClientId",
 });
-module.exports = { Freelancer_Notifications, Client_Notifications };
+module.exports = { Student_Notifications, Teacher_Notifications };
