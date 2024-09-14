@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
 const Teachers = require("./Teacher");
 
-const Course = sequelize.define("Course", {
+const Courses = sequelize.define("Courses", {
     Title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -27,7 +27,7 @@ const Course = sequelize.define("Course", {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: "Teachers", // Ensure the model name matches the table name
+            model: Teachers, // Ensure the model name matches the table name
             key: "id",
         },
         onDelete: "CASCADE",
@@ -35,7 +35,7 @@ const Course = sequelize.define("Course", {
     },
 });
 
-Course.belongsTo(Teachers, { foreignKey: "TeacherId", onDelete: "CASCADE" });
-Teachers.hasMany(Course, { foreignKey: "TeacherId" });
+Courses.belongsTo(Teachers, { foreignKey: "TeacherId", onDelete: "CASCADE" });
+Teachers.hasMany(Courses, { foreignKey: "TeacherId" });
 
-module.exports = Course;
+module.exports = Courses;

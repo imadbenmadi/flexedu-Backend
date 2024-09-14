@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const Course = require("./Course");
+const Courses = require("./Course");
 
 const Course_Video = sequelize.define("Course_Video", {
     Title: {
@@ -19,7 +19,7 @@ const Course_Video = sequelize.define("Course_Video", {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: "Courses", // Ensure the model name matches the table name
+            model: Courses, // Ensure the model name matches the table name
             key: "id",
         },
         onDelete: "CASCADE",
@@ -27,7 +27,10 @@ const Course_Video = sequelize.define("Course_Video", {
     },
 });
 
-Course_Video.belongsTo(Course, { foreignKey: "CourseId", onDelete: "CASCADE" });
-Course.hasMany(Course_Video, { foreignKey: "CourseId" });
+Course_Video.belongsTo(Courses, {
+    foreignKey: "CourseId",
+    onDelete: "CASCADE",
+});
+Courses.hasMany(Course_Video, { foreignKey: "CourseId" });
 
 module.exports = Course_Video;

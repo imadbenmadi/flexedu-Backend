@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const { Students } = require("./Student");
-const { Teachers } = require("./Teacher");
+const Students = require("./Student");
+const Teachers = require("./Teacher");
 
 // Teacher Notifications Model
 const Teacher_Notifications = sequelize.define("Teacher_Notifications", {
