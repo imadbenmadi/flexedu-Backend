@@ -18,10 +18,6 @@ const Students = sequelize.define("Students", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    telephone: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     profile_pic_link: {
         type: DataTypes.STRING,
         allowNull: true,

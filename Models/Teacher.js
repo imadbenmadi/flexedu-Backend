@@ -23,37 +23,6 @@ const Teachers = sequelize.define("Teachers", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-
-    nationalCardNumber: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-
-    company_Name: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    company_WorkField: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    company_about: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-    company_Website: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    company_creationDate: {
-        type: DataTypes.DATE,
-        allowNull: true,
-    },
-    company_Adress: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-
     instgram_Link: {
         type: DataTypes.STRING,
         allowNull: true,
