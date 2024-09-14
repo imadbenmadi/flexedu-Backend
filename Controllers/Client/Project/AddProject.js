@@ -35,7 +35,7 @@
 //             return res.status(400).json({ error: "invalide type " });
 //         }
 //         await Projects.create({
-//             ClientId: userId,
+//             TeacherId: userId,
 //             Title,
 //             Description,
 //             Field_is_Graphic_design: !!Field_is_Graphic_design,

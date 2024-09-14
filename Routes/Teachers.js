@@ -54,7 +54,7 @@ router.delete(
     ClientController.DeleteNotification
 );
 router.post(
-    "/:userId/Rate/:freelancerId",
+    "/:userId/Rate/:StudentId",
     Client_Middlware,
     ClientController.RateFreealncer
 );

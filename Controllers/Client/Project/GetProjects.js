@@ -7,7 +7,7 @@
 //     try {
 //         const projects = await Projects.findAll({
 //             where: {
-//                 ClientId: userId,
+//                 TeacherId: userId,
 //             },
 //             order: [["createdAt", "DESC"]],
 //         });

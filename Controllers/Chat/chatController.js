@@ -5,12 +5,12 @@ const { Sequelize } = require("sequelize");
 const { Op } = require("sequelize");
 const get_Freelancer_Rooms = async (req, res) => {
     try {
-        const freelancerId = req.params.freelancerId;
+        const StudentId = req.params.StudentId;
 
         // Fetch the rooms that the freelancer is part of, including the latest message for each room
         const rooms = await MessagesRoom.findAll({
             where: {
-                freelancerId: freelancerId,
+                StudentId: StudentId,
             },
             include: [
                 {
@@ -35,7 +35,7 @@ const get_Freelancer_Rooms = async (req, res) => {
                     model: Messages,
                     // attributes: ["message"],
                     where: {
-                        senderId: freelancerId,
+                        senderId: StudentId,
                         senderType: "student",
                         receiverType: "teacher",
                     },
@@ -66,12 +66,12 @@ const get_Freelancer_Rooms = async (req, res) => {
 
 const get_Client_Rooms = async (req, res) => {
     try {
-        const clientId = req.params.clientId;
+        const TeacherId = req.params.TeacherId;
 
         // Fetch the rooms that the client is part of, including the latest message for each room
         const rooms = await MessagesRoom.findAll({
             where: {
-                clientId: clientId,
+                TeacherId: TeacherId,
             },
             include: [
                 {
@@ -96,7 +96,7 @@ const get_Client_Rooms = async (req, res) => {
                     model: Messages,
                     // attributes: ["message"],
                     where: {
-                        receiverId: clientId,
+                        receiverId: TeacherId,
                         receiverType: "teacher",
                         senderType: "student",
                     },
@@ -157,14 +157,14 @@ const fetchMessages = async (roomId) => {
 
 const get_Freelancer_ChatRoom = async (req, res) => {
     try {
-        const { freelancerId, roomId } = req.params;
+        const { StudentId, roomId } = req.params;
 
         // Fetch the messages in the room
         const messages = await fetchMessages(roomId);
 
         await MessagesRoom.update(
             { freelancerUnreadMessages: 0 },
-            { where: { id: roomId, freelancerId } }
+            { where: { id: roomId, StudentId } }
         );
         const room = await MessagesRoom.findOne({
             where: {
@@ -200,14 +200,14 @@ const get_Freelancer_ChatRoom = async (req, res) => {
 
 const get_Client_ChatRoom = async (req, res) => {
     try {
-        const { clientId, roomId } = req.params;
+        const { TeacherId, roomId } = req.params;
 
         // Fetch the messages in the room
         const messages = await fetchMessages(roomId);
 
         await MessagesRoom.update(
             { clientUnreadMessages: 0 },
-            { where: { id: roomId, clientId } }
+            { where: { id: roomId, TeacherId } }
         );
         const room = await MessagesRoom.findOne({
             where: {
@@ -242,13 +242,13 @@ const get_Client_ChatRoom = async (req, res) => {
 };
 const post_Freelancer_Message = async (req, res) => {
     try {
-        const { freelancerId, roomId } = req.params;
+        const { StudentId, roomId } = req.params;
         let { message } = req.body;
-        const { clientId } = req.body;
+        const { TeacherId } = req.body;
         // Validate message
-        if (!message || !clientId || !roomId || !freelancerId) {
+        if (!message || !TeacherId || !roomId || !StudentId) {
             return res.status(400).json({ error: "messing data" });
-        } else if (isNaN(freelancerId) || isNaN(clientId) || isNaN(roomId)) {
+        } else if (isNaN(StudentId) || isNaN(TeacherId) || isNaN(roomId)) {
             return res.status(400).json({ error: "Invalid ID" });
         }
         message = message.trim();
@@ -259,13 +259,13 @@ const post_Freelancer_Message = async (req, res) => {
         message = message.replace(/\n+/g, " "); // Replace multiple newline characters with a single space
         message = message.replace(/\s+/g, " ").trim(); // Replace multiple spaces with a single space and trim again
 
-        const freelancer = await Students.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(StudentId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
 
         // Check if the client exists
-        const client = await Teachers.findByPk(clientId);
+        const client = await Teachers.findByPk(TeacherId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
@@ -273,8 +273,8 @@ const post_Freelancer_Message = async (req, res) => {
         // Create new message
         const newMessage = await Messages.create({
             message,
-            senderId: freelancerId,
-            receiverId: clientId,
+            senderId: StudentId,
+            receiverId: TeacherId,
             senderType: "student",
             receiverType: "teacher",
             roomId,
@@ -299,13 +299,13 @@ const post_Freelancer_Message = async (req, res) => {
 
 const post_Client_Message = async (req, res) => {
     try {
-        const { clientId, roomId } = req.params;
-        const { freelancerId } = req.body;
+        const { TeacherId, roomId } = req.params;
+        const { StudentId } = req.body;
         let message = req.body.message;
         // Validate message
-        if (!message || !freelancerId || !clientId || !roomId) {
+        if (!message || !StudentId || !TeacherId || !roomId) {
             return res.status(400).json({ error: "messing data" });
-        } else if (isNaN(freelancerId) || isNaN(clientId) || isNaN(roomId)) {
+        } else if (isNaN(StudentId) || isNaN(TeacherId) || isNaN(roomId)) {
             return res.status(400).json({ error: "Invalid ID" });
         }
         message = message.trim();
@@ -316,13 +316,13 @@ const post_Client_Message = async (req, res) => {
         message = message.replace(/\n+/g, " "); // Replace multiple newline characters with a single space
         message = message.replace(/\s+/g, " ").trim(); // Replace multiple spaces with a single space and trim again
 
-        const client = await Teachers.findByPk(clientId);
+        const client = await Teachers.findByPk(TeacherId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
 
         // Check if the freelancer exists
-        const freelancer = await Students.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(StudentId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
@@ -330,8 +330,8 @@ const post_Client_Message = async (req, res) => {
         // Create new message
         const newMessage = await Messages.create({
             message,
-            senderId: clientId,
-            receiverId: freelancerId,
+            senderId: TeacherId,
+            receiverId: StudentId,
             senderType: "teacher",
             receiverType: "student",
             roomId,

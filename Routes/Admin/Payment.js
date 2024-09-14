@@ -19,7 +19,7 @@
 //                 status: {
 //                     [Op.notIn]: ["Rejected", "Completed", "Pending", "Payed"],
 //                 },
-//                 FreelancerId: { [Op.not]: null },
+//                 StudentId: { [Op.not]: null },
 //             },
 //             include: [
 //                 { model: Teachers, as: "owner" },
@@ -49,7 +49,7 @@
 //                 status: {
 //                     [Op.notIn]: ["Rejected", "Completed", "Pending", "Payed"],
 //                 },
-//                 FreelancerId: { [Op.not]: null },
+//                 StudentId: { [Op.not]: null },
 //             },
 //             include: [
 //                 { model: Teachers, as: "owner" },
@@ -120,7 +120,7 @@
 //         } else if (
 //             project.status !== "Accepted" ||
 //             !project.isPayment_ScreenShot_uploaded ||
-//             !project.FreelancerId
+//             !project.StudentId
 //         ) {
 //             return res.status(409).json({
 //                 message:
@@ -136,14 +136,14 @@
 //                 title: "Payment Accepted",
 //                 text: "your payment has been successfully accepted and processed",
 //                 type: "payment_accepted",
-//                 ClientId: project.ClientId,
+//                 TeacherId: project.TeacherId,
 //                 link: `/Client/Projects/${project.id}`,
 //             });
 //             await Student_Notifications.create({
 //                 title: "Client payed the fees",
 //                 text: "We are pleased to inform you that the Client has paid the fees, and you may now begin working on the project.",
 //                 type: "payment_accepted",
-//                 FreelancerId: project.FreelancerId,
+//                 StudentId: project.StudentId,
 //                 link: `/Freelancer/Process/${project.id}`,
 //             });
 //         } catch (error) {
@@ -173,7 +173,7 @@
 //         } else if (
 //             project.status !== "Accepted" ||
 //             !project.isPayment_ScreenShot_uploaded ||
-//             !project.FreelancerId
+//             !project.StudentId
 //         ) {
 //             return res.status(409).json({
 //                 message:
@@ -192,7 +192,7 @@
 //                 title: "Payment Rejected",
 //                 text: "We regret to inform you that your payment has been rejected, and we kindly request you to review your payment details and try again.",
 //                 type: "payment_rejected",
-//                 ClientId: project.ClientId,
+//                 TeacherId: project.TeacherId,
 //                 link: `/Client/Projects/${project.id}`,
 //             });
 //         } catch (error) {

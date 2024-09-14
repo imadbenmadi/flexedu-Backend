@@ -40,7 +40,7 @@ router.delete(
     FreelancerController.DeleteNotification
 );
 router.post(
-    "/:userId/Rate/:clientId",
+    "/:userId/Rate/:TeacherId",
     Freelancer_Middlware,
     FreelancerController.RateClient
 );

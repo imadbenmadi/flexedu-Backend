@@ -111,7 +111,7 @@
 //             //         .json({ message: "Feedback already exists on homepage" });
 
 //             const client = await Teachers.findOne({
-//                 where: { id: feedback.ClientId },
+//                 where: { id: feedback.TeacherId },
 //             });
 //             if (!client)
 //                 return res.status(404).json({ message: "Client not found" });
@@ -161,7 +161,7 @@
 //             //         .json({ message: "Feedback already exists on homepage" });
 
 //             const freelancer = await Students.findOne({
-//                 where: { id: feedback.FreelancerId },
+//                 where: { id: feedback.StudentId },
 //             });
 //             if (!freelancer)
 //                 return res

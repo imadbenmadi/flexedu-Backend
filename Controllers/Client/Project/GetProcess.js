@@ -9,7 +9,7 @@
 //     try {
 //         const projects = await Projects.findAll({
 //             where: {
-//                 ClientId: userId,
+//                 TeacherId: userId,
 //                 status: "Payed",
 //             },
 //         });

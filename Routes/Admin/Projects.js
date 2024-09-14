@@ -62,7 +62,7 @@
 //         const payment_requests = await Projects.findAll({
 //             where: {
 //                 status: "Accepted",
-//                 FreelancerId: { [Op.not]: null },
+//                 StudentId: { [Op.not]: null },
 
 //                 // isPayment_ScreenShot_uploaded: false,
 //             },
@@ -160,7 +160,7 @@
 //                     title: "Project Accepted",
 //                     text: "We have accepted the project you requested. Click here to see the rest of the details",
 //                     type: "Project_Accepted",
-//                     ClientId: Project.ClientId,
+//                     TeacherId: Project.TeacherId,
 //                     link: `/Client/Projects/${Project.id}`,
 //                 });
 //             } catch (error) {
@@ -193,7 +193,7 @@
 //                     title: "Project refused",
 //                     text: "It was rejected for a number of reasons related to our platform, Click here to create a new project",
 //                     type: "Projet_refused",
-//                     ClientId: Project.ClientId,
+//                     TeacherId: Project.TeacherId,
 //                     link: `/Client/Projects/${Project.id}`,
 //                 });
 //             } catch (error) {

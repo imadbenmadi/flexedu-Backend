@@ -52,11 +52,11 @@
 //                 message: "Project not found for the given userId",
 //             });
 //         }
-//         if (project.ClientId != userId)
+//         if (project.TeacherId != userId)
 //             return res.status(409).send({
 //                 message: "Unauthorized: Project does not belong to the user",
 //             });
-//         else if (project.status != "Accepted" || !project.FreelancerId)
+//         else if (project.status != "Accepted" || !project.StudentId)
 //             return res.status(409).send({
 //                 message:
 //                     "Unauthorized: Project is not accepted yet or not assigned to any freelancer",

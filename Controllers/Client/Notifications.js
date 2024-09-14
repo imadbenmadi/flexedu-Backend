@@ -7,7 +7,7 @@ const GetNotifications = async (req, res) => {
     try {
         const notifications = await Teacher_Notifications.findAll({
             where: {
-                ClientId: userId,
+                TeacherId: userId,
             },
             order: [["createdAt", "DESC"]],
         });
@@ -30,7 +30,7 @@ const DeleteNotification = async (req, res) => {
         const notification = await Teacher_Notifications.findOne({
             where: {
                 id: notificationId,
-                ClientId: userId,
+                TeacherId: userId,
             },
         });
         if (!notification)

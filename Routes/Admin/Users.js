@@ -43,12 +43,12 @@ router.get("/", adminMiddleware, async (req, res) => {
     }
 });
 router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
-    const clientId = req.params.id;
-    if (!clientId)
+    const TeacherId = req.params.id;
+    if (!TeacherId)
         return res.status(409).json({ message: "Client ID is required" });
     try {
         const client = await Teachers.findOne({
-            where: { id: clientId },
+            where: { id: TeacherId },
             attributes: { exclude: ["password"] },
         });
         if (!client)
@@ -61,12 +61,12 @@ router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
 });
 
 router.get("/Students/:id", adminMiddleware, async (req, res) => {
-    const freelancerId = req.params.id;
-    if (!freelancerId)
+    const StudentId = req.params.id;
+    if (!StudentId)
         return res.status(409).json({ message: "Freelancer ID is required" });
     try {
         const freelancer = await Students.findOne({
-            where: { id: freelancerId },
+            where: { id: StudentId },
             include: [
                 { model: PortfolioItems, as: "PortfolioItems" },
                 { model: Skills, as: "Skills" },
@@ -89,7 +89,7 @@ router.get("/Students/:id/Feedbacks", adminMiddleware, async (req, res) => {
     try {
         const Feedbacks = await Client_Feedbacks.findAll({
             where: {
-                FreelancerId: userId,
+                StudentId: userId,
             },
             include: [
                 { model: Students, as: "student" },
@@ -112,7 +112,7 @@ router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
     try {
         const Feedbacks = await Freelancer_Feedbacks.findAll({
             where: {
-                ClientId: userId,
+                TeacherId: userId,
             },
             include: [
                 { model: Students, as: "student" },
@@ -130,11 +130,11 @@ router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
 });
 
 router.delete("/Client/:id", adminMiddleware, async (req, res) => {
-    const clientId = req.params.id;
-    if (!clientId)
+    const TeacherId = req.params.id;
+    if (!TeacherId)
         return res.status(409).json({ message: "client id is required" });
     try {
-        await Teachers.destroy({ where: { id: clientId } });
+        await Teachers.destroy({ where: { id: TeacherId } });
         res.status(200).json({ message: "client deleted successfully" });
     } catch (err) {
         console.error("Error fetching deleting client:", err);
@@ -142,11 +142,11 @@ router.delete("/Client/:id", adminMiddleware, async (req, res) => {
     }
 });
 router.delete("/Freelancer/:id", adminMiddleware, async (req, res) => {
-    const freelancerId = req.params.id;
-    if (!freelancerId)
+    const StudentId = req.params.id;
+    if (!StudentId)
         return res.status(409).json({ message: "Freelancer id is required" });
     try {
-        await Students.destroy({ where: { id: freelancerId } });
+        await Students.destroy({ where: { id: StudentId } });
         res.status(200).json({ message: "Freelancer deleted successfully" });
     } catch (err) {
         console.error("Error fetching deleting Freelancer:", err);

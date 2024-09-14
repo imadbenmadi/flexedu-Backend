@@ -6,9 +6,9 @@
 //     const userId = req.decoded.userId;
 //     if (!userId)
 //         return res.status(401).json({ error: "Unauthorized , missing userId" });
-//     const freelancerId = req.params.freelancerId;
+//     const StudentId = req.params.StudentId;
 //     const { Rate, Comment, ProjectId } = req.body;
-//     if (!Rate || !Comment || !ProjectId || !freelancerId)
+//     if (!Rate || !Comment || !ProjectId || !StudentId)
 //         return res
 //             .status(400)
 //             .json({ error: "Please provide all required fields." });
@@ -16,11 +16,11 @@
 //         const project = await Projects.findByPk(ProjectId);
 //         if (!project)
 //             return res.status(404).json({ error: "Project not found." });
-//         if (project.ClientId !== userId)
+//         if (project.TeacherId !== userId)
 //             return res.status(409).json({
 //                 error: "Unauthorized , you are not the owner of this project",
 //             });
-//         if (project.FreelancerId != freelancerId)
+//         if (project.StudentId != StudentId)
 //             return res.status(409).json({
 //                 error: "Unauthorized , this freelancer is not working on this project",
 //             });
@@ -28,17 +28,17 @@
 //             return res.status(409).json({
 //                 error: "Unauthorized ,Client  alredy Rate this Freelancer",
 //             });
-//         const freelancer = await Students.findByPk(project.FreelancerId);
+//         const freelancer = await Students.findByPk(project.StudentId);
 //         if (!freelancer)
 //             return res.status(404).json({ error: "freelancer not found." });
 //         const newRate = (freelancer.Rate + Rate) / 2;
 //         await Students.update(
 //             { Rate: newRate },
-//             { where: { id: project.FreelancerId } }
+//             { where: { id: project.StudentId } }
 //         );
 //         const Feedback = await Client_Feedbacks.create({
-//             FreelancerId: freelancerId,
-//             ClientId: userId,
+//             StudentId: StudentId,
+//             TeacherId: userId,
 //             Rate,
 //             Comment,
 //             ProjectId,
@@ -52,8 +52,8 @@
 //             {
 //                 where: {
 //                     id: ProjectId,
-//                     ClientId: project.ClientId,
-//                     FreelancerId: project.FreelancerId,
+//                     TeacherId: project.TeacherId,
+//                     StudentId: project.StudentId,
 //                 },
 //             }
 //         );

@@ -31,7 +31,7 @@
 //         if (!Project) {
 //             return res.status(404).json({ error: "Project not found." });
 //         }
-//         if (Project.ClientId !== userId) {
+//         if (Project.TeacherId !== userId) {
 //             return res.status(409).json({
 //                 error: "You are not authorized to accept this project.",
 //             });
@@ -47,7 +47,7 @@
 //                 title: "Work Accepted",
 //                 text: "We are pleased to inform you that your work has been accepted. ower Team gonna contact you soon .",
 //                 type: "Project_Accepted",
-//                 FreelancerId: Project.FreelancerId,
+//                 StudentId: Project.StudentId,
 //                 link: `/Freelancer/Process/${projectId}`,
 //             });
 //         } catch (error) {
@@ -57,8 +57,8 @@
 //         try {
 //             const room = await MessagesRoom.findOne({
 //                 where: {
-//                     freelancerId: Project.FreelancerId,
-//                     clientId: userId,
+//                     StudentId: Project.StudentId,
+//                     TeacherId: userId,
 //                 },
 //             });
 //             await Messages.destroy({
@@ -99,7 +99,7 @@
 //         if (!Project) {
 //             return res.status(404).json({ error: "Project not found." });
 //         }
-//         if (Project.ClientId !== userId) {
+//         if (Project.TeacherId !== userId) {
 //             return res.status(409).json({
 //                 error: "You are not authorized to reject this project.",
 //             });
@@ -111,8 +111,8 @@
 //             isWorkUploaded: true,
 //         });
 //         const rejection = await Rejection_Resons.create({
-//             ClientId: userId,
-//             FreelancerId: Project.FreelancerId,
+//             TeacherId: userId,
+//             StudentId: Project.StudentId,
 //             ProjectId: projectId,
 //             Reason,
 //         });
@@ -121,7 +121,7 @@
 //                 title: "Work Refused",
 //                 text: "We regret to inform you that your work has been refused by the Client.please check teh Rejection History for more details.",
 //                 type: "payment_rejected",
-//                 FreelancerId: Project.FreelancerId,
+//                 StudentId: Project.StudentId,
 //                 link: `/Freelancer/Process/${projectId}`,
 //             });
 //         } catch (error) {

@@ -8,7 +8,7 @@ const GetFeedbacks = async (req, res) => {
     try {
         const Feedbacks = await Freelancer_Feedbacks.findAll({
             where: {
-                ClientId: userId,
+                TeacherId: userId,
             },
             include: [
                 { model: Students, as: "student" },

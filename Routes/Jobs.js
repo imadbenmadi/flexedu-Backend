@@ -22,7 +22,7 @@
 
 //     const whereClause = {
 //         status: "Accepted",
-//         FreelancerId: null,
+//         StudentId: null,
 //     };
 
 //     // Handle search by title and description
@@ -81,8 +81,8 @@
 //             .status(409)
 //             .json({ message: "Missing data, project ID is required" });
 
-//     const freelancerId = req.decoded.userId;
-//     if (!freelancerId)
+//     const StudentId = req.decoded.userId;
+//     if (!StudentId)
 //         return res
 //             .status(409)
 //             .json({ message: "Missing data, freelancer ID is required" });
@@ -102,7 +102,7 @@
 //         const Alredy_Apply = await Applications.findOne({
 //             where: {
 //                 ProjectId: projectId,
-//                 FreelancerId: freelancerId,
+//                 StudentId: StudentId,
 //             },
 //         });
 //         if (Alredy_Apply)
@@ -111,7 +111,7 @@
 //             });
 //         const Applications_Lenght = await Applications.count({
 //             where: {
-//                 FreelancerId: freelancerId,
+//                 StudentId: StudentId,
 //                 status: "Pending",
 //             },
 //         });
@@ -127,7 +127,7 @@
 //         // });
 //         await Applications.create({
 //             ProjectId: projectId,
-//             FreelancerId: freelancerId,
+//             StudentId: StudentId,
 //             ProjectTitle: Project.Title,
 //             ProjectDescription: Project.Description,
 //             Freelancer_Time_Needed: Freelancer_Time_Needed,

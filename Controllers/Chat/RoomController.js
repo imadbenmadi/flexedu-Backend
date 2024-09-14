@@ -5,27 +5,27 @@ const { MessagesRoom } = require("../../Models/Messages");
 
 const openChatRoom = async (req, res) => {
     try {
-        const { freelancerId, clientId } = req.body;
+        const { StudentId, TeacherId } = req.body;
 
-        // Validate freelancerId and clientId
-        if (!freelancerId || !clientId) {
+        // Validate StudentId and TeacherId
+        if (!StudentId || !TeacherId) {
             return res
                 .status(400)
                 .json({ error: "Freelancer ID and Client ID are required" });
-        } else if (isNaN(freelancerId) || isNaN(clientId)) {
+        } else if (isNaN(StudentId) || isNaN(TeacherId)) {
             return res
                 .status(400)
                 .json({ error: "Freelancer ID and Client ID must be numbers" });
         }
 
         // Check if the freelancer exists
-        const freelancer = await Students.findByPk(freelancerId);
+        const freelancer = await Students.findByPk(StudentId);
         if (!freelancer) {
             return res.status(404).json({ error: "Freelancer not found" });
         }
 
         // Check if the client exists
-        const client = await Teachers.findByPk(clientId);
+        const client = await Teachers.findByPk(TeacherId);
         if (!client) {
             return res.status(404).json({ error: "Client not found" });
         }
@@ -33,8 +33,8 @@ const openChatRoom = async (req, res) => {
         // Check if the chat room already exists
         const existingRoom = await MessagesRoom.findOne({
             where: {
-                freelancerId: freelancerId,
-                clientId: clientId,
+                StudentId: StudentId,
+                TeacherId: TeacherId,
             },
         });
 
@@ -44,8 +44,8 @@ const openChatRoom = async (req, res) => {
 
         // Create a new chat room
         const newRoom = await MessagesRoom.create({
-            freelancerId: freelancerId,
-            clientId: clientId,
+            StudentId: StudentId,
+            TeacherId: TeacherId,
         });
 
         res.status(200).json(newRoom);

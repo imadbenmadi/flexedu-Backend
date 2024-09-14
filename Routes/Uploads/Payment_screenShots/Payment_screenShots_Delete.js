@@ -29,7 +29,7 @@
 //                 message: "Project not found for the given userId",
 //             });
 //         }
-//         if (project.ClientId != userId)
+//         if (project.TeacherId != userId)
 //             return res.status(409).send({
 //                 message: "Unauthorized: Project does not belong to the user",
 //             });

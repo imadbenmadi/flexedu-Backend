@@ -10,7 +10,7 @@ const GetRejections = async (req, res) => {
     try {
         const rejection = await Rejection_Resons.findAll({
             where: {
-                FreelancerId: userId,
+                StudentId: userId,
                 ProjectId: projectId,
             },
             order: [["createdAt", "DESC"]],

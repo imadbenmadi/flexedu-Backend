@@ -11,7 +11,7 @@ const GetProject = async (req, res) => {
         const project = await Projects.findOne({
             where: {
                 id: projectId,
-                ClientId: userId,
+                TeacherId: userId,
             },
             // include: [
             //     {

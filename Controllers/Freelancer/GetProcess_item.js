@@ -11,7 +11,7 @@
 //         const project = await Projects.findOne({
 //             where: {
 //                 id: projectId,
-//                 FreelancerId: userId,
+//                 StudentId: userId,
 //                 status: {
 //                     [Op.in]: ["Payed", "Completed", "Accepted"],
 //                 },

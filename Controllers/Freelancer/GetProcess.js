@@ -9,7 +9,7 @@
 //     try {
 //         const projects = await Projects.findAll({
 //             where: {
-//                 FreelancerId: userId,
+//                 StudentId: userId,
 //                 status: {
 //                     [Op.in]: ["Payed", "Completed", "Accepted"],
 //                 },

@@ -11,7 +11,7 @@
 //         const project = await Projects.findOne({
 //             where: {
 //                 id: projectId,
-//                 ClientId: userId,
+//                 TeacherId: userId,
 //             },
 //             // include: [
 //             //     {
@@ -29,7 +29,7 @@
 //         let only_see = false;
 //         if (
 //             project.status === "Accepted" &&
-//             project.FreelancerId &&
+//             project.StudentId &&
 //             ((project.isPayment_ScreenShot_Rejected &&
 //                 project.isPayment_ScreenShot_uploaded) ||
 //                 (!project.isPayment_ScreenShot_Rejected &&

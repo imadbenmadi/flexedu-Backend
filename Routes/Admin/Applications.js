@@ -19,7 +19,7 @@
 //         const projects = await Projects.findAll({
 //             where: {
 //                 status: "accepted",
-//                 FreelancerId: null,
+//                 StudentId: null,
 //             },
 //             include: [
 //                 {
@@ -116,10 +116,10 @@
 // });
 
 // router.post(
-//     "/:projectId/:freelancerId/accept",
+//     "/:projectId/:StudentId/accept",
 //     Admin_midllware,
 //     async (req, res) => {
-//         const { projectId, freelancerId } = req.params;
+//         const { projectId, StudentId } = req.params;
 //         const Money = req.body.Money;
 //         const DeadLine = req.body.DeadLine;
 //         if (!Money)
@@ -136,15 +136,15 @@
 //                 .json({ message: "Missing data: ProjectId is required" });
 //         }
 
-//         if (!freelancerId) {
+//         if (!StudentId) {
 //             return res
 //                 .status(409)
-//                 .json({ message: "Missing data: freelancerId is required" });
+//                 .json({ message: "Missing data: StudentId is required" });
 //         }
 
 //         try {
 //             const application = await Applications.findOne({
-//                 where: { ProjectId: projectId, FreelancerId: freelancerId },
+//                 where: { ProjectId: projectId, StudentId: StudentId },
 //             });
 //             if (!application) {
 //                 return res
@@ -162,12 +162,12 @@
 
 //             await Applications.update(
 //                 { status: "Accepted" },
-//                 { where: { FreelancerId: freelancerId, ProjectId: projectId } }
+//                 { where: { StudentId: StudentId, ProjectId: projectId } }
 //             );
 
 //             await Projects.update(
 //                 {
-//                     FreelancerId: application.FreelancerId,
+//                     StudentId: application.StudentId,
 //                     Money: Money,
 //                     DeadLine: DeadLine,
 //                 },
@@ -178,33 +178,33 @@
 //                     title: "Application accepted",
 //                     text: "Your Application to the project have been accepted . we are waiting the Client Payment to start the project",
 //                     type: "Project_Accepted",
-//                     FreelancerId: application.FreelancerId,
+//                     StudentId: application.StudentId,
 //                     link: `/Freelancer/Process/${project.id}`,
 //                 });
 //                 await Teacher_Notifications.create({
 //                     title: "Freelancer Found",
 //                     text: "Pay the fees so the freelancer can start working",
 //                     type: "Freelancer_found",
-//                     ClientId: project.ClientId,
+//                     TeacherId: project.TeacherId,
 //                     link: `/Client/Projects/${project.id}`,
 //                 });
 //             } catch (error) {
 //                 return res.status(500).json({ error: error.message });
 //             }
 //             try {
-//                 const clientId = project.ClientId;
+//                 const TeacherId = project.TeacherId;
 //                 let newRoom;
-//                 if (clientId) {
+//                 if (TeacherId) {
 //                     const existingRoom = await MessagesRoom.findOne({
 //                         where: {
-//                             freelancerId: freelancerId,
-//                             clientId: clientId,
+//                             StudentId: StudentId,
+//                             TeacherId: TeacherId,
 //                         },
 //                     });
 //                     if (!existingRoom) {
 //                         newRoom = await MessagesRoom.create({
-//                             freelancerId: freelancerId,
-//                             clientId: clientId,
+//                             StudentId: StudentId,
+//                             TeacherId: TeacherId,
 //                         });
 //                     }
 //                 }
@@ -220,25 +220,25 @@
 //     }
 // );
 // router.post(
-//     "/:projectId/:freelancerId/Reject",
+//     "/:projectId/:StudentId/Reject",
 //     Admin_midllware,
 //     async (req, res) => {
 //         const projectId = req.params.projectId;
-//         const freelancerId = req.params.freelancerId;
+//         const StudentId = req.params.StudentId;
 //         if (!projectId)
 //             return res
 //                 .status(409)
 //                 .json({ message: "Missing data ProjectId is required" });
-//         else if (!freelancerId)
+//         else if (!StudentId)
 //             return res
 //                 .status(409)
-//                 .json({ message: "Missing data freelancerId is required" });
+//                 .json({ message: "Missing data StudentId is required" });
 //         try {
 //             const application = await Applications.findOne({
 //                 where: {
 //                     // status: "Pending",
 //                     ProjectId: projectId,
-//                     FreelancerId: freelancerId,
+//                     StudentId: StudentId,
 //                 },
 //             });
 //             if (!application)
@@ -250,7 +250,7 @@
 //                 {
 //                     status: "Rejected",
 //                 },
-//                 { where: { FreelancerId: freelancerId, ProjectId: projectId } }
+//                 { where: { StudentId: StudentId, ProjectId: projectId } }
 //             );
 
 //             res.status(200).json({ message: "Application Rejected" });

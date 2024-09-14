@@ -6,9 +6,9 @@
 //     const userId = req.decoded.userId;
 //     if (!userId)
 //         return res.status(401).json({ error: "Unauthorized , missing userId" });
-//     const clientId = req.params.clientId;
+//     const TeacherId = req.params.TeacherId;
 //     const { Rate, Comment, ProjectId } = req.body;
-//     if (!Rate || !Comment || !ProjectId || !clientId)
+//     if (!Rate || !Comment || !ProjectId || !TeacherId)
 //         return res
 //             .status(400)
 //             .json({ error: "Please provide all required fields." });
@@ -17,11 +17,11 @@
 //         const project = await Projects.findByPk(ProjectId);
 //         if (!project)
 //             return res.status(404).json({ error: "Project not found." });
-//         if (project.FreelancerId !== userId)
+//         if (project.StudentId !== userId)
 //             return res.status(409).json({
 //                 error: "Unauthorized , you are not the freelancer of this project",
 //             });
-//         if (project.ClientId != clientId)
+//         if (project.TeacherId != TeacherId)
 //             return res.status(409).json({
 //                 error: "Unauthorized , this Client is not the owner of this project",
 //             });
@@ -30,19 +30,19 @@
 //                 error: "Unauthorized , Freelancer alredy Rate this Client",
 //             });
 //         const Feedback = await Freelancer_Feedbacks.create({
-//             FreelancerId: userId,
-//             ClientId: clientId,
+//             StudentId: userId,
+//             TeacherId: TeacherId,
 //             Rate,
 //             Comment,
 //             ProjectId,
 //         });
-//         const Client = await Teachers.findByPk(project.ClientId);
+//         const Client = await Teachers.findByPk(project.TeacherId);
 //         if (!Client)
 //             return res.status(404).json({ error: "Client not found." });
 //         const newRate = (Client.Rate + Rate) / 2;
 //         await Teachers.update(
 //             { Rate: newRate },
-//             { where: { id: project.ClientId } }
+//             { where: { id: project.TeacherId } }
 //         );
 //         await project.update(
 //             {
@@ -53,8 +53,8 @@
 //             {
 //                 where: {
 //                     id: ProjectId,
-//                     ClientId: project.ClientId,
-//                     FreelancerId: project.FreelancerId,
+//                     TeacherId: project.TeacherId,
+//                     StudentId: project.StudentId,
 //                 },
 //             }
 //         );

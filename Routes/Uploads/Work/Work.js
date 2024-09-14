@@ -43,11 +43,11 @@
 //                 message: "Project not found for the given userId",
 //             });
 //         }
-//         if (project.FreelancerId != userId)
+//         if (project.StudentId != userId)
 //             return res.status(409).send({
 //                 message: "Unauthorized: Project does not belong to the user",
 //             });
-//         else if (project.status != "Payed" || !project.FreelancerId)
+//         else if (project.status != "Payed" || !project.StudentId)
 //             return res.status(409).send({
 //                 message:
 //                     "Unauthorized: Project is not Payed or Freelancer is not assigned",
@@ -81,7 +81,7 @@
 //             title: "Freelancer uploaded the work",
 //             text: "the freelancer has successfully uploaded the completed work, and it is now available for your review.",
 //             type: "Freelancer_uploaded_work",
-//             ClientId: project.ClientId,
+//             TeacherId: project.TeacherId,
 //             link: `/Client/Projects/${projectId}`,
 //         });
 //         // Example response
