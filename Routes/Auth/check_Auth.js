@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { Students } = require("../../Models/Student");
-const { Refresh_tokens } = require("../../Models/RefreshTokens");
-const { Teachers } = require("../../Models/Teacher");
+const Students = require("../../Models/Student");
+const Refresh_tokens = require("../../Models/RefreshTokens");
+const Teachers = require("../../Models/Teacher");
 
 router.get("/", async (req, res) => {
     const {

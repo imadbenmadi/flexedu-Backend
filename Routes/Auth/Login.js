@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { Students } = require("../../Models/Student");
-const { Teachers } = require("../../Models/Teacher");
-const { Refresh_tokens } = require("../../Models/RefreshTokens");
+const Students = require("../../Models/Student");
+const Teachers = require("../../Models/Teacher");
+const Refresh_tokens = require("../../Models/RefreshTokens");
 
 const handleLogin = async (req, res) => {
     try {
