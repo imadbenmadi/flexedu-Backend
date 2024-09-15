@@ -91,7 +91,7 @@
 // });
 
 // router.post(
-//     "/Home_Feedbacks/Client/:feedbackId",
+//     "/Home_Feedbacks/Teacher/:feedbackId",
 //     adminMiddleware,
 //     async (req, res) => {
 //         try {
@@ -141,7 +141,7 @@
 // );
 
 // router.post(
-//     "/Home_Feedbacks/Freelancer/:feedbackId",
+//     "/Home_Feedbacks/Student/:feedbackId",
 //     adminMiddleware,
 //     async (req, res) => {
 //         try {

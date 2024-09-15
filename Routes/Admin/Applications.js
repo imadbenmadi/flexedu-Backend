@@ -179,14 +179,14 @@
 //                     text: "Your Application to the project have been accepted . we are waiting the Client Payment to start the project",
 //                     type: "Project_Accepted",
 //                     StudentId: application.StudentId,
-//                     link: `/Freelancer/Process/${project.id}`,
+//                     link: `/Student/Process/${project.id}`,
 //                 });
 //                 await Teacher_Notifications.create({
 //                     title: "Freelancer Found",
 //                     text: "Pay the fees so the freelancer can start working",
 //                     type: "Freelancer_found",
 //                     TeacherId: project.TeacherId,
-//                     link: `/Client/Projects/${project.id}`,
+//                     link: `/Teacher/Projects/${project.id}`,
 //                 });
 //             } catch (error) {
 //                 return res.status(500).json({ error: error.message });

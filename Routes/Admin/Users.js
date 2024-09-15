@@ -129,7 +129,7 @@ router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
     }
 });
 
-router.delete("/Client/:id", adminMiddleware, async (req, res) => {
+router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
     if (!TeacherId)
         return res.status(409).json({ message: "client id is required" });
@@ -141,7 +141,7 @@ router.delete("/Client/:id", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-router.delete("/Freelancer/:id", adminMiddleware, async (req, res) => {
+router.delete("/Student/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
         return res.status(409).json({ message: "Freelancer id is required" });

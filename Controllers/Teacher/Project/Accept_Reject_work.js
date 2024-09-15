@@ -48,7 +48,7 @@
 //                 text: "We are pleased to inform you that your work has been accepted. ower Team gonna contact you soon .",
 //                 type: "Project_Accepted",
 //                 StudentId: Project.StudentId,
-//                 link: `/Freelancer/Process/${projectId}`,
+//                 link: `/Student/Process/${projectId}`,
 //             });
 //         } catch (error) {
 //             console.log(error);
@@ -122,7 +122,7 @@
 //                 text: "We regret to inform you that your work has been refused by the Client.please check teh Rejection History for more details.",
 //                 type: "payment_rejected",
 //                 StudentId: Project.StudentId,
-//                 link: `/Freelancer/Process/${projectId}`,
+//                 link: `/Student/Process/${projectId}`,
 //             });
 //         } catch (error) {
 //             console.log(error);

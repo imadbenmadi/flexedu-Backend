@@ -16,30 +16,30 @@ const ClientMiddleware = require("../Middlewares/Client");
 const FreelancerMiddleware = require("../Middlewares/Freelancer");
 
 router.get(
-    "/freelancer/:StudentId/rooms",
+    "/Student/:StudentId/rooms",
     FreelancerMiddleware,
     get_Freelancer_Rooms
 );
-router.get("/client/:TeacherId/rooms", ClientMiddleware, get_Client_Rooms);
+router.get("/Teacher/:TeacherId/rooms", ClientMiddleware, get_Client_Rooms);
 
 router.get(
-    "/freelancer/:StudentId/rooms/:roomId",
+    "/Student/:StudentId/rooms/:roomId",
     FreelancerMiddleware,
     get_Freelancer_ChatRoom
 );
 router.get(
-    "/client/:TeacherId/rooms/:roomId",
+    "/Teacher/:TeacherId/rooms/:roomId",
     ClientMiddleware,
     get_Client_ChatRoom
 );
 
 router.post(
-    "/freelancer/:StudentId/rooms/:roomId",
+    "/Student/:StudentId/rooms/:roomId",
     FreelancerMiddleware,
     post_Freelancer_Message
 );
 router.post(
-    "/client/:TeacherId/rooms/:roomId",
+    "/Teacher/:TeacherId/rooms/:roomId",
     ClientMiddleware,
     post_Client_Message
 );

@@ -82,7 +82,7 @@
 //             text: "the freelancer has successfully uploaded the completed work, and it is now available for your review.",
 //             type: "Freelancer_uploaded_work",
 //             TeacherId: project.TeacherId,
-//             link: `/Client/Projects/${projectId}`,
+//             link: `/Teacher/Projects/${projectId}`,
 //         });
 //         // Example response
 //         res.status(200).send({

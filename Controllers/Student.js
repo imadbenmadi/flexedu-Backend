@@ -1,14 +1,14 @@
-const { getProfile } = require("./Freelancer/getProfile");
-const { EditeProfile } = require("./Freelancer/EditeProfile");
-const { GetProcess } = require("./Freelancer/GetProcess");
-const { GetProcess_item } = require("./Freelancer/GetProcess_item");
-const { GetRejections } = require("./Freelancer/GetRejection");
+const { getProfile } = require("./Student/getProfile");
+const { EditeProfile } = require("./Student/EditeProfile");
+const { GetProcess } = require("./Student/GetProcess");
+const { GetProcess_item } = require("./Student/GetProcess_item");
+const { GetRejections } = require("./Student/GetRejection");
 const {
     GetNotifications,
     DeleteNotification,
-} = require("./Freelancer/Notifications");
-const { RateClient } = require("./Client/Feedback_to_Client");
-const { GetFeedbacks } = require("./Freelancer/GetFeedbacks");
+} = require("./Student/Notifications");
+const { RateClient } = require("./Teacher/Feedback_to_Client");
+const { GetFeedbacks } = require("./Student/GetFeedbacks");
 
 const FreelancerController = {
     getProfile,

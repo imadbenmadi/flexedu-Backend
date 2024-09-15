@@ -161,7 +161,7 @@
 //                     text: "We have accepted the project you requested. Click here to see the rest of the details",
 //                     type: "Project_Accepted",
 //                     TeacherId: Project.TeacherId,
-//                     link: `/Client/Projects/${Project.id}`,
+//                     link: `/Teacher/Projects/${Project.id}`,
 //                 });
 //             } catch (error) {
 //                 return res.status(500).json({ error: error.message });
@@ -194,7 +194,7 @@
 //                     text: "It was rejected for a number of reasons related to our platform, Click here to create a new project",
 //                     type: "Projet_refused",
 //                     TeacherId: Project.TeacherId,
-//                     link: `/Client/Projects/${Project.id}`,
+//                     link: `/Teacher/Projects/${Project.id}`,
 //                 });
 //             } catch (error) {
 //                 return res.status(500).json({ error: error.message });

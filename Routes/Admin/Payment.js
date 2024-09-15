@@ -137,14 +137,14 @@
 //                 text: "your payment has been successfully accepted and processed",
 //                 type: "payment_accepted",
 //                 TeacherId: project.TeacherId,
-//                 link: `/Client/Projects/${project.id}`,
+//                 link: `/Teacher/Projects/${project.id}`,
 //             });
 //             await Student_Notifications.create({
 //                 title: "Client payed the fees",
 //                 text: "We are pleased to inform you that the Client has paid the fees, and you may now begin working on the project.",
 //                 type: "payment_accepted",
 //                 StudentId: project.StudentId,
-//                 link: `/Freelancer/Process/${project.id}`,
+//                 link: `/Student/Process/${project.id}`,
 //             });
 //         } catch (error) {
 //             return res.status(500).json({ error: error.message });
@@ -193,7 +193,7 @@
 //                 text: "We regret to inform you that your payment has been rejected, and we kindly request you to review your payment details and try again.",
 //                 type: "payment_rejected",
 //                 TeacherId: project.TeacherId,
-//                 link: `/Client/Projects/${project.id}`,
+//                 link: `/Teacher/Projects/${project.id}`,
 //             });
 //         } catch (error) {
 //             return res.status(500).json({ error: error.message });

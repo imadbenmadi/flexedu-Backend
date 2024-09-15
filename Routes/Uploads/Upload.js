@@ -17,7 +17,7 @@ router.use(cookieParser());
 router.use(formidableMiddleware());
 
 router.post(
-    "/Client/ProfilePic",
+    "/Teacher/ProfilePic",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
@@ -26,7 +26,7 @@ router.post(
     Upload_Client_ProfilePic
 );
 router.post(
-    "/Freelancer/ProfilePic",
+    "/Student/ProfilePic",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
@@ -35,7 +35,7 @@ router.post(
     Upload_Freelancer_ProfilePic
 );
 router.delete(
-    "/Client/ProfilePic",
+    "/Teacher/ProfilePic",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
@@ -44,7 +44,7 @@ router.delete(
     Delete_Client_ProfilePic
 );
 router.delete(
-    "/Freelancer/ProfilePic",
+    "/Student/ProfilePic",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
@@ -81,7 +81,7 @@ router.post(
     Upload_Work
 );
 router.post(
-    "/Freelancer/PortfolioItem",
+    "/Student/PortfolioItem",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
@@ -90,7 +90,7 @@ router.post(
     Upload_Freelancer_PortfolioItem
 );
 router.delete(
-    "/Freelancer/PortfolioItem",
+    "/Student/PortfolioItem",
     // (req, res, next) => {
     //     req.body = req.fields;
     //     next();
