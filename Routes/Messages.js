@@ -12,8 +12,8 @@ const {
     openChatRoom,
     deleteChatRoom,
 } = require("../Controllers/Chat/RoomController");
-const ClientMiddleware = require("../Middlewares/Client");
-const FreelancerMiddleware = require("../Middlewares/Freelancer");
+const ClientMiddleware = require("../Middlewares/Teacher");
+const FreelancerMiddleware = require("../Middlewares/Student");
 
 router.get(
     "/Student/:StudentId/rooms",

@@ -48,8 +48,10 @@ app.use("/Logout", require("./Routes/Auth/Logout"));
 app.use("/Contact", require("./Routes/Contact"));
 
 // _________________________________________________________
-// app.use("/Students", require("./Routes/Students"));
-// app.use("/Teachers", require("./Routes/Teachers"));
+app.use("/Students", require("./Routes/Students"));
+app.use("/Teachers", require("./Routes/Teachers"));
+
+
 // app.use("/upload", require("./Routes/Uploads/Upload"));
 
 // app.use("/Admin", require("./Routes/Admin/Admin"));

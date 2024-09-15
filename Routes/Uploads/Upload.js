@@ -9,8 +9,8 @@ const Delete_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenS
 const Upload_Freelancer_PortfolioItem = require("./PortfolioItems/Portfolioitem");
 const Delete_Freelancer_PortfolioItem = require("./PortfolioItems/Portfolioitem_Delete");
 const Upload_Work = require("./Work/Work");
-const Freelancer_Middlware = require("../../Middlewares/Freelancer");
-const Client_Middlware = require("../../Middlewares/Client");
+const Freelancer_Middlware = require("../../Middlewares/Student");
+const Client_Middlware = require("../../Middlewares/Teacher");
 const cookieParser = require("cookie-parser");
 const formidableMiddleware = require("express-formidable");
 router.use(cookieParser());

@@ -2,7 +2,7 @@
 // const router = express.Router();
 // const { Projects } = require("../Models/Project");
 // const { Applications } = require("../Models/Applications");
-// const Freelancer_Middleware = require("../Middlewares/Freelancer");
+// const Freelancer_Middleware = require("../Middlewares/Student");
 // const { Op } = require("sequelize");
 
 // // router.get("/", Freelancer_Middleware, async (req, res) => {
