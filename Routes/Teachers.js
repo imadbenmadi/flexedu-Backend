@@ -1,67 +1,71 @@
 const express = require("express");
 const router = express.Router();
 
-const Client_Middlware = require("../Middlewares/Teacher");
-const ClientController = require("../Controllers/Client");
-router.get("/:userId/Profile", Client_Middlware, ClientController.getProfile);
-router.put("/:userId/Profile", Client_Middlware, ClientController.EditeProfile);
-
-router.get("/:userId/Projects", Client_Middlware, ClientController.GetProjcts);
-router.get(
-    "/:userId/Projects/:projectId",
-    Client_Middlware,
-    ClientController.GetProject
-);
-router.post("/:userId/Projects", Client_Middlware, ClientController.AddProject);
-router.delete(
-    "/:userId/Projects/:projectId",
-    Client_Middlware,
-    ClientController.DeleteProject
+const Teacher_Middlware = require("../Middlewares/Teacher");
+const TeacherController = require("../Controllers/Teacher");
+router.get("/:userId/Profile", Teacher_Middlware, TeacherController.getProfile);
+router.put(
+    "/:userId/Profile",
+    Teacher_Middlware,
+    TeacherController.EditeProfile
 );
 
-router.get(
-    "/:userId/Payment/:projectId/status",
-    Client_Middlware,
-    ClientController.PaymentStatus
-);
+// router.get("/:userId/Projects", Teacher_Middlware, TeacherController.GetProjcts);
+// router.get(
+//     "/:userId/Projects/:projectId",
+//     Teacher_Middlware,
+//     TeacherController.GetProject
+// );
+// router.post("/:userId/Projects", Teacher_Middlware, TeacherController.AddProject);
+// router.delete(
+//     "/:userId/Projects/:projectId",
+//     Teacher_Middlware,
+//     TeacherController.DeleteProject
+// );
 
-router.get("/:userId/Process", Client_Middlware, ClientController.GetProcess);
+// router.get(
+//     "/:userId/Payment/:projectId/status",
+//     Teacher_Middlware,
+//     TeacherController.PaymentStatus
+// );
 
-router.post(
-    "/:userId/Projects/:projectId/Accept_work",
-    Client_Middlware,
-    ClientController.Accept_work
-);
-router.post(
-    "/:userId/Projects/:projectId/Reject_work",
-    Client_Middlware,
-    ClientController.Reject_work
-);
-router.get(
-    "/:userId/:projectId/Rejections",
-    Client_Middlware,
-    ClientController.GetRejections
-);
+// router.get("/:userId/Process", Teacher_Middlware, TeacherController.GetProcess);
 
-router.get(
-    "/:userId/Notifications",
-    Client_Middlware,
-    ClientController.GetNotifications
-);
-router.delete(
-    "/:userId/Notifications/:notificationId",
-    Client_Middlware,
-    ClientController.DeleteNotification
-);
-router.post(
-    "/:userId/Rate/:StudentId",
-    Client_Middlware,
-    ClientController.RateFreealncer
-);
+// router.post(
+//     "/:userId/Projects/:projectId/Accept_work",
+//     Teacher_Middlware,
+//     TeacherController.Accept_work
+// );
+// router.post(
+//     "/:userId/Projects/:projectId/Reject_work",
+//     Teacher_Middlware,
+//     TeacherController.Reject_work
+// );
+// router.get(
+//     "/:userId/:projectId/Rejections",
+//     Teacher_Middlware,
+//     TeacherController.GetRejections
+// );
 
-router.get(
-    "/:userId/Feedbacks",
-    Client_Middlware,
-    ClientController.GetFeedbacks
-);
+// router.get(
+//     "/:userId/Notifications",
+//     Teacher_Middlware,
+//     TeacherController.GetNotifications
+// );
+// router.delete(
+//     "/:userId/Notifications/:notificationId",
+//     Teacher_Middlware,
+//     TeacherController.DeleteNotification
+// );
+// router.post(
+//     "/:userId/Rate/:StudentId",
+//     Teacher_Middlware,
+//     TeacherController.RateFreealncer
+// );
+
+// router.get(
+//     "/:userId/Feedbacks",
+//     Teacher_Middlware,
+//     TeacherController.GetFeedbacks
+// );
 module.exports = router;

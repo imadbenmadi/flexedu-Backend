@@ -2,10 +2,10 @@
 // const router = express.Router();
 // const { Projects } = require("../Models/Project");
 // const { Applications } = require("../Models/Applications");
-// const Freelancer_Middleware = require("../Middlewares/Student");
+// const Student_Middleware = require("../Middlewares/Student");
 // const { Op } = require("sequelize");
 
-// // router.get("/", Freelancer_Middleware, async (req, res) => {
+// // router.get("/", Student_Middleware, async (req, res) => {
 // //     const { search, filter } = req.query;
 // //     try {
 // //         const requests = await Projects.findAll({
@@ -17,7 +17,7 @@
 // //         res.status(500).json({ message: err.message });
 // //     }
 // // });
-// router.get("/", Freelancer_Middleware, async (req, res) => {
+// router.get("/", Student_Middleware, async (req, res) => {
 //     const { search, Content_creation, SEO_SIM, Graphic_design } = req.query;
 
 //     const whereClause = {
@@ -57,7 +57,7 @@
 //     }
 // });
 
-// router.get("/:projectId", Freelancer_Middleware, async (req, res) => {
+// router.get("/:projectId", Student_Middleware, async (req, res) => {
 //     const projectId = req.params.projectId;
 //     if (!projectId) return res.status(409).json({ message: "Missing data" });
 
@@ -74,7 +74,7 @@
 //         res.status(500).json({ message: err.message });
 //     }
 // });
-// router.post("/:projectId/Apply", Freelancer_Middleware, async (req, res) => {
+// router.post("/:projectId/Apply", Student_Middleware, async (req, res) => {
 //     const projectId = req.params.projectId;
 //     if (!projectId)
 //         return res
@@ -85,14 +85,14 @@
 //     if (!StudentId)
 //         return res
 //             .status(409)
-//             .json({ message: "Missing data, freelancer ID is required" });
+//             .json({ message: "Missing data, Student ID is required" });
 
 //     try {
-//         const { Freelancer_Time_Needed, Freelancer_Budget } = req.body;
-//         if (!Freelancer_Time_Needed || !Freelancer_Budget)
+//         const { Student_Time_Needed, Student_Budget } = req.body;
+//         if (!Student_Time_Needed || !Student_Budget)
 //             return res.status(409).json({
 //                 message:
-//                     "Missing data, Freelancer_Time_Needed and Freelancer_Budget are required",
+//                     "Missing data, Student_Time_Needed and Student_Budget are required",
 //             });
 //         const Project = await Projects.findOne({
 //             where: { id: projectId },
@@ -121,8 +121,8 @@
 //                     "You have more than 5 Pending Applications , Please wait till the Platfom aprove your request",
 //             });
 //         // await Project.update({
-//         //     Freelancer_Time_Needed,
-//         //     Freelancer_Budget,
+//         //     Student_Time_Needed,
+//         //     Student_Budget,
 //         //     where: { id: projectId },
 //         // });
 //         await Applications.create({
@@ -130,8 +130,8 @@
 //             StudentId: StudentId,
 //             ProjectTitle: Project.Title,
 //             ProjectDescription: Project.Description,
-//             Freelancer_Time_Needed: Freelancer_Time_Needed,
-//             Freelancer_Budget: Freelancer_Budget,
+//             Student_Time_Needed: Student_Time_Needed,
+//             Student_Budget: Student_Budget,
 //         });
 
 //         res.status(200).json({ message: "Application submitted successfully" });

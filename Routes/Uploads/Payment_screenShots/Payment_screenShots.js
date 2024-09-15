@@ -59,7 +59,7 @@
 //         else if (project.status != "Accepted" || !project.StudentId)
 //             return res.status(409).send({
 //                 message:
-//                     "Unauthorized: Project is not accepted yet or not assigned to any freelancer",
+//                     "Unauthorized: Project is not accepted yet or not assigned to any Student",
 //             });
 //         if (project.Pyament_ScreenShot_Link) {
 //             const previousFilename =
@@ -82,7 +82,7 @@
 //         await Projects.update(
 //             {
 //                 Pyament_ScreenShot_Link: fileLink,
-//                 Client_CCP_number: CCP_number,
+//                 Teacher_CCP_number: CCP_number,
 //                 isPayment_ScreenShot_uploaded: true,
 //                 isPayment_ScreenShot_Rejected: false,
 //             },

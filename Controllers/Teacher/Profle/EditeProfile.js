@@ -1,18 +1,18 @@
-const Teachers = require("../../../Models/Client");
+const Teachers = require("../../../Models/Teacher");
 
 const EditeProfile = async (req, res) => {
     const userId = req.decoded.userId;
     const newData = req.body;
 
     try {
-        // Find the Client by their ID
-        const Client = await Teachers.findByPk(userId);
+        // Find the Teacher by their ID
+        const Teacher = await Teachers.findByPk(userId);
 
-        if (!Client) {
-            return res.status(404).json({ error: "Client not found." });
+        if (!Teacher) {
+            return res.status(404).json({ error: "Teacher not found." });
         }
 
-        await Client.update(newData);
+        await Teacher.update(newData);
         return res
             .status(200)
             .json({ message: "Profile updated successfully." });

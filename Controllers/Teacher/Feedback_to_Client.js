@@ -1,8 +1,8 @@
-// // const  Teachers  = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../Models/Project");
-// const { Freelancer_Feedbacks } = require("../../Models/Feedbacks");
+// const { Student_Feedbacks } = require("../../Models/Feedbacks");
 // const  Teachers  = require("../../Models/Teacher");
-// const RateClient = async (req, res) => {
+// const RateTeacher = async (req, res) => {
 //     const userId = req.decoded.userId;
 //     if (!userId)
 //         return res.status(401).json({ error: "Unauthorized , missing userId" });
@@ -19,34 +19,34 @@
 //             return res.status(404).json({ error: "Project not found." });
 //         if (project.StudentId !== userId)
 //             return res.status(409).json({
-//                 error: "Unauthorized , you are not the freelancer of this project",
+//                 error: "Unauthorized , you are not the Student of this project",
 //             });
 //         if (project.TeacherId != TeacherId)
 //             return res.status(409).json({
-//                 error: "Unauthorized , this Client is not the owner of this project",
+//                 error: "Unauthorized , this Teacher is not the owner of this project",
 //             });
-//         if (project.isFreelancer_send_Feedback)
+//         if (project.isStudent_send_Feedback)
 //             return res.status(409).json({
-//                 error: "Unauthorized , Freelancer alredy Rate this Client",
+//                 error: "Unauthorized , Student alredy Rate this Teacher",
 //             });
-//         const Feedback = await Freelancer_Feedbacks.create({
+//         const Feedback = await Student_Feedbacks.create({
 //             StudentId: userId,
 //             TeacherId: TeacherId,
 //             Rate,
 //             Comment,
 //             ProjectId,
 //         });
-//         const Client = await Teachers.findByPk(project.TeacherId);
-//         if (!Client)
-//             return res.status(404).json({ error: "Client not found." });
-//         const newRate = (Client.Rate + Rate) / 2;
+//         const Teacher = await Teachers.findByPk(project.TeacherId);
+//         if (!Teacher)
+//             return res.status(404).json({ error: "Teacher not found." });
+//         const newRate = (Teacher.Rate + Rate) / 2;
 //         await Teachers.update(
 //             { Rate: newRate },
 //             { where: { id: project.TeacherId } }
 //         );
 //         await project.update(
 //             {
-//                 isFreelancer_send_Feedback: true,
+//                 isStudent_send_Feedback: true,
 //                 isWorkUploaded: true,
 //                 status: "Completed",
 //             },
@@ -67,4 +67,4 @@
 //     }
 // };
 
-// module.exports = { RateClient };
+// module.exports = { RateTeacher };

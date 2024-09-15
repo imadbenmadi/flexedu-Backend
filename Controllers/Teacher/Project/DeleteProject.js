@@ -1,14 +1,14 @@
-// // const  Teachers  = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../../Models/Project");
 // const DeleteProject = async (req, res) => {
 //     const userId = req.decoded.userId;
 //     if (!userId)
 //         return res.status(401).json({ error: "Unauthorized , missing userId" });
 //     try {
-//         // Find the Client by their ID
-//         // const Client = await Teachers.findByPk(userId);
-//         // if (!Client) {
-//         //     return res.status(404).json({ error: "Client not found." });
+//         // Find the Teacher by their ID
+//         // const Teacher = await Teachers.findByPk(userId);
+//         // if (!Teacher) {
+//         //     return res.status(404).json({ error: "Teacher not found." });
 //         // }
 //         const { projectId } = req.params;
 //         if (!projectId) {

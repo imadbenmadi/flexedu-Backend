@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const Upload_Client_ProfilePic = require("./ProfilePic/Client_ProfilePic");
-const Delete_Client_ProfilePic = require("./ProfilePic/Client_ProfilePic_Delete");
-const Upload_Freelancer_ProfilePic = require("./ProfilePic/Freelancer_ProfilePic");
-const Delete_Freelancer_ProfilePic = require("./ProfilePic/Freelancer_ProfilePic_Delete");
+const Upload_Teacher_ProfilePic = require("./ProfilePic/Teacher_ProfilePic");
+const Delete_Teacher_ProfilePic = require("./ProfilePic/Teacher_ProfilePic_Delete");
+const Upload_Student_ProfilePic = require("./ProfilePic/Student_ProfilePic");
+const Delete_Student_ProfilePic = require("./ProfilePic/Student_ProfilePic_Delete");
 const Upload_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenShots");
 const Delete_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenShots_Delete");
-const Upload_Freelancer_PortfolioItem = require("./PortfolioItems/Portfolioitem");
-const Delete_Freelancer_PortfolioItem = require("./PortfolioItems/Portfolioitem_Delete");
+const Upload_Student_PortfolioItem = require("./PortfolioItems/Portfolioitem");
+const Delete_Student_PortfolioItem = require("./PortfolioItems/Portfolioitem_Delete");
 const Upload_Work = require("./Work/Work");
-const Freelancer_Middlware = require("../../Middlewares/Student");
-const Client_Middlware = require("../../Middlewares/Teacher");
+const Student_Middlware = require("../../Middlewares/Student");
+const Teacher_Middlware = require("../../Middlewares/Teacher");
 const cookieParser = require("cookie-parser");
 const formidableMiddleware = require("express-formidable");
 router.use(cookieParser());
@@ -22,8 +22,8 @@ router.post(
     //     req.body = req.fields;
     //     next();
     // },
-    Client_Middlware,
-    Upload_Client_ProfilePic
+    Teacher_Middlware,
+    Upload_Teacher_ProfilePic
 );
 router.post(
     "/Student/ProfilePic",
@@ -31,8 +31,8 @@ router.post(
     //     req.body = req.fields;
     //     next();
     // },
-    Freelancer_Middlware,
-    Upload_Freelancer_ProfilePic
+    Student_Middlware,
+    Upload_Student_ProfilePic
 );
 router.delete(
     "/Teacher/ProfilePic",
@@ -40,8 +40,8 @@ router.delete(
     //     req.body = req.fields;
     //     next();
     // },
-    Client_Middlware,
-    Delete_Client_ProfilePic
+    Teacher_Middlware,
+    Delete_Teacher_ProfilePic
 );
 router.delete(
     "/Student/ProfilePic",
@@ -49,8 +49,8 @@ router.delete(
     //     req.body = req.fields;
     //     next();
     // },
-    Freelancer_Middlware,
-    Delete_Freelancer_ProfilePic
+    Student_Middlware,
+    Delete_Student_ProfilePic
 );
 
 router.post(
@@ -59,7 +59,7 @@ router.post(
         req.body = req.fields;
         next();
     },
-    Client_Middlware,
+    Teacher_Middlware,
     Upload_Payment_ScreenShot
 );
 router.delete(
@@ -68,7 +68,7 @@ router.delete(
     //     req.body = req.fields;
     //     next();
     // },
-    Client_Middlware,
+    Teacher_Middlware,
     Delete_Payment_ScreenShot
 );
 router.post(
@@ -77,7 +77,7 @@ router.post(
         req.body = req.fields;
         next();
     },
-    Freelancer_Middlware,
+    Student_Middlware,
     Upload_Work
 );
 router.post(
@@ -86,8 +86,8 @@ router.post(
     //     req.body = req.fields;
     //     next();
     // },
-    Freelancer_Middlware,
-    Upload_Freelancer_PortfolioItem
+    Student_Middlware,
+    Upload_Student_PortfolioItem
 );
 router.delete(
     "/Student/PortfolioItem",
@@ -95,8 +95,8 @@ router.delete(
     //     req.body = req.fields;
     //     next();
     // },
-    Freelancer_Middlware,
-    Delete_Freelancer_PortfolioItem
+    Student_Middlware,
+    Delete_Student_PortfolioItem
 );
 
 module.exports = router;

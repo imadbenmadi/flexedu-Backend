@@ -1,14 +1,14 @@
-// // const  Teachers  = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../../Models/Project");
 // const AddProject = async (req, res) => {
 //     const userId = req.decoded.userId;
 //     if (!userId)
 //         return res.status(401).json({ error: "Unauthorized , missing userId" });
 //     try {
-//         // Find the Client by their ID
-//         // const Client = await Teachers.findByPk(userId);
-//         // if (!Client) {
-//         //     return res.status(404).json({ error: "Client not found." });
+//         // Find the Teacher by their ID
+//         // const Teacher = await Teachers.findByPk(userId);
+//         // if (!Teacher) {
+//         //     return res.status(404).json({ error: "Teacher not found." });
 //         // }
 //         const {
 //             Title,
@@ -17,7 +17,7 @@
 //             Field_is_Content_creation,
 //             Field_is_SEO_SIM,
 //             Expected_Time,
-//             Client_Budget,
+//             Teacher_Budget,
 //             Frelancer_Experiance,
 //         } = req.body;
 
@@ -42,7 +42,7 @@
 //             Field_is_Content_creation: !!Field_is_Content_creation,
 //             Field_is_SEO_SIM: !!Field_is_SEO_SIM,
 //             Expected_Time,
-//             Client_Budget,
+//             Teacher_Budget,
 //             Frelancer_Experiance,
 //         });
 //         return res.status(200).json({ message: "Projcet added successfully." });

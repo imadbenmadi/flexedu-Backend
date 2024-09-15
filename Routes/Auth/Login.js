@@ -34,9 +34,9 @@ const handleLogin = async (req, res) => {
                     : null;
             const Refresh_Secrute =
                 userType == "teacher"
-                    ? process.env.Client_REFRESH_TOKEN_SECRET
+                    ? process.env.Teacher_REFRESH_TOKEN_SECRET
                     : userType == "student"
-                    ? process.env.Freelancer_REFRESH_TOKEN_SECRET
+                    ? process.env.Student_REFRESH_TOKEN_SECRET
                     : null;
 
             const accessToken = jwt.sign(
@@ -50,8 +50,8 @@ const handleLogin = async (req, res) => {
             const refreshToken = jwt.sign(
                 { userId: user.id, userType: userType },
                 // userType == "teacher"
-                // ? process.env.Client_REFRESH_TOKEN_SECRET
-                // : process.env.Freelancer_REFRESH_TOKEN_SECRET,
+                // ? process.env.Teacher_REFRESH_TOKEN_SECRET
+                // : process.env.Student_REFRESH_TOKEN_SECRET,
                 Refresh_Secrute,
                 { expiresIn: "1d" }
             );

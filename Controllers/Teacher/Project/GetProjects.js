@@ -1,4 +1,4 @@
-// // const  Teachers  = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../../Models/Project");
 // const GetProjcts = async (req, res) => {
 //     const userId = req.decoded.userId;

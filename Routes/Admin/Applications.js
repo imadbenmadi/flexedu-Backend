@@ -15,7 +15,7 @@
 // } = require("../../Models/Notifications");
 // router.get("/", Admin_midllware, async (req, res) => {
 //     try {
-//         // Fetch projects with their associated applications and client (company name)
+//         // Fetch projects with their associated applications and Teacher (company name)
 //         const projects = await Projects.findAll({
 //             where: {
 //                 status: "accepted",
@@ -30,7 +30,7 @@
 //                 {
 //                     model: Teachers,
 //                     as: "owner",
-//                     attributes: ["company_Name"], // Assuming "name" is the client's company name
+//                     attributes: ["company_Name"], // Assuming "name" is the Teacher's company name
 //                 },
 //             ],
 //             attributes: {
@@ -176,15 +176,15 @@
 //             try {
 //                 await Student_Notifications.create({
 //                     title: "Application accepted",
-//                     text: "Your Application to the project have been accepted . we are waiting the Client Payment to start the project",
+//                     text: "Your Application to the project have been accepted . we are waiting the Teacher Payment to start the project",
 //                     type: "Project_Accepted",
 //                     StudentId: application.StudentId,
 //                     link: `/Student/Process/${project.id}`,
 //                 });
 //                 await Teacher_Notifications.create({
-//                     title: "Freelancer Found",
-//                     text: "Pay the fees so the freelancer can start working",
-//                     type: "Freelancer_found",
+//                     title: "Student Found",
+//                     text: "Pay the fees so the Student can start working",
+//                     type: "Student_found",
 //                     TeacherId: project.TeacherId,
 //                     link: `/Teacher/Projects/${project.id}`,
 //                 });

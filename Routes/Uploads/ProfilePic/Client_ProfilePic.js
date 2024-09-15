@@ -11,7 +11,7 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Upload handler
-const uploadClientProfilePic = async (req, res) => {
+const uploadTeacherProfilePic = async (req, res) => {
     try {
         const { ProfilePic } = req.files;
         if (!ProfilePic) {
@@ -39,17 +39,17 @@ const uploadClientProfilePic = async (req, res) => {
         if (![".jpeg", ".jpg", ".png", ".heic"].includes(fileExtension)) {
             throw new Error("Invalid file extension");
         }
-        const uniqueSuffix = `Client-${userId}-${Date.now()}${fileExtension}`;
+        const uniqueSuffix = `Teacher-${userId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/ProfilePics/${uniqueSuffix}`;
-        const client = await Teachers.findOne({ where: { id: userId } });
-        if (!client) {
+        const Teacher = await Teachers.findOne({ where: { id: userId } });
+        if (!Teacher) {
             return res.status(404).send({
-                message: "Client not found for the given userId",
+                message: "Teacher not found for the given userId",
             });
         }
-        if (client.profile_pic_link) {
-            const previousFilename = client.profile_pic_link.split("/").pop();
+        if (Teacher.profile_pic_link) {
+            const previousFilename = Teacher.profile_pic_link.split("/").pop();
             const previousImagePath = `public/ProfilePics/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {
@@ -78,7 +78,7 @@ const uploadClientProfilePic = async (req, res) => {
 
         // Example response
         res.status(200).send({
-            message: "Client profile picture uploaded successfully!",
+            message: "Teacher profile picture uploaded successfully!",
             fileLink,
         });
     } catch (error) {
@@ -92,4 +92,4 @@ const uploadClientProfilePic = async (req, res) => {
 };
 
 // Export the middleware and upload handler
-module.exports = [uploadMiddleware, uploadClientProfilePic];
+module.exports = [uploadMiddleware, uploadTeacherProfilePic];

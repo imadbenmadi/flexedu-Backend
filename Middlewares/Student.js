@@ -40,15 +40,15 @@ const verifyUser = async (req, res, next) => {
                 message: "unauthorized : Invalid tokens ",
             });
         } else if (decoded.userType == "student") {
-            let freelancer = await Students.findOne({
+            let Student = await Students.findOne({
                 where: { id: decoded.userId },
             });
-            if (!freelancer) {
+            if (!Student) {
                 return res.status(401).json({
                     message: "unauthorized : Invalid tokens ",
                 });
             }
-            // req.user = freelancer;
+            // req.user = Student;
         } else if (decoded.userType != "student") {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
@@ -86,7 +86,7 @@ const verifyUser = async (req, res, next) => {
 
                 jwt.verify(
                     refreshToken,
-                    process.env.Freelancer_REFRESH_TOKEN_SECRET,
+                    process.env.Student_REFRESH_TOKEN_SECRET,
                     async (err, decoded) => {
                         if (err || foundInDB.userId !== decoded.userId) {
                             return res.status(401).json({

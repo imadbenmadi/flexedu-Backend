@@ -1,47 +1,43 @@
 const express = require("express");
 const router = express.Router();
 const {
-    get_Freelancer_Rooms,
-    get_Client_Rooms,
-    get_Freelancer_ChatRoom,
-    get_Client_ChatRoom,
-    post_Freelancer_Message,
-    post_Client_Message,
+    get_Student_Rooms,
+    get_Teacher_Rooms,
+    get_Student_ChatRoom,
+    get_Teacher_ChatRoom,
+    post_Student_Message,
+    post_Teacher_Message,
 } = require("../Controllers/Chat/chatController");
 const {
     openChatRoom,
     deleteChatRoom,
 } = require("../Controllers/Chat/RoomController");
-const ClientMiddleware = require("../Middlewares/Teacher");
-const FreelancerMiddleware = require("../Middlewares/Student");
+const TeacherMiddleware = require("../Middlewares/Teacher");
+const StudentMiddleware = require("../Middlewares/Student");
 
-router.get(
-    "/Student/:StudentId/rooms",
-    FreelancerMiddleware,
-    get_Freelancer_Rooms
-);
-router.get("/Teacher/:TeacherId/rooms", ClientMiddleware, get_Client_Rooms);
+router.get("/Student/:StudentId/rooms", StudentMiddleware, get_Student_Rooms);
+router.get("/Teacher/:TeacherId/rooms", TeacherMiddleware, get_Teacher_Rooms);
 
 router.get(
     "/Student/:StudentId/rooms/:roomId",
-    FreelancerMiddleware,
-    get_Freelancer_ChatRoom
+    StudentMiddleware,
+    get_Student_ChatRoom
 );
 router.get(
     "/Teacher/:TeacherId/rooms/:roomId",
-    ClientMiddleware,
-    get_Client_ChatRoom
+    TeacherMiddleware,
+    get_Teacher_ChatRoom
 );
 
 router.post(
     "/Student/:StudentId/rooms/:roomId",
-    FreelancerMiddleware,
-    post_Freelancer_Message
+    StudentMiddleware,
+    post_Student_Message
 );
 router.post(
     "/Teacher/:TeacherId/rooms/:roomId",
-    ClientMiddleware,
-    post_Client_Message
+    TeacherMiddleware,
+    post_Teacher_Message
 );
 
 router.post("/rooms", openChatRoom);

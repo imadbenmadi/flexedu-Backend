@@ -11,7 +11,7 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Delete handler
-const Delete_Freelancer_PortfolioItem = async (req, res) => {
+const Delete_Student_PortfolioItem = async (req, res) => {
     try {
         const userId = req.decoded.userId;
         const itemsId = req.body.itemId;
@@ -73,4 +73,4 @@ const Delete_Freelancer_PortfolioItem = async (req, res) => {
 };
 
 // Export the middleware and delete handler
-module.exports = [uploadMiddleware, Delete_Freelancer_PortfolioItem];
+module.exports = [uploadMiddleware, Delete_Student_PortfolioItem];

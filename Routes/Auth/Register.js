@@ -36,13 +36,13 @@ const handleRegister = async (req, res) => {
         // if (!(await isemailValid(email))) {
         //     return res.status(409).json({ message: "Invalid email domain" });
         // }
-        const exist_freelancer = await Teachers.findOne({
+        const exist_Student = await Teachers.findOne({
             where: { email: email },
         });
-        const exist_client = await Students.findOne({
+        const exist_Teacher = await Students.findOne({
             where: { email: email },
         });
-        if (exist_client || exist_freelancer) {
+        if (exist_Teacher || exist_Student) {
             return res.status(400).json({
                 message: "email already exists , please use another email.",
             });

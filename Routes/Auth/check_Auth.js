@@ -9,9 +9,9 @@ const Teachers = require("../../Models/Teacher");
 router.get("/", async (req, res) => {
     const {
         Student_ACCESS_TOKEN_SECRET,
-        Freelancer_REFRESH_TOKEN_SECRET,
+        Student_REFRESH_TOKEN_SECRET,
         Teacher_ACCESS_TOKEN_SECRET,
-        Client_REFRESH_TOKEN_SECRET,
+        Teacher_REFRESH_TOKEN_SECRET,
     } = process.env;
 
     const accessToken = req.cookies.accessToken;
@@ -126,7 +126,7 @@ router.get("/", async (req, res) => {
         let userType;
         let user;
 
-        // First check as a freelancer
+        // First check as a Student
         try {
             // if (!accessToken) throw new Error("No access token found");
             decoded = await verifyToken(
@@ -140,7 +140,7 @@ router.get("/", async (req, res) => {
                 try {
                     const result = await handleTokenExpired(
                         refreshToken,
-                        Freelancer_REFRESH_TOKEN_SECRET,
+                        Student_REFRESH_TOKEN_SECRET,
                         Student_ACCESS_TOKEN_SECRET
                     );
                     return res.status(200);
@@ -150,12 +150,12 @@ router.get("/", async (req, res) => {
                     //     // ..result,
                     // });
                 } catch (err) {
-                    console.log("Error refreshing freelancer token:", err);
+                    console.log("Error refreshing Student token:", err);
                 }
             }
         }
 
-        // If not a freelancer, check as a client
+        // If not a Student, check as a Teacher
         if (!user) {
             try {
                 decoded = await verifyToken(
@@ -171,7 +171,7 @@ router.get("/", async (req, res) => {
                     try {
                         const result = await handleTokenExpired(
                             refreshToken,
-                            Client_REFRESH_TOKEN_SECRET,
+                            Teacher_REFRESH_TOKEN_SECRET,
                             Teacher_ACCESS_TOKEN_SECRET
                         );
                         return res.status(200).json({
@@ -180,13 +180,13 @@ router.get("/", async (req, res) => {
                             // ..result,
                         });
                     } catch (err) {
-                        console.log("Error refreshing client token:", err);
+                        console.log("Error refreshing Teacher token:", err);
                     }
                 }
             }
         }
 
-        // If no user found for both freelancer and client
+        // If no user found for both Student and Teacher
         if (!user) {
             // res.clearCookie("accessToken");
             // res.clearCookie("refreshToken");

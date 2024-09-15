@@ -11,17 +11,17 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Upload handler
-const uploadClientProfilePic = async (req, res) => {
+const uploadTeacherProfilePic = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const client = await Teachers.findOne({ where: { id: userId } });
-        if (!client) {
+        const Teacher = await Teachers.findOne({ where: { id: userId } });
+        if (!Teacher) {
             return res.status(404).send({
-                message: "Client not found for the given userId",
+                message: "Teacher not found for the given userId",
             });
         }
-        if (client.profile_pic_link) {
-            const previousFilename = client.profile_pic_link.split("/").pop();
+        if (Teacher.profile_pic_link) {
+            const previousFilename = Teacher.profile_pic_link.split("/").pop();
             const previousImagePath = `public/ProfilePics/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {
@@ -44,7 +44,7 @@ const uploadClientProfilePic = async (req, res) => {
         );
         // Example response
         return res.status(200).send({
-            message: "Client profile picture deleted successfully!",
+            message: "Teacher profile picture deleted successfully!",
         });
     } catch (error) {
         // Error handling
@@ -57,4 +57,4 @@ const uploadClientProfilePic = async (req, res) => {
 };
 
 // Export the middleware and upload handler
-module.exports = [uploadMiddleware, uploadClientProfilePic];
+module.exports = [uploadMiddleware, uploadTeacherProfilePic];

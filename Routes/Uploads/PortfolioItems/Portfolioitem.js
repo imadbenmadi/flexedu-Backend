@@ -11,7 +11,7 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Upload handler
-const Upload_Freelancer_PortfolioItem = async (req, res) => {
+const Upload_Student_PortfolioItem = async (req, res) => {
     try {
         const { image } = req.files;
         if (!image) {
@@ -92,4 +92,4 @@ const Upload_Freelancer_PortfolioItem = async (req, res) => {
 };
 
 // Export the middleware and upload handler
-module.exports = [uploadMiddleware, Upload_Freelancer_PortfolioItem];
+module.exports = [uploadMiddleware, Upload_Student_PortfolioItem];

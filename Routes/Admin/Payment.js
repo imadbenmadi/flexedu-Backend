@@ -124,7 +124,7 @@
 //         ) {
 //             return res.status(409).json({
 //                 message:
-//                     "unauthorized , payment not uploaded or project not accepted or freelancer not assigned",
+//                     "unauthorized , payment not uploaded or project not accepted or Student not assigned",
 //             });
 //         }
 //         await Projects.update(
@@ -140,8 +140,8 @@
 //                 link: `/Teacher/Projects/${project.id}`,
 //             });
 //             await Student_Notifications.create({
-//                 title: "Client payed the fees",
-//                 text: "We are pleased to inform you that the Client has paid the fees, and you may now begin working on the project.",
+//                 title: "Teacher payed the fees",
+//                 text: "We are pleased to inform you that the Teacher has paid the fees, and you may now begin working on the project.",
 //                 type: "payment_accepted",
 //                 StudentId: project.StudentId,
 //                 link: `/Student/Process/${project.id}`,
@@ -177,7 +177,7 @@
 //         ) {
 //             return res.status(409).json({
 //                 message:
-//                     "unauthorized , payment not uploaded or project not accepted or freelancer not assigned",
+//                     "unauthorized , payment not uploaded or project not accepted or Student not assigned",
 //             });
 //         }
 //         await Projects.update(

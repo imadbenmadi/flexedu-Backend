@@ -1,19 +1,19 @@
-// const  Teachers  = require("../../Models/Client");
+// const  Teachers  = require("../../Models/Teacher");
 
-const { Rejection_Resons } = require("../../../Models/Rejection_Resons");
+// const { Rejection_Resons } = require("../../../Models/Rejection_Resons");
 const GetRejections = async (req, res) => {
     const userId = req.decoded.userId;
     const projectId = req.params.projectId;
     if (!userId)
         return res.status(401).json({ error: "Unauthorized , missing userId" });
     try {
-        const rejection = await Rejection_Resons.findAll({
-            where: {
-                TeacherId: userId,
-                ProjectId: projectId,
-            },
-            order: [["createdAt", "DESC"]],
-        });
+        // const rejection = await Rejection_Resons.findAll({
+        //     where: {
+        //         TeacherId: userId,
+        //         ProjectId: projectId,
+        //     },
+        //     order: [["createdAt", "DESC"]],
+        // });
         return res.status(200).json({ Rejection_Resons: rejection });
     } catch (error) {
         console.error(error);

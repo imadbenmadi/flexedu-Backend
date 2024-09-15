@@ -1,6 +1,6 @@
-// // const  Teachers  = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../../Models/Project");
-// const  Teachers  = require("../../../Models/Client");
+// const  Teachers  = require("../../../Models/Teacher");
 // const { Rejection_Resons } = require("../../../Models/Rejection_Resons");
 // const {
 //     Student_Notifications,
@@ -22,10 +22,10 @@
 //     // else if (!Reason)
 //     //     return res.status(400).json({ error: "Please provide the Reason." });
 //     try {
-//         // Find the Client by their ID
-//         const Client = await Teachers.findByPk(userId);
-//         if (!Client) {
-//             return res.status(404).json({ error: "Client not found." });
+//         // Find the Teacher by their ID
+//         const Teacher = await Teachers.findByPk(userId);
+//         if (!Teacher) {
+//             return res.status(404).json({ error: "Teacher not found." });
 //         }
 //         const Project = await Projects.findByPk(projectId);
 //         if (!Project) {
@@ -90,10 +90,10 @@
 //     else if (!Reason)
 //         return res.status(400).json({ error: "Please provide the Reason." });
 //     try {
-//         // Find the Client by their ID
-//         const Client = await Teachers.findByPk(userId);
-//         if (!Client) {
-//             return res.status(404).json({ error: "Client not found." });
+//         // Find the Teacher by their ID
+//         const Teacher = await Teachers.findByPk(userId);
+//         if (!Teacher) {
+//             return res.status(404).json({ error: "Teacher not found." });
 //         }
 //         const Project = await Projects.findByPk(projectId);
 //         if (!Project) {
@@ -119,7 +119,7 @@
 //         try {
 //             await Student_Notifications.create({
 //                 title: "Work Refused",
-//                 text: "We regret to inform you that your work has been refused by the Client.please check teh Rejection History for more details.",
+//                 text: "We regret to inform you that your work has been refused by the Teacher.please check teh Rejection History for more details.",
 //                 type: "payment_rejected",
 //                 StudentId: Project.StudentId,
 //                 link: `/Student/Process/${projectId}`,

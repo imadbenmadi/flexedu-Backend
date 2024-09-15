@@ -11,7 +11,7 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Upload handler
-const uploadFreelancerProfilePic = async (req, res) => {
+const uploadStudentProfilePic = async (req, res) => {
     try {
         const { ProfilePic } = req.files;
         if (!ProfilePic) {
@@ -39,19 +39,17 @@ const uploadFreelancerProfilePic = async (req, res) => {
         if (![".jpeg", ".jpg", ".png", ".heic"].includes(fileExtension)) {
             throw new Error("Invalid file extension");
         }
-        const uniqueSuffix = `Freelancer-${userId}-${Date.now()}${fileExtension}`;
+        const uniqueSuffix = `Student-${userId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/ProfilePics/${uniqueSuffix}`;
-        const Freelancer = await Students.findOne({ where: { id: userId } });
-        if (!Freelancer) {
+        const Student = await Students.findOne({ where: { id: userId } });
+        if (!Student) {
             return res.status(404).send({
-                message: "Freelancer not found for the given userId",
+                message: "Student not found for the given userId",
             });
         }
-        if (Freelancer.profile_pic_link) {
-            const previousFilename = Freelancer.profile_pic_link
-                .split("/")
-                .pop();
+        if (Student.profile_pic_link) {
+            const previousFilename = Student.profile_pic_link.split("/").pop();
             const previousImagePath = `public/ProfilePics/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {
@@ -77,7 +75,7 @@ const uploadFreelancerProfilePic = async (req, res) => {
 
         // Example response
         res.status(200).send({
-            message: "Freelancer profile picture uploaded successfully!",
+            message: "Student profile picture uploaded successfully!",
             fileLink,
         });
     } catch (error) {
@@ -91,4 +89,4 @@ const uploadFreelancerProfilePic = async (req, res) => {
 };
 
 // Export the middleware and upload handler
-module.exports = [uploadMiddleware, uploadFreelancerProfilePic];
+module.exports = [uploadMiddleware, uploadStudentProfilePic];

@@ -50,7 +50,7 @@
 //         else if (project.status != "Payed" || !project.StudentId)
 //             return res.status(409).send({
 //                 message:
-//                     "Unauthorized: Project is not Payed or Freelancer is not assigned",
+//                     "Unauthorized: Project is not Payed or Student is not assigned",
 //             });
 //         if (project.work_Link) {
 //             const previousFilename = project.work_Link.split("/").pop();
@@ -78,9 +78,9 @@
 //             { where: { id: projectId } }
 //         );
 //         await Teacher_Notifications.create({
-//             title: "Freelancer uploaded the work",
-//             text: "the freelancer has successfully uploaded the completed work, and it is now available for your review.",
-//             type: "Freelancer_uploaded_work",
+//             title: "Student uploaded the work",
+//             text: "the Student has successfully uploaded the completed work, and it is now available for your review.",
+//             type: "Student_uploaded_work",
 //             TeacherId: project.TeacherId,
 //             link: `/Teacher/Projects/${projectId}`,
 //         });

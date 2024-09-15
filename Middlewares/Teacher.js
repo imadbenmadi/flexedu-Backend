@@ -40,15 +40,15 @@ const verifyUser = async (req, res, next) => {
                 message: "unauthorized : Invalid tokens ",
             });
         } else if (decoded.userType == "teacher") {
-            let client = await Teachers.findOne({
+            let Teacher = await Teachers.findOne({
                 where: { id: decoded.userId },
             });
-            if (!client) {
+            if (!Teacher) {
                 return res.status(401).json({
                     message: "unauthorized : Invalid tokens ",
                 });
             }
-            // req.user = client;
+            // req.user = Teacher;
         } else
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",
@@ -82,7 +82,7 @@ const verifyUser = async (req, res, next) => {
 
                 jwt.verify(
                     refreshToken,
-                    process.env.Client_REFRESH_TOKEN_SECRET,
+                    process.env.Teacher_REFRESH_TOKEN_SECRET,
                     async (err, decoded) => {
                         if (err || foundInDB.userId !== decoded.userId) {
                             return res.status(401).json({

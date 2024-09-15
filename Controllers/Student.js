@@ -7,10 +7,10 @@ const {
     GetNotifications,
     DeleteNotification,
 } = require("./Student/Notifications");
-const { RateClient } = require("./Teacher/Feedback_to_Client");
+const { RateTeacher } = require("./Teacher/Feedback_to_Teacher");
 const { GetFeedbacks } = require("./Student/GetFeedbacks");
 
-const FreelancerController = {
+const StudentController = {
     getProfile,
     EditeProfile,
     GetProcess,
@@ -18,8 +18,8 @@ const FreelancerController = {
     GetRejections,
     GetNotifications,
     DeleteNotification,
-    RateClient,
+    RateTeacher,
     GetFeedbacks,
 };
 
-module.exports = FreelancerController;
+module.exports = StudentController;

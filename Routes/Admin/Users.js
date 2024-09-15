@@ -6,10 +6,10 @@ const { PortfolioItems } = require("../../Models/Student");
 const { Skills } = require("../../Models/Student");
 
 const Teachers = require("../../Models/Teacher");
-const {
-    Freelancer_Feedbacks,
-    Client_Feedbacks,
-} = require("../../Models/Feedbacks");
+// const {
+//     Student_Feedbacks,
+//     // Teacher_Feedbacks,
+// } = require("../../Models/Feedbacks");
 router.get("/", adminMiddleware, async (req, res) => {
     try {
         const Students = await Students.findAll({
@@ -22,16 +22,16 @@ router.get("/", adminMiddleware, async (req, res) => {
         });
 
         // Add userType to each user object
-        const freelancerUsers = Students.map((freelancer) => ({
-            ...freelancer.toJSON(),
+        const StudentUsers = Students.map((Student) => ({
+            ...Student.toJSON(),
             userType: "student",
         }));
-        const clientUsers = Teachers.map((client) => ({
-            ...client.toJSON(),
+        const TeacherUsers = Teachers.map((Teacher) => ({
+            ...Teacher.toJSON(),
             userType: "teacher",
         }));
 
-        const users = [...freelancerUsers, ...clientUsers];
+        const users = [...StudentUsers, ...TeacherUsers];
 
         users.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -45,17 +45,17 @@ router.get("/", adminMiddleware, async (req, res) => {
 router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
     if (!TeacherId)
-        return res.status(409).json({ message: "Client ID is required" });
+        return res.status(409).json({ message: "Teacher ID is required" });
     try {
-        const client = await Teachers.findOne({
+        const Teacher = await Teachers.findOne({
             where: { id: TeacherId },
             attributes: { exclude: ["password"] },
         });
-        if (!client)
-            return res.status(404).json({ message: "Client not found" });
-        res.status(200).json({ user: client });
+        if (!Teacher)
+            return res.status(404).json({ message: "Teacher not found" });
+        res.status(200).json({ user: Teacher });
     } catch (err) {
-        console.error("Error fetching client:", err);
+        console.error("Error fetching Teacher:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
@@ -63,9 +63,9 @@ router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
 router.get("/Students/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
-        return res.status(409).json({ message: "Freelancer ID is required" });
+        return res.status(409).json({ message: "Student ID is required" });
     try {
-        const freelancer = await Students.findOne({
+        const Student = await Students.findOne({
             where: { id: StudentId },
             include: [
                 { model: PortfolioItems, as: "PortfolioItems" },
@@ -73,11 +73,11 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
             ],
             attributes: { exclude: ["password"] },
         });
-        if (!freelancer)
-            return res.status(404).json({ message: "Freelancer not found" });
-        res.status(200).json({ user: freelancer });
+        if (!Student)
+            return res.status(404).json({ message: "Student not found" });
+        res.status(200).json({ user: Student });
     } catch (err) {
-        console.error("Error fetching freelancer:", err);
+        console.error("Error fetching Student:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
@@ -87,18 +87,18 @@ router.get("/Students/:id/Feedbacks", adminMiddleware, async (req, res) => {
     if (!userId)
         return res.status(409).json({ error: "Unauthorized , missing userId" });
     try {
-        const Feedbacks = await Client_Feedbacks.findAll({
-            where: {
-                StudentId: userId,
-            },
-            include: [
-                { model: Students, as: "student" },
-                { model: Teachers, as: "teacher" },
-            ],
-            order: [["createdAt", "DESC"]],
-        });
-        if (!Feedbacks)
-            return res.status(404).json({ error: "No Feedbacks found." });
+        // const Feedbacks = await Teacher_Feedbacks.findAll({
+        //     where: {
+        //         StudentId: userId,
+        //     },
+        //     include: [
+        //         { model: Students, as: "student" },
+        //         { model: Teachers, as: "teacher" },
+        //     ],
+        //     order: [["createdAt", "DESC"]],
+        // });
+        // if (!Feedbacks)
+        //     return res.status(404).json({ error: "No Feedbacks found." });
         return res.status(200).json({ Feedbacks: Feedbacks });
     } catch (error) {
         console.error(error);
@@ -110,18 +110,18 @@ router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
     if (!userId)
         return res.status(409).json({ error: "Unauthorized , missing userId" });
     try {
-        const Feedbacks = await Freelancer_Feedbacks.findAll({
-            where: {
-                TeacherId: userId,
-            },
-            include: [
-                { model: Students, as: "student" },
-                { model: Teachers, as: "teacher" },
-            ],
-            order: [["createdAt", "DESC"]],
-        });
-        if (!Feedbacks)
-            return res.status(404).json({ error: "No Feedbacks found." });
+        // const Feedbacks = await Student_Feedbacks.findAll({
+        //     where: {
+        //         TeacherId: userId,
+        //     },
+        //     include: [
+        //         { model: Students, as: "student" },
+        //         { model: Teachers, as: "teacher" },
+        //     ],
+        //     order: [["createdAt", "DESC"]],
+        // });
+        // if (!Feedbacks)
+        //     return res.status(404).json({ error: "No Feedbacks found." });
         return res.status(200).json({ Feedbacks: Feedbacks });
     } catch (error) {
         console.error(error);
@@ -132,24 +132,24 @@ router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
 router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
     if (!TeacherId)
-        return res.status(409).json({ message: "client id is required" });
+        return res.status(409).json({ message: "Teacher id is required" });
     try {
         await Teachers.destroy({ where: { id: TeacherId } });
-        res.status(200).json({ message: "client deleted successfully" });
+        res.status(200).json({ message: "Teacher deleted successfully" });
     } catch (err) {
-        console.error("Error fetching deleting client:", err);
+        console.error("Error fetching deleting Teacher:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
 router.delete("/Student/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
-        return res.status(409).json({ message: "Freelancer id is required" });
+        return res.status(409).json({ message: "Student id is required" });
     try {
         await Students.destroy({ where: { id: StudentId } });
-        res.status(200).json({ message: "Freelancer deleted successfully" });
+        res.status(200).json({ message: "Student deleted successfully" });
     } catch (err) {
-        console.error("Error fetching deleting Freelancer:", err);
+        console.error("Error fetching deleting Student:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });

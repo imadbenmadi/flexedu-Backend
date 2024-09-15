@@ -1,5 +1,5 @@
-// // const  Teachers  = require("../../Models/Client");
-// const  Teachers  = require("../../../Models/Client");
+// // const  Teachers  = require("../../Models/Teacher");
+// const  Teachers  = require("../../../Models/Teacher");
 // const  Students  = require("../../../Models/Student");
 // const { Projects } = require("../../../Models/Project");
 // const PaymentStatus = async (req, res) => {

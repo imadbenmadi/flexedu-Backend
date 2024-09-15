@@ -5,34 +5,34 @@ const EditeProfile = async (req, res) => {
     const newData = req.body;
 
     try {
-        // Find the freelancer by their ID
-        const freelancer = await Students.findByPk(userId);
+        // Find the Student by their ID
+        const Student = await Students.findByPk(userId);
 
-        if (!freelancer) {
-            return res.status(404).json({ error: "Freelancer not found." });
+        if (!Student) {
+            return res.status(404).json({ error: "Student not found." });
         }
 
-        await freelancer.update(newData);
+        await Student.update(newData);
 
         if (newData.Skills) {
-            await updateSkills(freelancer.id, newData.Skills);
+            await updateSkills(Student.id, newData.Skills);
         }
 
         if (newData.PortfolioItems) {
-            await updatePortfolioItems(freelancer.id, newData.PortfolioItems);
+            await updatePortfolioItems(Student.id, newData.PortfolioItems);
         }
 
         // Fetch updated skills and portfolio items
         const updatedSkills = await Skills.findAll({
-            where: { StudentId: freelancer.id },
+            where: { StudentId: Student.id },
         });
         const updatedPortfolioItems = await PortfolioItems.findAll({
-            where: { StudentId: freelancer.id },
+            where: { StudentId: Student.id },
         });
 
         return res.status(200).json({
             message: "Profile updated successfully.",
-            user: freelancer,
+            user: Student,
             Skills: updatedSkills,
             PortfolioItems: updatedPortfolioItems,
         });

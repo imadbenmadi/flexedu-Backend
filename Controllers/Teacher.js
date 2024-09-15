@@ -16,7 +16,7 @@ const {
 
 const { RateFreealncer } = require("./Teacher/Feedback_to_Freealncer");
 const { GetFeedbacks } = require("./Teacher/GetFeedbacks");
-const ClientController = {
+const TeacherController = {
     getProfile,
     EditeProfile,
     AddProject,
@@ -34,4 +34,4 @@ const ClientController = {
     GetFeedbacks,
 };
 
-module.exports = ClientController;
+module.exports = TeacherController;
