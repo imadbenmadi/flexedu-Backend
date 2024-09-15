@@ -24,6 +24,4 @@ const Students = sequelize.define("Students", {
     },
 });
 
-module.exports = {
-    Students,
-};
+module.exports = Students;

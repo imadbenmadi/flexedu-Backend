@@ -59,8 +59,8 @@ app.use("/Contact", require("./Routes/Contact"));
 // app.use("/Admin_CheckAuth", require("./Routes/Auth/Admin/Admin_CheckAuth"));
 // app.use("/Messages", require("./Routes/Messages"));
 // const { Home_Feedbacks } = require("./Models/Feedbacks");
-// const { Teachers } = require("./Models/Teacher");
-// const { Students } = require("./Models/Student");
+// const  Teachers  = require("./Models/Teacher");
+// const  Students  = require("./Models/Student");
 // app.get("/Home_Feedbacks", async (req, res) => {
 //     const Feedbacks = await Home_Feedbacks.findAll({
 //         where: {},

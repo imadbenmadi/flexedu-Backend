@@ -46,4 +46,4 @@ const Teachers = sequelize.define("Teachers", {
     },
 });
 
-module.exports = { Teachers };
+module.exports = Teachers;

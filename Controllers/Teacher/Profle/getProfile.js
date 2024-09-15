@@ -1,4 +1,4 @@
-const { Teachers } = require("../../../Models/Client");
+const Teachers = require("../../../Models/Client");
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
     try {

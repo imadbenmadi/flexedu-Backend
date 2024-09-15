@@ -42,4 +42,4 @@ Teachers.hasMany(Reviews, { foreignKey: "TeacherId" });
 Reviews.belongsTo(Students, { foreignKey: "StudentId", onDelete: "CASCADE" });
 Students.hasMany(Reviews, { foreignKey: "StudentId" });
 
-module.exports = { Reviews };
+module.exports =  Reviews ;

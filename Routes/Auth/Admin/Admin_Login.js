@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { Admins } = require("../../../Models/Admin/Admin");
-const { Refresh_tokens } = require("../../../Models/RefreshTokens");
+const Refresh_tokens = require("../../../Models/RefreshTokens");
 
 const handleLogin = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-const { Students } = require("../../Models/Student");
+const Students = require("../../Models/Student");
 const { PortfolioItems } = require("../../Models/Student");
 const { Skills } = require("../../Models/Student");
 const getProfile = async (req, res) => {

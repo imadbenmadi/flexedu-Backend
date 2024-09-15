@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Students } = require("../../../Models/Student");
+const Students = require("../../../Models/Student");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({

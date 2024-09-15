@@ -1,6 +1,6 @@
-// // const { Teachers } = require("../../Models/Client");
-// const { Teachers } = require("../../../Models/Client");
-// const { Students } = require("../../../Models/Student");
+// // const  Teachers  = require("../../Models/Client");
+// const  Teachers  = require("../../../Models/Client");
+// const  Students  = require("../../../Models/Student");
 // const { Projects } = require("../../../Models/Project");
 // const GetProcess = async (req, res) => {
 //     const userId = req.decoded.userId;

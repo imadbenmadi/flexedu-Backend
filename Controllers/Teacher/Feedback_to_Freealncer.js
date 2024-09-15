@@ -1,7 +1,7 @@
-// // const { Teachers } = require("../../Models/Client");
+// // const  Teachers  = require("../../Models/Client");
 // const { Projects } = require("../../Models/Project");
 // const { Client_Feedbacks } = require("../../Models/Feedbacks");
-// const { Students } = require("../../Models/Student");
+// const  Students  = require("../../Models/Student");
 // const RateFreealncer = async (req, res) => {
 //     const userId = req.decoded.userId;
 //     if (!userId)

@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
-const { Students } = require("../../Models/Student");
+const Students = require("../../Models/Student");
 const { PortfolioItems } = require("../../Models/Student");
 const { Skills } = require("../../Models/Student");
 
-const { Teachers } = require("../../Models/Teacher");
+const Teachers = require("../../Models/Teacher");
 const {
     Freelancer_Feedbacks,
     Client_Feedbacks,

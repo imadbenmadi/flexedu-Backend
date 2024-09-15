@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const { Refresh_tokens } = require("../../../Models/RefreshTokens");
+const Refresh_tokens = require("../../../Models/RefreshTokens");
 
 router.get("/", async (req, res) => {
     const adminAccessTokenSecret = process.env.ADMIN_ACCESS_TOKEN_SECRET;

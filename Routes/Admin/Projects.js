@@ -3,8 +3,8 @@
 // const { Projects } = require("../../Models/Project");
 // const Admin_midllware = require("../../Middlewares/Admin");
 // const { Teacher_Notifications } = require("../../Models/Notifications");
-// const { Teachers } = require("../../Models/Teacher");
-// const { Students } = require("../../Models/Student");
+// const  Teachers  = require("../../Models/Teacher");
+// const  Students  = require("../../Models/Student");
 // const { Rejection_Resons } = require("../../Models/Rejection_Resons");
 // const { Applications } = require("../../Models/Applications");
 // const { Op } = require("sequelize");

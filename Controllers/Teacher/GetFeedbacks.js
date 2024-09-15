@@ -1,6 +1,6 @@
 const { Freelancer_Feedbacks } = require("../../Models/Feedbacks");
-const { Students } = require("../../Models/Student");
-const { Teachers } = require("../../Models/Client");
+const Students = require("../../Models/Student");
+const Teachers = require("../../Models/Client");
 const GetFeedbacks = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)

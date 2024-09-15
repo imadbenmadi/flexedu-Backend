@@ -3,8 +3,8 @@
 // const Admin_midllware = require("../../Middlewares/Admin");
 // const { Op } = require("sequelize");
 
-// const { Students } = require("../../Models/Student");
-// const { Teachers } = require("../../Models/Teacher");
+// const  Students  = require("../../Models/Student");
+// const  Teachers  = require("../../Models/Teacher");
 // const { Projects } = require("../../Models/Project");
 // const { Applications } = require("../../Models/Applications");
 // router.get("/", Admin_midllware, async (req, res) => {
