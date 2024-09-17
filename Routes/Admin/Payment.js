@@ -1,6 +1,6 @@
 // const express = require("express");
 // const router = express.Router();
-// const { Projects } = require("../../Models/Project");
+// const Courses = require("../../Models/Course");
 // const  Students  = require("../../Models/Student");
 // const  Teachers  = require("../../Models/Teacher");
 // const Admin_midllware = require("../../Middlewares/Admin");
@@ -12,7 +12,7 @@
 // } = require("../../Models/Notifications");
 // router.get("/", Admin_midllware, async (req, res) => {
 //     try {
-//         const projects = await Projects.findAll({
+//         const projects = await Courses.findAll({
 //             // where: { status: "Pending" },
 //             // where: { isPayment_ScreenShot_uploaded: true },
 //             where: {
@@ -41,7 +41,7 @@
 //             .json({ message: "Missing data ProjectId is required" });
 
 //     try {
-//         const project = await Projects.findOne({
+//         const project = await Courses.findOne({
 //             // where: { status: "Pending" },
 //             // where: { isPayment_ScreenShot_uploaded: true },
 //             where: {
@@ -65,7 +65,7 @@
 // });
 // router.get("/Accepted", Admin_midllware, async (req, res) => {
 //     try {
-//         const projects = await Projects.findAll({
+//         const projects = await Courses.findAll({
 //             // where: { status: "Pending" },
 //             where: {
 //                 isPayment_ScreenShot_uploaded: true,
@@ -88,7 +88,7 @@
 // //             .status(409)
 // //             .json({ message: "Missing data ProjectId is required" });
 // //     try {
-// //         const projects = await projects.findOne({
+// //         const projects = await Courses.findOne({
 // //             where: {
 // //                 // status: "Pending",
 // //                 ProjectId: projectId,
@@ -112,7 +112,7 @@
 //     }
 
 //     try {
-//         const project = await Projects.findOne({
+//         const project = await Courses.findOne({
 //             where: { id: projectId },
 //         });
 //         if (!project) {
@@ -127,7 +127,7 @@
 //                     "unauthorized , payment not uploaded or project not accepted or Student not assigned",
 //             });
 //         }
-//         await Projects.update(
+//         await Courses.update(
 //             { status: "Payed", isPayment_ScreenShot_Rejected: false },
 //             { where: { id: projectId } }
 //         );
@@ -165,7 +165,7 @@
 //     }
 
 //     try {
-//         const project = await Projects.findOne({
+//         const project = await Courses.findOne({
 //             where: { id: projectId },
 //         });
 //         if (!project) {
@@ -180,7 +180,7 @@
 //                     "unauthorized , payment not uploaded or project not accepted or Student not assigned",
 //             });
 //         }
-//         await Projects.update(
+//         await Courses.update(
 //             {
 //                 isPayment_ScreenShot_Rejected: true,
 //                 status: "Accepted",

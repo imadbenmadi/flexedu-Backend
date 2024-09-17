@@ -5,7 +5,7 @@
 
 // const  Students  = require("../../Models/Student");
 // const  Teachers  = require("../../Models/Teacher");
-// const { Projects } = require("../../Models/Project");
+// const Courses = require("../../Models/Course");
 // const { Applications } = require("../../Models/Applications");
 // router.get("/", Admin_midllware, async (req, res) => {
 //     try {
@@ -15,14 +15,14 @@
 //         let Teachers_nbr = await Teachers.count({
 //             where: {},
 //         });
-//         let projects_nbr = await Projects.count({
+//         let projects_nbr = await Courses.count({
 //             where: {
 //                 status: {
 //                     [Op.in]: ["Accepted", "Payed", "Completed"],
 //                 },
 //             },
 //         });
-//         // let payments = await Projects.count({
+//         // let payments = await Courses.count({
 //         //     where: { status: "Payed" },
 //         // });
 //         // let applications = await Applications.count({
@@ -34,7 +34,7 @@
 //         let Teachers = await Teachers.findAll({
 //             where: {},
 //         });
-//         let projects = await Projects.findAll({
+//         let projects = await Courses.findAll({
 //             where: {
 //                 status: {
 //                     [Op.in]: ["Accepted", "Payed", "Completed"],

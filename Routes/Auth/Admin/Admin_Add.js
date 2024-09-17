@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Admins } = require("../../../Models/Admin/Admin");
+const Admins = require("../../../Models/Admin/Admin");
 
 const handleRegister = async (req, res) => {
     try {

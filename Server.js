@@ -50,31 +50,14 @@ app.use("/Contact", require("./Routes/Contact"));
 // _________________________________________________________
 app.use("/Students", require("./Routes/Students"));
 app.use("/Teachers", require("./Routes/Teachers"));
-
-
 app.use("/upload", require("./Routes/Uploads/Upload"));
-
+// _________________________________________________________
 // app.use("/Admin", require("./Routes/Admin/Admin"));
-// app.use("/Admin_Login", require("./Routes/Auth/Admin/Admin_Login"));
-// app.use("/Add_Admin", require("./Routes/Auth/Admin/Admin_Add"));
-// // app.use("/Admin_Logout", require("./Routes/Auth/Admin/Admin_Logout"));
-// app.use("/Admin_CheckAuth", require("./Routes/Auth/Admin/Admin_CheckAuth"));
-// app.use("/Messages", require("./Routes/Messages"));
-// const { Home_Feedbacks } = require("./Models/Feedbacks");
-// const  Teachers  = require("./Models/Teacher");
-// const  Students  = require("./Models/Student");
-// app.get("/Home_Feedbacks", async (req, res) => {
-//     const Feedbacks = await Home_Feedbacks.findAll({
-//         where: {},
-//         // include: [
-//         //     { model: Students, as: "student" },
-//         //     { model: Teachers, as: "teacher" },
-//         // ],
-//         order: [["createdAt", "DESC"]],
-//     });
+app.use("/Admin_Login", require("./Routes/Auth/Admin/Admin_Login"));
+app.use("/Add_Admin", require("./Routes/Auth/Admin/Admin_Add"));
+app.use("/Admin_Logout", require("./Routes/Auth/Admin/Admin_Logout"));
+app.use("/Admin_CheckAuth", require("./Routes/Auth/Admin/Admin_CheckAuth"));
 
-//     res.status(200).json(Feedbacks);
-// });
 
 app.listen(3000);
 
