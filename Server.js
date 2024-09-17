@@ -52,7 +52,7 @@ app.use("/Students", require("./Routes/Students"));
 app.use("/Teachers", require("./Routes/Teachers"));
 app.use("/upload", require("./Routes/Uploads/Upload"));
 // _________________________________________________________
-// app.use("/Admin", require("./Routes/Admin/Admin"));
+app.use("/Admin", require("./Routes/Admin/Admin"));
 app.use("/Admin_Login", require("./Routes/Auth/Admin/Admin_Login"));
 app.use("/Add_Admin", require("./Routes/Auth/Admin/Admin_Add"));
 app.use("/Admin_Logout", require("./Routes/Auth/Admin/Admin_Logout"));

@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
 const Students = require("../../Models/Student");
-const { PortfolioItems } = require("../../Models/Student");
-const { Skills } = require("../../Models/Student");
 
 const Teachers = require("../../Models/Teacher");
 // const {
@@ -12,21 +10,21 @@ const Teachers = require("../../Models/Teacher");
 // } = require("../../Models/Feedbacks");
 router.get("/", adminMiddleware, async (req, res) => {
     try {
-        const Students = await Students.findAll({
+        const students = await Students.findAll({
             attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
-        const Teachers = await Teachers.findAll({
+        const teachers = await Teachers.findAll({
             attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
 
         // Add userType to each user object
-        const StudentUsers = Students.map((Student) => ({
+        const StudentUsers = students.map((Student) => ({
             ...Student.toJSON(),
             userType: "student",
         }));
-        const TeacherUsers = Teachers.map((Teacher) => ({
+        const TeacherUsers = teachers.map((Teacher) => ({
             ...Teacher.toJSON(),
             userType: "teacher",
         }));
@@ -67,10 +65,6 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
     try {
         const Student = await Students.findOne({
             where: { id: StudentId },
-            include: [
-                { model: PortfolioItems, as: "PortfolioItems" },
-                { model: Skills, as: "Skills" },
-            ],
             attributes: { exclude: ["password"] },
         });
         if (!Student)
@@ -82,52 +76,7 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
     }
 });
 
-router.get("/Students/:id/Feedbacks", adminMiddleware, async (req, res) => {
-    const userId = req.params.id;
-    if (!userId)
-        return res.status(409).json({ error: "Unauthorized , missing userId" });
-    try {
-        // const Feedbacks = await Teacher_Feedbacks.findAll({
-        //     where: {
-        //         StudentId: userId,
-        //     },
-        //     include: [
-        //         { model: Students, as: "student" },
-        //         { model: Teachers, as: "teacher" },
-        //     ],
-        //     order: [["createdAt", "DESC"]],
-        // });
-        // if (!Feedbacks)
-        //     return res.status(404).json({ error: "No Feedbacks found." });
-        return res.status(200).json({ Feedbacks: Feedbacks });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Internal server error." });
-    }
-});
-router.get("/Teachers/:id/Feedbacks", adminMiddleware, async (req, res) => {
-    const userId = req.params.id;
-    if (!userId)
-        return res.status(409).json({ error: "Unauthorized , missing userId" });
-    try {
-        // const Feedbacks = await Student_Feedbacks.findAll({
-        //     where: {
-        //         TeacherId: userId,
-        //     },
-        //     include: [
-        //         { model: Students, as: "student" },
-        //         { model: Teachers, as: "teacher" },
-        //     ],
-        //     order: [["createdAt", "DESC"]],
-        // });
-        // if (!Feedbacks)
-        //     return res.status(404).json({ error: "No Feedbacks found." });
-        return res.status(200).json({ Feedbacks: Feedbacks });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Internal server error." });
-    }
-});
+
 
 router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
