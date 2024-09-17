@@ -1,16 +1,11 @@
 const Students = require("../../Models/Student");
-const { PortfolioItems } = require("../../Models/Student");
-const { Skills } = require("../../Models/Student");
+
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
 
     try {
         const user_in_db = await Students.findByPk(req.decoded.userId, {
             attributes: { exclude: ["password"] },
-            include: [
-                { model: PortfolioItems, as: "PortfolioItems" },
-                { model: Skills, as: "Skills" },
-            ],
         });
 
         if (!user_in_db) {
