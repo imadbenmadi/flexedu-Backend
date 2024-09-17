@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Projects } = require("../../../Models/Project");
+const Courses = require("../../../Models/Course");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
@@ -11,32 +11,32 @@ const uploadMiddleware = formidableMiddleware({
 });
 
 // Delete handler
-const deleteProjectProfilePic = async (req, res) => {
+const deletecourseProfilePic = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const { projectId } = req.params;
-        if (!userId || !projectId) {
+        const { courseId } = req.params;
+        if (!userId || !courseId) {
             return res.status(400).send({
-                message: "User ID and Project ID are required",
+                message: "User ID and course ID are required",
             });
         }
-        const project = await Projects.findOne({
-            where: { id: projectId },
+        const course = await Courses.findOne({
+            where: { id: courseId },
         });
 
-        if (!project) {
+        if (!course) {
             return res.status(404).send({
-                message: "Project not found for the given userId",
+                message: "course not found for the given userId",
             });
         }
-        if (project.TeacherId != userId)
+        if (course.TeacherId != userId)
             return res.status(409).send({
-                message: "Unauthorized: Project does not belong to the user",
+                message: "Unauthorized: course does not belong to the user",
             });
 
-        if (project.Pyament_ScreenShot_Link) {
+        if (course.Pyament_ScreenShot_Link) {
             const previousFilename = path.basename(
-                project.Pyament_ScreenShot_Link
+                course.Pyament_ScreenShot_Link
             );
             const previousImagePath = path.join(
                 "public/Payment/",
@@ -55,9 +55,9 @@ const deleteProjectProfilePic = async (req, res) => {
                 });
             }
 
-            await Projects.update(
+            await Courses.update(
                 { Pyament_ScreenShot_Link: null },
-                { where: { id: projectId } }
+                { where: { id: courseId } }
             );
 
             return res.status(200).send({
@@ -78,4 +78,4 @@ const deleteProjectProfilePic = async (req, res) => {
 };
 
 // Export the middleware and delete handler
-module.exports = [uploadMiddleware, deleteProjectProfilePic];
+module.exports = [uploadMiddleware, deletecourseProfilePic];

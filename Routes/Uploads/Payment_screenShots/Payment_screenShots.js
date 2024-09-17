@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Projects } = require("../../../Models/Project");
+const Courses = require("../../../Models/Course");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
@@ -20,9 +20,9 @@ const Upload_Payment_ScreenShot = async (req, res) => {
             });
         }
         const userId = req.decoded.userId;
-        const { projectId, CCP_number } = req.body;
+        const { courseId, CCP_number } = req.body;
 
-        if (!userId || !projectId || !CCP_number) {
+        if (!userId || !courseId || !CCP_number) {
             return res.status(400).send({
                 message: "Messing data ",
             });
@@ -41,29 +41,29 @@ const Upload_Payment_ScreenShot = async (req, res) => {
         if (![".jpeg", ".jpg", ".png", ".heic"].includes(fileExtension)) {
             throw new Error("Invalid file extension");
         }
-        const uniqueSuffix = `Payment-${userId}-${projectId}-${Date.now()}${fileExtension}`;
+        const uniqueSuffix = `Payment-${userId}-${courseId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Payment/${uniqueSuffix}`;
-        const project = await Projects.findOne({
-            where: { id: projectId },
+        const course = await Courses.findOne({
+            where: { id: courseId },
         });
-        if (!project) {
+        if (!course) {
             return res.status(404).send({
-                message: "Project not found for the given userId",
+                message: "course not found for the given userId",
             });
         }
-        if (project.TeacherId != userId)
+        if (course.TeacherId != userId)
             return res.status(409).send({
-                message: "Unauthorized: Project does not belong to the user",
+                message: "Unauthorized: course does not belong to the user",
             });
-        else if (project.status != "Accepted" || !project.StudentId)
+        else if (course.status != "Accepted" || !course.StudentId)
             return res.status(409).send({
                 message:
-                    "Unauthorized: Project is not accepted yet or not assigned to any Student",
+                    "Unauthorized: course is not accepted yet or not assigned to any Student",
             });
-        if (project.Pyament_ScreenShot_Link) {
+        if (course.Pyament_ScreenShot_Link) {
             const previousFilename =
-                project.Pyament_ScreenShot_Link.split("/").pop();
+                course.Pyament_ScreenShot_Link.split("/").pop();
             const previousImagePath = `public/Payment/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {
@@ -79,14 +79,14 @@ const Upload_Payment_ScreenShot = async (req, res) => {
         fs.copyFileSync(image.path, targetPath);
         fs.unlinkSync(image.path);
         // Update database with file link
-        await Projects.update(
+        await Courses.update(
             {
                 Pyament_ScreenShot_Link: fileLink,
                 Teacher_CCP_number: CCP_number,
                 isPayment_ScreenShot_uploaded: true,
                 isPayment_ScreenShot_Rejected: false,
             },
-            { where: { id: projectId } }
+            { where: { id: courseId } }
         );
 
         // Example response
