@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
 
 sequelize
     .sync({
-        force: true,
+        force: false,
     })
     .then(() => {
         console.log("Database synchronized");
