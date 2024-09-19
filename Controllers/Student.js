@@ -1,4 +1,4 @@
-const { getProfile } = require("./Student/getProfile");
+const { getProfile } = require("./Student/Profile");
 const {
     GetNotifications,
     DeleteNotification,
