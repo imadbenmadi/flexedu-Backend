@@ -16,4 +16,10 @@ router.delete(
     TeacherController.DeleteNotification
 );
 
+router.post(
+    "/:userId/Courses",
+    Teacher_Middlware,
+    TeacherController.OpenCourse
+);
+
 module.exports = router;
