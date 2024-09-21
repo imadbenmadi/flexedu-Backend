@@ -1,48 +1,58 @@
 // const  Teachers  = require("../../Models/Teacher");
 // const { Teacher_Courses } = require("../../Models/Course");
 const { Teacher_Notifications } = require("../../Models/Notifications");
+const Courses = require("../../Models/Course");
+
 const GetCourses = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
         return res.status(401).json({ error: "Unauthorized , missing userId" });
     try {
-        const notifications = await Teacher_Notifications.findAll({
+        const courses = await Courses.findAll({
             where: {
                 TeacherId: userId,
             },
             order: [["createdAt", "DESC"]],
         });
-        if (!notifications)
-            return res.status(404).json({ error: "No notifications found." });
-        return res.status(200).json({ Notifications: notifications });
+        if (!courses)
+            return res.status(404).json({ error: "No courses found." });
+        return res.status(200).json({ courses: courses });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+
 const DeleteCourse = async (req, res) => {
     const userId = req.decoded.userId;
-    const notificationId = req.params.notificationId;
-    if (!userId || !notificationId)
+    const courseId = req.params.courseId;
+    if (!userId || !courseId)
         return res
             .status(409)
-            .json({ error: "Unauthorized , missing userId or notificationId" });
+            .json({ error: "Unauthorized , missing userId or courseId" });
     try {
-        const notification = await Teacher_Notifications.findOne({
+        const course = await Courses.findOne({
             where: {
-                id: notificationId,
+                id: courseId,
                 TeacherId: userId,
             },
         });
-        if (!notification)
-            return res.status(404).json({ error: "Notification not found." });
-        await notification.destroy();
-        return res.status(200).json({ message: "Notification deleted." });
+        if (!course)
+            return res.status(404).json({ error: "course not found." });
+        await course.destroy();
+        // We have to delete all the Vedios of this course too
+        // we have to delete the course ownership from the students too
+        // we have to delete the couse progress of the students too
+        // we have to delete the reviews of this course too
+        // we have to delete the notifications of this course too
+        return res.status(200).json({ message: "course deleted." });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+
+
 const OpenCourse = async (req, res) => {
     const userId = req.decoded.userId;
     const { title, description, price, duration } = req.body;
