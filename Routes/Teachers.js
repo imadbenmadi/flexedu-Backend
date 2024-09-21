@@ -15,12 +15,16 @@ router.delete(
     Teacher_Middlware,
     TeacherController.DeleteNotification
 );
-router.get("/:userId/Courses", Teacher_Middlware,
-    TeacherController.GetCourses);
+router.get("/:userId/Courses", Teacher_Middlware, TeacherController.GetCourses);
 router.post(
     "/:userId/Courses",
     Teacher_Middlware,
     TeacherController.add_course
+);
+router.delete(
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.DeleteCourse
 );
 
 module.exports = router;

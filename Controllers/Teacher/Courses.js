@@ -2,11 +2,9 @@
 // const { Teacher_Courses } = require("../../Models/Course");
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
-const { Students } = require("../../Models/Student");
-const { Course_Progress } = require("../../Models/Course_Progress");
-const { Reviews } = require("../../Models/Reviews");
-const { Videos } = require("../../Models/Videos");
-const { Course_Students } = require("../../Models/Course_Students");
+const Students = require("../../Models/Student");
+const Course_Progress = require("../../Models/Course_Progress");
+const Course_Video = require("../../Models/Course_Video");
 
 const GetCourses = async (req, res) => {
     const userId = req.decoded.userId;
@@ -42,22 +40,8 @@ const GetCourse = async (req, res) => {
             },
             include: [
                 {
-                    model: Videos,
-                    as: "videos",
-                },
-                {
-                    model: Course_Students,
-                    as: "students",
-                    include: [
-                        {
-                            model: Students,
-                            as: "student",
-                        },
-                    ],
-                },
-                {
-                    model: Reviews,
-                    as: "reviews",
+                    model: Course_Video,
+                    as: "Course_Video",
                 },
             ],
         });
@@ -78,7 +62,7 @@ const Get_Vedio = async (req, res) => {
             error: "Unauthorized , missing userId or courseId or vedioId",
         });
     try {
-        const vedio = await Videos.findOne({
+        const vedio = await Course_Video.findOne({
             where: {
                 id: vedioId,
                 CourseId: courseId,
@@ -158,4 +142,10 @@ const add_course = async (req, res) => {
     }
 };
 
-module.exports = { GetCourses, DeleteCourse, add_course };
+module.exports = {
+    GetCourses,
+    DeleteCourse,
+    add_course,
+    GetCourse,
+    Get_Vedio,
+};
