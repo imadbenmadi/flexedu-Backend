@@ -44,6 +44,7 @@ const GetCourse = async (req, res) => {
                     as: "Course_Video",
                 },
             ],
+            order: [["createdAt", "DESC"]],
         });
         if (!course)
             return res.status(404).json({ error: "course not found." });
