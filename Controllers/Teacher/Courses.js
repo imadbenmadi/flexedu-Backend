@@ -52,28 +52,40 @@ const DeleteCourse = async (req, res) => {
     }
 };
 
-
 const OpenCourse = async (req, res) => {
+    if (req.decoded.userType !== "teacher") {
+        return res
+            .status(401)
+            .json({ error: "Forbidden: only teachers can create courses." });
+    }
     const userId = req.decoded.userId;
-    const { title, description, price, duration } = req.body;
-    if (!userId || !title || !description || !price || !duration)
+    const { title, description, price, category } = req.body;
+
+    // Check if all required fields are present
+    if (!userId || !title || !description || !price || !category) {
         return res.status(409).json({
-            error: "Unauthorized , missing userId or title or description or price or duration",
+            error: "Unauthorized: missing userId, title, description, price, duration, or category",
         });
+    }
+
     try {
-        // const course = await Teacher_Courses.create({
-        //     title,
-        //     description,
-        //     price,
-        //     duration,
-        //     TeacherId: userId,
-        // });
+        // Create a new course
+        const course = await Courses.create({
+            Title: title, // Match case with your model
+            Description: description, // Match case with your model
+            Price: price, // Match case with your model
+            Category: category, // Category is mandatory per your model
+            TeacherId: userId, // Set the teacher (user) ID
+        });
+
+        // Send success response
         return res
             .status(201)
-            .json({ message: "Course created successfully." });
+            .json({ message: "Course created successfully.", course });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+
 module.exports = { GetCourses, DeleteCourse, OpenCourse };
