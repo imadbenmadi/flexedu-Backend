@@ -41,7 +41,7 @@ const GetCourse = async (req, res) => {
             include: [
                 {
                     model: Course_Video,
-                    as: "Course_Video",
+                    // as: "Course_Video",
                 },
             ],
             order: [["createdAt", "DESC"]],

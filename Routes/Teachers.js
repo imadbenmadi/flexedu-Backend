@@ -20,6 +20,11 @@ router.delete(
     TeacherController.DeleteNotification
 );
 router.get("/:userId/Courses", Teacher_Middlware, TeacherController.GetCourses);
+router.get(
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.GetCourse
+);
 router.post(
     "/:userId/Courses",
     Teacher_Middlware,
