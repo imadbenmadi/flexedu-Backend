@@ -2,6 +2,11 @@
 // const { Teacher_Courses } = require("../../Models/Course");
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
+const { Students } = require("../../Models/Student");
+const { Course_Progress } = require("../../Models/Course_Progress");
+const { Reviews } = require("../../Models/Reviews");
+const { Videos } = require("../../Models/Videos");
+const { Course_Students } = require("../../Models/Course_Students");
 
 const GetCourses = async (req, res) => {
     const userId = req.decoded.userId;
@@ -17,6 +22,71 @@ const GetCourses = async (req, res) => {
         if (!courses)
             return res.status(404).json({ error: "No courses found." });
         return res.status(200).json({ Courses: courses });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+};
+const GetCourse = async (req, res) => {
+    const userId = req.decoded.userId;
+    const courseId = req.params.courseId;
+    if (!userId || !courseId)
+        return res
+            .status(409)
+            .json({ error: "Unauthorized , missing userId or courseId" });
+    try {
+        const course = await Courses.findOne({
+            where: {
+                id: courseId,
+                TeacherId: userId,
+            },
+            include: [
+                {
+                    model: Videos,
+                    as: "videos",
+                },
+                {
+                    model: Course_Students,
+                    as: "students",
+                    include: [
+                        {
+                            model: Students,
+                            as: "student",
+                        },
+                    ],
+                },
+                {
+                    model: Reviews,
+                    as: "reviews",
+                },
+            ],
+        });
+        if (!course)
+            return res.status(404).json({ error: "course not found." });
+        return res.status(200).json({ course });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+};
+const Get_Vedio = async (req, res) => {
+    const userId = req.decoded.userId;
+    const courseId = req.params.courseId;
+    const vedioId = req.params.vedioId;
+    if (!userId || !courseId || !vedioId)
+        return res.status(409).json({
+            error: "Unauthorized , missing userId or courseId or vedioId",
+        });
+    try {
+        const vedio = await Videos.findOne({
+            where: {
+                id: vedioId,
+                CourseId: courseId,
+            },
+        });
+        if (!vedio) return res.status(404).json({ error: "vedio not found." });
+
+        return res.status(200).json({ vedio });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
