@@ -52,35 +52,35 @@ const DeleteCourse = async (req, res) => {
     }
 };
 
-const OpenCourse = async (req, res) => {
+const add_course = async (req, res) => {
     if (req.decoded.userType !== "teacher") {
         return res
             .status(401)
             .json({ error: "Forbidden: only teachers can create courses." });
     }
     const userId = req.decoded.userId;
-    const { title, description, price, category } = req.body;
+    const { Title, Description, Price, Category } = req.body;
 
     // Check if all required fields are present
-    if (!userId || !title || !description || !price || !category) {
+    if (!userId || !Title || !Description || !Price || !Category) {
         return res.status(409).json({
-            error: "Unauthorized: missing userId, title, description, price, duration, or category",
+            error: "Unauthorized: missing userId, Title, Description, Price, duration, or Category",
         });
     }
 
     try {
         // Create a new course
         const course = await Courses.create({
-            Title: title, // Match case with your model
-            Description: description, // Match case with your model
-            Price: price, // Match case with your model
-            Category: category, // Category is mandatory per your model
+            Title: Title, // Match case with your model
+            Description: Description, // Match case with your model
+            Price: Price, // Match case with your model
+            Category: Category, // Category is mandatory per your model
             TeacherId: userId, // Set the teacher (user) ID
         });
 
         // Send success response
         return res
-            .status(201)
+            .status(200)
             .json({ message: "Course created successfully.", course });
     } catch (error) {
         console.error(error);
@@ -88,4 +88,4 @@ const OpenCourse = async (req, res) => {
     }
 };
 
-module.exports = { GetCourses, DeleteCourse, OpenCourse };
+module.exports = { GetCourses, DeleteCourse, add_course };

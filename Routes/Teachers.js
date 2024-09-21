@@ -20,7 +20,7 @@ router.get("/:userId/Courses", Teacher_Middlware,
 router.post(
     "/:userId/Courses",
     Teacher_Middlware,
-    TeacherController.OpenCourse
+    TeacherController.add_course
 );
 
 module.exports = router;
