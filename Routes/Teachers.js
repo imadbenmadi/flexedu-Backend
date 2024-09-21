@@ -4,7 +4,11 @@ const router = express.Router();
 const Teacher_Middlware = require("../Middlewares/Teacher");
 const TeacherController = require("../Controllers/Teacher");
 router.get("/:userId/Profile", Teacher_Middlware, TeacherController.getProfile);
-
+router.put(
+    "/:userId/Profile",
+    Teacher_Middlware,
+    TeacherController.edit_profile
+);
 router.get(
     "/:userId/Notifications",
     Teacher_Middlware,
