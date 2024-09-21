@@ -30,7 +30,7 @@ router.get("/", async (req, res) => {
                 secure: true,
             });
 
-        return res.status(401);
+        return res.sendStatus(401);
         //     .json({
         //     message: "Unauthorized : No tokens found",
         // });
@@ -55,7 +55,7 @@ router.get("/", async (req, res) => {
         if (!refreshToken) {
             // res.clearCookie("accessToken");
             // res.clearCookie("refreshToken");
-            return res.status(401);
+            return res.sendStatus(401);
             //     .json({
             //     message: "Unauthorized: Refresh token is missing",
             // });
@@ -67,7 +67,7 @@ router.get("/", async (req, res) => {
         if (!found_in_DB) {
             // res.clearCookie("accessToken");
             // res.clearCookie("refreshToken");
-            return res.status(401);
+            return res.sendStatus(401);
             //     .json({
             //     message: "Unauthorized: Invalid refresh token",
             // });
@@ -81,7 +81,7 @@ router.get("/", async (req, res) => {
                     if (err) {
                         // res.clearCookie("accessToken");
                         // res.clearCookie("refreshToken");
-                        return res.status(401);
+                        return res.sendStatus(401);
                         //     .json({
                         //     message: "Unauthorized: Invalid refresh token",
                         // });
@@ -115,7 +115,7 @@ router.get("/", async (req, res) => {
                     if (!user) {
                         // res.clearCookie("accessToken");
                         // res.clearCookie("refreshToken");
-                        return res.status(404);
+                        return res.sendStatus(404);
                         //     .json({
                         //     message: "Unauthorized: User not found",
                         // });
@@ -148,7 +148,7 @@ router.get("/", async (req, res) => {
                         Student_REFRESH_TOKEN_SECRET,
                         Student_ACCESS_TOKEN_SECRET
                     );
-                    return res.status(200);
+                    return res.sendStatus(200);
                 } catch (err) {
                     console.log("Error refreshing Student token:", err);
                 }
@@ -174,7 +174,7 @@ router.get("/", async (req, res) => {
                             Teacher_REFRESH_TOKEN_SECRET,
                             Teacher_ACCESS_TOKEN_SECRET
                         );
-                        return res.status(200);
+                        return res.sendStatus(200);
                     } catch (err) {
                         console.log("Error refreshing Teacher token:", err);
                     }
@@ -186,7 +186,7 @@ router.get("/", async (req, res) => {
         if (!user) {
             // res.clearCookie("accessToken");
             // res.clearCookie("refreshToken");
-            return res.status(401);
+            return res.sendStatus(401);
             // .json({ message: "Unauthorized: Invalid access token" });
         }
 
