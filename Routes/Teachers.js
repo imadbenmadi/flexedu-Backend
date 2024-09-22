@@ -35,5 +35,10 @@ router.delete(
     Teacher_Middlware,
     TeacherController.DeleteCourse
 );
+router.put(
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.EditCourse
+);
 
 module.exports = router;

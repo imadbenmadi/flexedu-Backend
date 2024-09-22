@@ -6,7 +6,7 @@ const {
     GetCourses,
     DeleteCourse,
     GetCourse,
-    
+    EditCourse,
 } = require("./Teacher/Courses");
 
 const TeacherController = {
@@ -18,6 +18,7 @@ const TeacherController = {
     DeleteCourse,
     edit_profile,
     GetCourse,
+    EditCourse,
 };
 
 module.exports = TeacherController;

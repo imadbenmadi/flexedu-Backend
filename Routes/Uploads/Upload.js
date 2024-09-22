@@ -53,7 +53,7 @@ router.delete(
 );
 // ______________________________________________________
 router.post(
-    `/Course/:courseId/Image`,
+    `/Courses/:courseId/Image`,
     (req, res, next) => {
         req.body = req.fields;
         next();
@@ -62,7 +62,7 @@ router.post(
     Upload_Course_Image
 );
 router.delete(
-    `/Course/:courseId/Image`,
+    `/Courses/:courseId/Image`,
     (req, res, next) => {
         req.body = req.fields;
         next();
