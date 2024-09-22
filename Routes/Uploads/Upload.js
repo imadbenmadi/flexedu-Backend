@@ -8,6 +8,8 @@ const Upload_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenS
 const Delete_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenShots_Delete");
 const Upload_Course_Image = require("./Course_Image/Course_Pic");
 const Delete_Course_Image = require("./Course_Image/Course_Pic_Delete");
+const Upload_Course_Vedio = require("./Course_Vedio/Course_Vedio");
+const Delete_Course_Vedio = require("./Course_Vedio/Course_Vedio_Delete");
 const Student_Middlware = require("../../Middlewares/Student");
 const Teacher_Middlware = require("../../Middlewares/Teacher");
 const cookieParser = require("cookie-parser");
@@ -70,6 +72,26 @@ router.delete(
     Teacher_Middlware,
     Delete_Course_Image
 );
+// ______________________________________________________
+router.post(
+    `/Courses/:courseId/Vedio`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    Upload_Course_Vedio
+);
+router.delete(
+    `/Courses/:courseId/Vedio`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    Delete_Course_Vedio
+);
+
 // ______________________________________________________
 
 router.post(
