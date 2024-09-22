@@ -25,6 +25,11 @@ router.get(
     Teacher_Middlware,
     TeacherController.GetCourse
 );
+router.get(
+    "/:userId/Courses/:courseId/Videos/:vedioId",
+    Teacher_Middlware,
+    TeacherController.Get_Vedio
+);
 router.post(
     "/:userId/Courses",
     Teacher_Middlware,

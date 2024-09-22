@@ -68,6 +68,11 @@ const Get_Vedio = async (req, res) => {
                 id: vedioId,
                 CourseId: courseId,
             },
+            include: [
+                {
+                    model: Courses,
+                },
+            ],
         });
         if (!vedio) return res.status(404).json({ error: "vedio not found." });
 
@@ -169,7 +174,7 @@ const EditCourse = async (req, res) => {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
     }
-}
+};
 
 module.exports = {
     GetCourses,

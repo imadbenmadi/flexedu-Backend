@@ -7,6 +7,7 @@ const {
     DeleteCourse,
     GetCourse,
     EditCourse,
+    Get_Vedio,
 } = require("./Teacher/Courses");
 
 const TeacherController = {
@@ -19,6 +20,7 @@ const TeacherController = {
     edit_profile,
     GetCourse,
     EditCourse,
+    Get_Vedio,
 };
 
 module.exports = TeacherController;
