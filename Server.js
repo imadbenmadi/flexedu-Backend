@@ -50,6 +50,7 @@ app.use("/Contact", require("./Routes/Contact"));
 app.use("/Students", require("./Routes/Students"));
 app.use("/Teachers", require("./Routes/Teachers"));
 app.use("/upload", require("./Routes/Uploads/Upload"));
+app.use("/Geust", require("./Routes/Geust"));
 // _________________________________________________________
 app.use("/Admin", require("./Routes/Admin/Admin"));
 app.use("/Admin_Login", require("./Routes/Auth/Admin/Admin_Login"));
