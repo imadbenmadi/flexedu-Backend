@@ -20,7 +20,7 @@ const Upload_Course_Vedio = async (req, res) => {
             });
         }
         const userId = req.decoded.userId;
-        const { title, description } = req.body; // Assuming title and description are passed with the request
+        const { Title, Duration } = req.body; // Assuming title and description are passed with the request
 
         if (!userId) {
             return res.status(400).send({
@@ -52,19 +52,12 @@ const Upload_Course_Vedio = async (req, res) => {
         const course = await Courses.findOne({ where: { id: userId } });
 
         await Course_Video.create({
-            Title: title,
-            Description: description,
+            Title,
+            Duration,
             Video: fileLink,
-            Vedio_Number: course.Vedio_Number + 1,
             CourseId: course.id,
         });
-        console.log(
-            title,
-            description,
-            fileLink,
-            course.Vedio_Number + 1,
-            course.id
-        );
+        
         
 
         // Increment video number in the Courses model

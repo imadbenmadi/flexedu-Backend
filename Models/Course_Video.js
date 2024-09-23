@@ -8,16 +8,12 @@ const Course_Video = sequelize.define("Course_Video", {
         allowNull: true,
         default: "No Title",
     },
-    // Description: {
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    // },
     Video: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    Vedio_Number: {
-        type: DataTypes.INTEGER,
+    Duration: {
+        type: DataTypes.STRING,
         allowNull: false,
     },
     CourseId: {

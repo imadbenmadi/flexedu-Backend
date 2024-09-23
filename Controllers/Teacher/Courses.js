@@ -82,6 +82,34 @@ const Get_Vedio = async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+// const add_vedio = async (req, res) => {
+//     const userId = req.decoded.userId;
+//     const courseId = req.params.courseId;
+//     const { Title, Duration } = req.body;
+//     if (!userId || !courseId || !Title || !Duration)
+//         return res.status(409).json({
+//             error: "Unauthorized , missing userId or courseId or Title or Duration",
+//         });
+//     try {
+//         const course = await Courses.findOne({
+//             where: {
+//                 id: courseId,
+//                 TeacherId: userId,
+//             },
+//         });
+//         if (!course)
+//             return res.status(404).json({ error: "course not found." });
+//         const vedio = await Course_Video.create({
+//             Title: Title,
+//             Duration: Duration,
+//             CourseId: courseId,
+//         });
+//         return res.status(200).json({ message: "vedio added.", vedio });
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ error: "Internal server error." });
+//     }
+// };
 
 const DeleteCourse = async (req, res) => {
     const userId = req.decoded.userId;
@@ -180,6 +208,7 @@ module.exports = {
     GetCourses,
     DeleteCourse,
     add_course,
+    // add_vedio,
     GetCourse,
     Get_Vedio,
     EditCourse,
