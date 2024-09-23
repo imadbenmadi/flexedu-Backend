@@ -76,7 +76,7 @@ const Get_Vedio = async (req, res) => {
         });
         if (!vedio) return res.status(404).json({ error: "vedio not found." });
 
-        return res.status(200).json({ vedio });
+        return res.status(200).json({ Vedio : vedio });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
