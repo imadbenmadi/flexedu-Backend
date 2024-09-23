@@ -67,12 +67,6 @@ const Upload_Course_Vedio = async (req, res) => {
             CourseId: course.id,
         });
 
-        // Increment video number in the Courses model
-        // await Courses.update(
-        //     { Vedio_Number: course.Vedio_Number + 1 },
-        //     { where: { id: course.id } }
-        // );
-
         res.status(200).send({
             message: "Video uploaded successfully!",
             fileLink,

@@ -1,57 +1,69 @@
 const fs = require("fs");
 const path = require("path");
 const Courses = require("../../../Models/Course");
-const formidableMiddleware = require("express-formidable");
+const Course_Video = require("../../../Models/Course_Video");
 
-const uploadMiddleware = formidableMiddleware({
-    uploadDir: "public/Courses_Pictures/",
-    keepExtensions: true,
-    multiples: false,
-    maxFileSize: 10 * 1024 * 1024, // 10 MB
-});
-
-// Upload handler
-const Delete_Course_Image = async (req, res) => {
+// Delete Video handler
+const Delete_Course_Video = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const Course = await Courses.findOne({ where: { id: userId } });
-        if (!Course) {
+        const courseId = req.params.courseId; // Assuming courseId is passed in the route
+        const videoId = req.params.videoId; // Assuming videoId is passed in the route
+
+        // Find the course first
+        const course = await Courses.findOne({
+            where: { id: courseId, TeacherId: userId },
+        });
+        if (!course) {
             return res.status(404).send({
                 message: "Course not found for the given userId",
             });
         }
-        if (Course.Image) {
-            const previousFilename = Course.Image.split("/").pop();
-            const previousImagePath = `public/Courses_Pictures/${previousFilename}`;
-            try {
-                if (fs.existsSync(previousImagePath)) {
-                    fs.unlinkSync(previousImagePath);
-                }
-            } catch (error) {
-                return res.status(400).send({
-                    message:
-                        "Could not delete profile picture : " + error.message,
-                });
-            }
-        } else {
-            return res.status(200).send({
-                message: "Profile Picture Not Found",
+
+        // Find the video to delete
+        const courseVideo = await Course_Video.findOne({
+            where: { id: videoId, CourseId: course.id },
+        });
+        if (!courseVideo) {
+            return res.status(404).send({
+                message: "Video not found for the given courseId and videoId",
             });
         }
-        await Courses.update({ Image: null }, { where: { id: userId } });
-        // Example response
+
+        // Extract the video file path
+        const previousVideoFilename = courseVideo.Video.split("/").pop();
+        const previousVideoPath = path.join(
+            "public/Courses_Videos",
+            previousVideoFilename
+        );
+
+        // Delete the video file if it exists
+        if (fs.existsSync(previousVideoPath)) {
+            try {
+                fs.unlinkSync(previousVideoPath);
+            } catch (error) {
+                return res.status(400).send({
+                    message: "Could not delete video file: " + error.message,
+                });
+            }
+        }
+
+        // Remove the video entry from the Course_Video table
+        await Course_Video.destroy({ where: { id: videoId } });
+
+        // Send success response
         return res.status(200).send({
-            message: "Course profile picture deleted successfully!",
+            message: "Video deleted successfully!",
         });
     } catch (error) {
         // Error handling
         console.error("Error:", error);
-        res.status(500).send({
-            message: "Error processing the uploaded file",
+        return res.status(500).send({
+            message: "Error deleting the video",
             error: error.message,
         });
     }
 };
 
-// Export the middleware and upload handler
-module.exports = [uploadMiddleware, Delete_Course_Image];
+// Export the delete handler
+module.exports = Delete_Course_Video;

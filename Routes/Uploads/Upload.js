@@ -83,7 +83,7 @@ router.post(
     Upload_Course_Vedio
 );
 router.delete(
-    `/Courses/:courseId/Vedio`,
+    `/Courses/:courseId/Vedios/:videoId`,
     (req, res, next) => {
         req.body = req.fields;
         next();
