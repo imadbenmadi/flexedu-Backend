@@ -14,13 +14,22 @@ const uploadMiddleware = formidableMiddleware({
 const Upload_Course_Vedio = async (req, res) => {
     try {
         const { CourseVedio } = req.files;
+        const userId = req.decoded.userId;
+        const { Title, Duration } = req.body; // Assuming title and description are passed with the request
+
         if (!CourseVedio) {
             return res.status(400).send({
                 message: "No file uploaded",
             });
+        } else if (!Title || !Duration) {
+            return res.status(400).send({
+                message: "Title and Duration are required",
+            });
+        } else if (Title.length < 3 || Title.length > 100) {
+            return res.status(400).send({
+                message: "Title must be between 3 and 100 characters",
+            });
         }
-        const userId = req.decoded.userId;
-        const { Title, Duration } = req.body; // Assuming title and description are passed with the request
 
         if (!userId) {
             return res.status(400).send({
@@ -57,8 +66,6 @@ const Upload_Course_Vedio = async (req, res) => {
             Video: fileLink,
             CourseId: course.id,
         });
-        
-        
 
         // Increment video number in the Courses model
         // await Courses.update(
