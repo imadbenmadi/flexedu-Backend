@@ -9,7 +9,12 @@ const Delete_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenS
 const Upload_Course_Image = require("./Course_Image/Course_Pic");
 const Delete_Course_Image = require("./Course_Image/Course_Pic_Delete");
 const Upload_Course_Vedio = require("./Course_Vedio/Course_Vedio");
-const Delete_Course_Vedio = require("./Course_Vedio/Course_Vedio_Delete");
+const Delete_Course_Video = require("./Course_Vedio/Course_Vedio_Delete");
+const upload_Summary = require("./Summary/Summary");
+const delete_Summary = require("./Summary/Summary_Delete");
+const delete_Summary_Image = require("./Summary/Summary_Pic_Delete");
+const upload_Summary_Pic = require("./Summary/Summary_Pic");
+
 const Student_Middlware = require("../../Middlewares/Student");
 const Teacher_Middlware = require("../../Middlewares/Teacher");
 const cookieParser = require("cookie-parser");
@@ -89,7 +94,44 @@ router.delete(
         next();
     },
     Teacher_Middlware,
-    Delete_Course_Vedio
+    Delete_Course_Video
+); // ______________________________________________________
+router.post(
+    `/Summaries/:summaryid/Image`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    upload_Summary_Pic
+);
+router.delete(
+    `/Summaries/:summaryid/Image`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    delete_Summary_Image
+);
+// ______________________________________________________
+router.post(
+    `/Summaries`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    upload_Summary
+);
+router.delete(
+    `/Summaries/:summaryid`,
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Teacher_Middlware,
+    delete_Summary
 );
 
 // ______________________________________________________

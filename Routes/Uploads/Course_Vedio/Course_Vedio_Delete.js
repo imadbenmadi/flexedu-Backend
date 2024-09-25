@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const Courses = require("../../../Models/Course");
 const Course_Video = require("../../../Models/Course_Video");
-
 // Delete Video handler
 const Delete_Course_Video = async (req, res) => {
     try {
