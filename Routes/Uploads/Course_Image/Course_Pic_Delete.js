@@ -20,8 +20,8 @@ const Delete_Course_Image = async (req, res) => {
                 message: "Course not found for the given userId",
             });
         }
-        if (Course.Image) {
-            const previousFilename = Course.Image.split("/").pop();
+        if (Course?.Image) {
+            const previousFilename = Course?.Image.split("/").pop();
             const previousImagePath = `public/Courses_Pictures/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {

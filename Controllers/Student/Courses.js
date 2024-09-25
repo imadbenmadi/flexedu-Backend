@@ -48,7 +48,7 @@ const GetCourse = async (req, res) => {
             isEnrolled = true;
         }
 
-        return res.status(200).json({ Course: course, isEnrolled });
+        return res.status(200).json({ isEnrolled: isEnrolled, Course: course });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
