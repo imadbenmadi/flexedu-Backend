@@ -208,7 +208,6 @@ module.exports = {
     GetCourses,
     DeleteCourse,
     add_course,
-    // add_vedio,
     GetCourse,
     Get_Vedio,
     EditCourse,
