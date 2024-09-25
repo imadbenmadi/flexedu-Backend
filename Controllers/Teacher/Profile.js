@@ -24,20 +24,25 @@ const edit_profile = async (req, res) => {
         instgram_Link,
         linkedIn_Link,
         facebook_Link,
+        email,
     } = req.body;
     try {
         const user_in_db = await Teachers.findByPk(userId);
         if (!user_in_db) {
             return res.status(404).json({ error: "user not found." });
         }
-        await user_in_db.update({
-            firstName,
-            lastName,
-            telephone,
-            instgram_Link,
-            linkedIn_Link,
-            facebook_Link,
-        });
+        // Update only the fields that are provided (not undefined or null)
+        const updates = {};
+        if (firstName !== undefined) updates.firstName = firstName;
+        if (lastName !== undefined) updates.lastName = lastName;
+        if (telephone !== undefined) updates.telephone = telephone;
+        if (email !== undefined) updates.email = email;
+        if (instgram_Link !== undefined) updates.instgram_Link = instgram_Link;
+        if (linkedIn_Link !== undefined) updates.linkedIn_Link = linkedIn_Link;
+        if (facebook_Link !== undefined) updates.facebook_Link = facebook_Link;
+
+        // Only update fields that exist in the 'updates' object
+        await user_in_db.update(updates);
         return res
             .status(200)
             .json({ message: "Profile Updated Successfully" });

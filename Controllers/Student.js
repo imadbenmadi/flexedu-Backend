@@ -1,4 +1,4 @@
-const { getProfile } = require("./Student/Profile");
+const { getProfile, edit_profile } = require("./Student/Profile");
 const {
     GetNotifications,
     DeleteNotification,
@@ -8,6 +8,7 @@ const StudentController = {
     getProfile,
     GetNotifications,
     DeleteNotification,
+    edit_profile,
 };
 
 module.exports = StudentController;

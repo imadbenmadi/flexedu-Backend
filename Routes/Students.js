@@ -13,6 +13,10 @@ router.delete(
     Student_Middlware,
     StudentController.DeleteNotification
 );
-
+router.put(
+    "/:userId/Profile",
+    Student_Middlware,
+    StudentController.edit_profile
+);
 
 module.exports = router;
