@@ -21,7 +21,7 @@ const edit_profile = async (req, res) => {
     const userId = req.decoded.userId;
     const { firstName, lastName, email } = req.body;
     try {
-        const user_in_db = await Teachers.findByPk(userId);
+        const user_in_db = await Students.findByPk(userId);
         if (!user_in_db) {
             return res.status(404).json({ error: "user not found." });
         }
