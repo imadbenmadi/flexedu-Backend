@@ -1,28 +1,28 @@
 const fs = require("fs");
 const path = require("path");
-const Courses = require("../../../Models/Course");
+const Summary = require("../../../Models/Summary");
 const formidableMiddleware = require("express-formidable");
 
 const uploadMiddleware = formidableMiddleware({
-    uploadDir: "public/Courses_Pictures/",
+    uploadDir: "public/Summaries_Pictures/",
     keepExtensions: true,
     multiples: false,
     maxFileSize: 10 * 1024 * 1024, // 10 MB
 });
 
 // Upload handler
-const Delete_Course_Image = async (req, res) => {
+const Delete_summary_Image = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const Course = await Courses.findOne({ where: { id: userId } });
-        if (!Course) {
+        const summary = await Summary.findOne({ where: { id: userId } });
+        if (!summary) {
             return res.status(404).send({
-                message: "Course not found for the given userId",
+                message: "summary not found for the given userId",
             });
         }
-        if (Course.Image) {
-            const previousFilename = Course.Image.split("/").pop();
-            const previousImagePath = `public/Courses_Pictures/${previousFilename}`;
+        if (summary.Image) {
+            const previousFilename = summary.Image.split("/").pop();
+            const previousImagePath = `public/Summaries_Pictures/${previousFilename}`;
             try {
                 if (fs.existsSync(previousImagePath)) {
                     fs.unlinkSync(previousImagePath);
@@ -30,18 +30,18 @@ const Delete_Course_Image = async (req, res) => {
             } catch (error) {
                 return res.status(400).send({
                     message:
-                        "Could not delete Course picture : " + error.message,
+                        "Could not delete summary picture : " + error.message,
                 });
             }
         } else {
             return res.status(200).send({
-                message: "Course Picture Not Found",
+                message: "summary Picture Not Found",
             });
         }
-        await Courses.update({ Image: null }, { where: { id: userId } });
+        await Summaries.update({ Image: null }, { where: { id: userId } });
         // Example response
         return res.status(200).send({
-            message: "Course Course picture deleted successfully!",
+            message: "summary summary picture deleted successfully!",
         });
     } catch (error) {
         // Error handling
@@ -54,4 +54,4 @@ const Delete_Course_Image = async (req, res) => {
 };
 
 // Export the middleware and upload handler
-module.exports = [uploadMiddleware, Delete_Course_Image];
+module.exports = [uploadMiddleware, Delete_summary_Image];
