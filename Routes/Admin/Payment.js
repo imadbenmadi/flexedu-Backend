@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Courses = require("../../Models/Course");
-const  Students  = require("../../Models/Student");
-const  Teachers  = require("../../Models/Teacher");
+const Students = require("../../Models/Student");
+const Teachers = require("../../Models/Teacher");
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Op } = require("sequelize");
 
@@ -12,7 +12,7 @@ const {
 } = require("../../Models/Notifications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
-        const projects = await Courses.findAll({
+        const courses = await Courses.findAll({
             // where: { status: "Pending" },
             // where: { isPayment_ScreenShot_uploaded: true },
             where: {
@@ -27,25 +27,25 @@ router.get("/", Admin_midllware, async (req, res) => {
             ],
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ projects: projects });
+        res.status(200).json({ courses: courses });
     } catch (err) {
-        console.error("Error fetching Project projects:", err);
+        console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
     }
 });
-router.get("/:projectId", Admin_midllware, async (req, res) => {
-    const projectId = req.params.projectId;
-    if (!projectId)
+router.get("/:courseId", Admin_midllware, async (req, res) => {
+    const courseId = req.params.courseId;
+    if (!courseId)
         return res
             .status(409)
-            .json({ message: "Missing data ProjectId is required" });
+            .json({ message: "Missing data CourseId is required" });
 
     try {
-        const project = await Courses.findOne({
+        const course = await Courses.findOne({
             // where: { status: "Pending" },
             // where: { isPayment_ScreenShot_uploaded: true },
             where: {
-                id: projectId,
+                id: courseId,
                 status: {
                     [Op.notIn]: ["Rejected", "Completed", "Pending", "Payed"],
                 },
@@ -57,15 +57,15 @@ router.get("/:projectId", Admin_midllware, async (req, res) => {
             ],
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ project: project });
+        res.status(200).json({ course: course });
     } catch (err) {
-        console.error("Error fetching Project projects:", err);
+        console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
     }
 });
 router.get("/Accepted", Admin_midllware, async (req, res) => {
     try {
-        const projects = await Courses.findAll({
+        const courses = await Courses.findAll({
             // where: { status: "Pending" },
             where: {
                 isPayment_ScreenShot_uploaded: true,
@@ -74,110 +74,110 @@ router.get("/Accepted", Admin_midllware, async (req, res) => {
             },
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ projects: projects });
+        res.status(200).json({ courses: courses });
     } catch (err) {
-        console.error("Error fetching Project projects:", err);
+        console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
     }
 });
 
-// router.get("/:projectId", Admin_midllware, async (req, res) => {
-//     const projectId = req.params.projectId;
-//     if (!projectId)
+// router.get("/:courseId", Admin_midllware, async (req, res) => {
+//     const courseId = req.params.courseId;
+//     if (!courseId)
 //         return res
 //             .status(409)
-//             .json({ message: "Missing data ProjectId is required" });
+//             .json({ message: "Missing data CourseId is required" });
 //     try {
-//         const projects = await Courses.findOne({
+//         const courses = await Courses.findOne({
 //             where: {
 //                 // status: "Pending",
-//                 ProjectId: projectId,
+//                 CourseId: courseId,
 //             },
 //             order: [["createdAt", "DESC"]],
 //         });
-//         res.status(200).json({ projects: projects });
+//         res.status(200).json({ courses: courses });
 //     } catch (err) {
-//         console.error("Error fetching Project projects:", err);
+//         console.error("Error fetching Course courses:", err);
 //         res.status(500).json({ message: err });
 //     }
 // });
 
-router.post("/:projectId/Accept", Admin_midllware, async (req, res) => {
-    const { projectId } = req.params;
+router.post("/:courseId/Accept", Admin_midllware, async (req, res) => {
+    const { courseId } = req.params;
 
-    if (!projectId) {
+    if (!courseId) {
         return res
             .status(409)
-            .json({ message: "Missing data: ProjectId is required" });
+            .json({ message: "Missing data: CourseId is required" });
     }
 
     try {
-        const project = await Courses.findOne({
-            where: { id: projectId },
+        const course = await Courses.findOne({
+            where: { id: courseId },
         });
-        if (!project) {
-            return res.status(404).json({ message: "project not found" });
+        if (!course) {
+            return res.status(404).json({ message: "course not found" });
         } else if (
-            project.status !== "Accepted" ||
-            !project.isPayment_ScreenShot_uploaded ||
-            !project.StudentId
+            course.status !== "Accepted" ||
+            !course.isPayment_ScreenShot_uploaded ||
+            !course.StudentId
         ) {
             return res.status(409).json({
                 message:
-                    "unauthorized , payment not uploaded or project not accepted or Student not assigned",
+                    "unauthorized , payment not uploaded or course not accepted or Student not assigned",
             });
         }
         await Courses.update(
             { status: "Payed", isPayment_ScreenShot_Rejected: false },
-            { where: { id: projectId } }
+            { where: { id: courseId } }
         );
         try {
             await Teacher_Notifications.create({
                 title: "Payment Accepted",
                 text: "your payment has been successfully accepted and processed",
                 type: "payment_accepted",
-                TeacherId: project.TeacherId,
-                link: `/Teacher/Projects/${project.id}`,
+                TeacherId: course.TeacherId,
+                link: `/Teacher/Courses/${course.id}`,
             });
             await Student_Notifications.create({
                 title: "Teacher payed the fees",
-                text: "We are pleased to inform you that the Teacher has paid the fees, and you may now begin working on the project.",
+                text: "We are pleased to inform you that the Teacher has paid the fees, and you may now begin working on the course.",
                 type: "payment_accepted",
-                StudentId: project.StudentId,
-                link: `/Student/Process/${project.id}`,
+                StudentId: course.StudentId,
+                link: `/Student/Process/${course.id}`,
             });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
-        res.status(200).json({ message: "project payment accepted" });
+        res.status(200).json({ message: "course payment accepted" });
     } catch (err) {
-        console.error("Error processing project payment approval:", err);
+        console.error("Error processing course payment approval:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-router.post("/:projectId/Reject", Admin_midllware, async (req, res) => {
-    const { projectId } = req.params;
+router.post("/:courseId/Reject", Admin_midllware, async (req, res) => {
+    const { courseId } = req.params;
 
-    if (!projectId) {
+    if (!courseId) {
         return res
             .status(409)
-            .json({ message: "Missing data: ProjectId is required" });
+            .json({ message: "Missing data: CourseId is required" });
     }
 
     try {
-        const project = await Courses.findOne({
-            where: { id: projectId },
+        const course = await Courses.findOne({
+            where: { id: courseId },
         });
-        if (!project) {
-            return res.status(404).json({ message: "project not found" });
+        if (!course) {
+            return res.status(404).json({ message: "course not found" });
         } else if (
-            project.status !== "Accepted" ||
-            !project.isPayment_ScreenShot_uploaded ||
-            !project.StudentId
+            course.status !== "Accepted" ||
+            !course.isPayment_ScreenShot_uploaded ||
+            !course.StudentId
         ) {
             return res.status(409).json({
                 message:
-                    "unauthorized , payment not uploaded or project not accepted or Student not assigned",
+                    "unauthorized , payment not uploaded or course not accepted or Student not assigned",
             });
         }
         await Courses.update(
@@ -185,23 +185,23 @@ router.post("/:projectId/Reject", Admin_midllware, async (req, res) => {
                 isPayment_ScreenShot_Rejected: true,
                 status: "Accepted",
             },
-            { where: { id: projectId } }
+            { where: { id: courseId } }
         );
         try {
             await Teacher_Notifications.create({
                 title: "Payment Rejected",
                 text: "We regret to inform you that your payment has been rejected, and we kindly request you to review your payment details and try again.",
                 type: "payment_rejected",
-                TeacherId: project.TeacherId,
-                link: `/Teacher/Projects/${project.id}`,
+                TeacherId: course.TeacherId,
+                link: `/Teacher/Courses/${course.id}`,
             });
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
 
-        res.status(200).json({ message: "project payment Rejected" });
+        res.status(200).json({ message: "course payment Rejected" });
     } catch (err) {
-        console.error("Error processing project payment approval:", err);
+        console.error("Error processing course payment approval:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
