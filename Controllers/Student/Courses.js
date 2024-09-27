@@ -4,7 +4,7 @@ const Courses = require("../../Models/Course");
 const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
-
+const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const GetCourse = async (req, res) => {
     const userId = req.decoded.userId;
     const courseId = req.params.courseId;
@@ -29,11 +29,22 @@ const GetCourse = async (req, res) => {
         if (!course)
             return res.status(404).json({ error: "course not found." });
         let isEnrolled = false;
+        let paymentStatus = null;
         const student = await Students.findOne({
             where: {
                 id: userId,
             },
         });
+        const purcase = await Course_Purcase_Requests.findOne({
+            where: {
+                CourseId: courseId,
+                StudentId: userId,
+            },
+        });
+        if (purcase) {
+            paymentStatus = purcase.status;
+        }
+
         if (!student)
             return res
                 .status(409)
@@ -48,7 +59,12 @@ const GetCourse = async (req, res) => {
             isEnrolled = true;
         }
 
-        return res.status(200).json({ isEnrolled: isEnrolled, Course: course });
+        return res.status(200).json({
+            isEnrolled: isEnrolled,
+            paymentStatus,
+            purcase,
+            Course: course,
+        });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });

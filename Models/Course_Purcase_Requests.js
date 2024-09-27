@@ -3,7 +3,7 @@ const sequelize = require("../config/db_connection");
 const Students = require("./Student");
 const Courses = require("./Course");
 
-const Purcase_Requests = sequelize.define("Purcase_Requests", {
+const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
     Price: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -32,12 +32,16 @@ const Purcase_Requests = sequelize.define("Purcase_Requests", {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     },
+    status: {
+        type: DataTypes.ENUM("pending", "accepted", "rejected"),
+        defaultValue: "pending",
+    },
 });
 
-Purcase_Requests.belongsTo(Students, {
+Course_Purcase_Requests.belongsTo(Students, {
     foreignKey: "TeacherId",
     onDelete: "CASCADE",
 });
-Students.hasMany(Purcase_Requests, { foreignKey: "TeacherId" });
+Students.hasMany(Course_Purcase_Requests, { foreignKey: "TeacherId" });
 
-module.exports = Purcase_Requests;
+module.exports = Course_Purcase_Requests;

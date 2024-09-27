@@ -4,8 +4,8 @@ const Upload_Teacher_ProfilePic = require("./ProfilePic/Teacher_ProfilePic");
 const Delete_Teacher_ProfilePic = require("./ProfilePic/Teacher_ProfilePic_Delete");
 const Upload_Student_ProfilePic = require("./ProfilePic/Student_ProfilePic");
 const Delete_Student_ProfilePic = require("./ProfilePic/Student_ProfilePic_Delete");
-const Upload_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenShots");
-const Delete_Payment_ScreenShot = require("./Payment_screenShots/Payment_screenShots_Delete");
+const Upload_Course_Payment = require("./Payment_screenShots/Upload_Course_Payment");
+const Upload_Summary_Payment = require("./Payment_screenShots/Upload_Summary_Payment");
 const Upload_Course_Image = require("./Course_Image/Course_Pic");
 const Delete_Course_Image = require("./Course_Image/Course_Pic_Delete");
 const Upload_Course_Vedio = require("./Course_Vedio/Course_Vedio");
@@ -137,22 +137,22 @@ router.delete(
 // ______________________________________________________
 
 router.post(
-    "/Payment",
+    "/Payment/Courses/:courseId",
     (req, res, next) => {
         req.body = req.fields;
         next();
     },
-    Teacher_Middlware,
-    Upload_Payment_ScreenShot
+    Student_Middlware,
+    Upload_Course_Payment
 );
-router.delete(
-    "/Payment/:projectId",
-    // (req, res, next) => {
-    //     req.body = req.fields;
-    //     next();
-    // },
-    Teacher_Middlware,
-    Delete_Payment_ScreenShot
+router.post(
+    "/Payment/Summaries/:summaryId",
+    (req, res, next) => {
+        req.body = req.fields;
+        next();
+    },
+    Student_Middlware,
+    Upload_Summary_Payment
 );
 
 module.exports = router;
