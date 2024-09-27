@@ -80,6 +80,7 @@ const Upload_Course_Payment = async (req, res) => {
                     status: "pending",
                     CourseId: courseId,
                     StudentId: userId,
+                    TeacherId: course.TeacherId,
                     Price: course.Price,
                     CCP_number: CCP_number,
                 });
@@ -103,6 +104,7 @@ const Upload_Course_Payment = async (req, res) => {
                 status: "pending",
                 CourseId: courseId,
                 StudentId: userId,
+                TeacherId: course.TeacherId,
                 Price: course.Price,
                 CCP_number: CCP_number,
             });
