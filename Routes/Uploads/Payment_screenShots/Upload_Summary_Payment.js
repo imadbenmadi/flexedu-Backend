@@ -80,6 +80,7 @@ const Upload_summary_Payment = async (req, res) => {
                     status: "pending",
                     summaryId: summaryId,
                     StudentId: userId,
+                    CCP_number: CCP_number,
                     Price: summary.Price,
                 });
                 await purcase.update({
@@ -105,6 +106,7 @@ const Upload_summary_Payment = async (req, res) => {
                 status: "pending",
                 summaryId: summaryId,
                 StudentId: userId,
+                CCP_number: CCP_number,
                 Price: summary.Price,
             });
 

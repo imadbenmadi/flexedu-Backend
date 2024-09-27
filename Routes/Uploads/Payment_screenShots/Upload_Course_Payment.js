@@ -81,6 +81,7 @@ const Upload_Course_Payment = async (req, res) => {
                     CourseId: courseId,
                     StudentId: userId,
                     Price: course.Price,
+                    CCP_number: CCP_number,
                 });
 
                 return res.status(200).send({
@@ -103,6 +104,7 @@ const Upload_Course_Payment = async (req, res) => {
                 CourseId: courseId,
                 StudentId: userId,
                 Price: course.Price,
+                CCP_number: CCP_number,
             });
 
             // Example response

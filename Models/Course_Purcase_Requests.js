@@ -36,12 +36,22 @@ const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
         type: DataTypes.ENUM("pending", "accepted", "rejected"),
         defaultValue: "pending",
     },
+    CCP_number: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 });
 
 Course_Purcase_Requests.belongsTo(Students, {
-    foreignKey: "TeacherId",
+    foreignKey: "StudentId",
     onDelete: "CASCADE",
 });
-Students.hasMany(Course_Purcase_Requests, { foreignKey: "TeacherId" });
+Students.hasMany(Course_Purcase_Requests, { foreignKey: "StudentId" });
+
+Course_Purcase_Requests.belongsTo(Courses, {
+    foreignKey: "CourseId",
+    onDelete: "CASCADE",
+});
+Courses.hasMany(Course_Purcase_Requests, { foreignKey: "CourseId" });
 
 module.exports = Course_Purcase_Requests;
