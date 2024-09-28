@@ -2,20 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const Courses = require("../../../Models/Course");
 const Course_Video = require("../../../Models/Course_Video");
-const formidableMiddleware = require("express-formidable");
-
-const uploadMiddleware = formidableMiddleware({
-    uploadDir: "public/Courses_Videos/",
-    keepExtensions: true,
-    multiples: false,
-    maxFileSize: 500 * 1024 * 1024, // 500 MB for video upload
-});
 
 const Upload_Course_Vedio = async (req, res) => {
     try {
         const { CourseVedio } = req.files;
         const userId = req.decoded.userId;
-        const { Title, Duration } = req.body; // Assuming title and description are passed with the request
+        const { Title, Duration } = req.body; // Assuming title and duration are passed with the request
+
+        // Define max size limit (e.g., 100MB)
+        const MAX_FILE_SIZE = 2000 * 1024 * 1024; // 100MB in bytes
 
         if (!CourseVedio) {
             return res.status(400).send({
@@ -34,6 +29,15 @@ const Upload_Course_Vedio = async (req, res) => {
         if (!userId) {
             return res.status(400).send({
                 message: "User ID is required",
+            });
+        }
+
+        // Check the file size
+        if (CourseVedio.size > MAX_FILE_SIZE) {
+            return res.status(400).send({
+                message: `File size exceeds the maximum limit of ${
+                    MAX_FILE_SIZE / (1024 * 1024)
+                } MB`,
             });
         }
 
@@ -80,4 +84,4 @@ const Upload_Course_Vedio = async (req, res) => {
     }
 };
 
-module.exports = [uploadMiddleware, Upload_Course_Vedio];
+module.exports = [Upload_Course_Vedio];

@@ -15,7 +15,7 @@ router.get("/Admins", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
-// router.use("/Courses", require("./Courses"));
+router.use("/Courses", require("./Courses"));
 router.use("/Payment", require("./Payment"));
 router.use("/Home", require("./Home"));
 router.use("/Contact", require("./Contact"));
