@@ -98,7 +98,32 @@ router.put("/:courseId", Admin_Middleware, async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 });
-
+router.delete("/:courseId", Admin_Middleware, async (req, res) => {
+    const courseId = req.params.courseId;
+    if (!courseId)
+        return res
+            .status(409)
+            .json({ error: "Unauthorized , missing userId or courseId" });
+    try {
+        const course = await Courses.findOne({
+            where: {
+                id: courseId,
+            },
+        });
+        if (!course)
+            return res.status(404).json({ error: "course not found." });
+        await course.destroy();
+        // We have to delete all the Vedios of this course too
+        // we have to delete the course ownership from the students too
+        // we have to delete the couse progress of the students too
+        // we have to delete the reviews of this course too
+        // we have to delete the notifications of this course too
+        return res.status(200).json({ message: "course deleted." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+});
 // router.delete(
 //     "/:courseId",
 //     Admin_Middleware,
