@@ -13,16 +13,18 @@ const {
 } = require("../../Models/Notifications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
-        const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
+        const courses_Purcase_Requests = await Course_Purcase_Requests.findAll({
             // where: { status: "Pending" },
             // where: { isPayment_ScreenShot_uploaded: true },
             where: {
                 StudentId: { [Op.not]: null },
             },
-            include: [{ model: Students }],
+            include: [{ model: Students }, { model: Courses }],
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ courses: course_Purcase_Requests });
+        res.status(200).json({
+            courses_Purcase_Requests: courses_Purcase_Requests,
+        });
     } catch (err) {
         console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
@@ -36,23 +38,17 @@ router.get("/:courseId", Admin_midllware, async (req, res) => {
             .json({ message: "Missing data CourseId is required" });
 
     try {
-        const course = await Courses.findOne({
-            // where: { status: "Pending" },
-            // where: { isPayment_ScreenShot_uploaded: true },
+        const course_Purcase_Requests = await Course_Purcase_Requests.findOne({
             where: {
                 id: courseId,
-                status: {
-                    [Op.notIn]: ["Rejected", "Completed", "Pending", "Payed"],
-                },
                 StudentId: { [Op.not]: null },
             },
-            include: [
-                { model: Teachers, as: "owner" },
-                { model: Students, as: "student" },
-            ],
+            include: [{ model: Students }, { model: Courses }],
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ course: course });
+        res.status(200).json({
+            course_Purcase_Requests: course_Purcase_Requests,
+        });
     } catch (err) {
         console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
