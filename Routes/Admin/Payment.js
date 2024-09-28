@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Courses = require("../../Models/Course");
+const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Students = require("../../Models/Student");
 const Teachers = require("../../Models/Teacher");
 const Admin_midllware = require("../../Middlewares/Admin");
@@ -12,22 +13,16 @@ const {
 } = require("../../Models/Notifications");
 router.get("/", Admin_midllware, async (req, res) => {
     try {
-        const courses = await Courses.findAll({
+        const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
             // where: { status: "Pending" },
             // where: { isPayment_ScreenShot_uploaded: true },
             where: {
-                status: {
-                    [Op.notIn]: ["Rejected", "Completed", "Pending", "Payed"],
-                },
                 StudentId: { [Op.not]: null },
             },
-            include: [
-                { model: Teachers, as: "owner" },
-                { model: Students, as: "student" },
-            ],
+            include: [{ model: Students }],
             order: [["createdAt", "DESC"]],
         });
-        res.status(200).json({ courses: courses });
+        res.status(200).json({ courses: course_Purcase_Requests });
     } catch (err) {
         console.error("Error fetching Course courses:", err);
         res.status(500).json({ message: err });
