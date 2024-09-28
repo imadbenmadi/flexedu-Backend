@@ -78,29 +78,29 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
 
 
 
-router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
-    const TeacherId = req.params.id;
-    if (!TeacherId)
-        return res.status(409).json({ message: "Teacher id is required" });
-    try {
-        await Teachers.destroy({ where: { id: TeacherId } });
-        res.status(200).json({ message: "Teacher deleted successfully" });
-    } catch (err) {
-        console.error("Error fetching deleting Teacher:", err);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
-router.delete("/Student/:id", adminMiddleware, async (req, res) => {
-    const StudentId = req.params.id;
-    if (!StudentId)
-        return res.status(409).json({ message: "Student id is required" });
-    try {
-        await Students.destroy({ where: { id: StudentId } });
-        res.status(200).json({ message: "Student deleted successfully" });
-    } catch (err) {
-        console.error("Error fetching deleting Student:", err);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
+// router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
+//     const TeacherId = req.params.id;
+//     if (!TeacherId)
+//         return res.status(409).json({ message: "Teacher id is required" });
+//     try {
+//         await Teachers.destroy({ where: { id: TeacherId } });
+//         res.status(200).json({ message: "Teacher deleted successfully" });
+//     } catch (err) {
+//         console.error("Error fetching deleting Teacher:", err);
+//         res.status(500).json({ message: "Internal Server Error" });
+//     }
+// });
+// router.delete("/Student/:id", adminMiddleware, async (req, res) => {
+//     const StudentId = req.params.id;
+//     if (!StudentId)
+//         return res.status(409).json({ message: "Student id is required" });
+//     try {
+//         await Students.destroy({ where: { id: StudentId } });
+//         res.status(200).json({ message: "Student deleted successfully" });
+//     } catch (err) {
+//         console.error("Error fetching deleting Student:", err);
+//         res.status(500).json({ message: "Internal Server Error" });
+//     }
+// });
 
 module.exports = router;
