@@ -132,7 +132,8 @@ const DeleteCourse = async (req, res) => {
         // we have to delete the course ownership from the students too
         // we have to delete the couse progress of the students too
         // we have to delete the reviews of this course too
-        // we have to delete the notifications of this course too
+
+        // the teacher can not delete an already boughted course
         return res.status(200).json({ message: "course deleted." });
     } catch (error) {
         console.error(error);
