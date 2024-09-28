@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Courses = require("../../Models/Course");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
+const Course_Progress = require("../../Models/Course_Progress");
 const Students = require("../../Models/Student");
 const Teachers = require("../../Models/Teacher");
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Op } = require("sequelize");
-
+const sequelize = require("../../config/db_connection");
 const {
     Student_Notifications,
     Teacher_Notifications,
@@ -18,6 +19,7 @@ router.get("/", Admin_midllware, async (req, res) => {
             // where: { isPayment_ScreenShot_uploaded: true },
             where: {
                 StudentId: { [Op.not]: null },
+                status: "pending",
             },
             include: [{ model: Students }, { model: Courses }],
             order: [["createdAt", "DESC"]],
@@ -92,108 +94,165 @@ router.get("/Accepted", Admin_midllware, async (req, res) => {
 //         res.status(500).json({ message: err });
 //     }
 // });
-
 router.post("/:courseId/Accept", Admin_midllware, async (req, res) => {
     const { courseId } = req.params;
+    const { studentId } = req.body;
 
-    if (!courseId) {
-        return res
-            .status(409)
-            .json({ message: "Missing data: CourseId is required" });
+    if (!courseId || !studentId) {
+        return res.status(409).json({
+            message: "Missing data: CourseId and StudentId are required",
+        });
     }
 
+    const t = await sequelize.transaction(); // Start a transaction
+
     try {
-        const course = await Courses.findOne({
-            where: { id: courseId },
+        const course = await Courses.findOne({ where: { id: courseId } });
+        const payment_request = await Course_Purcase_Requests.findOne({
+            where: { CourseId: courseId, StudentId: studentId },
         });
-        if (!course) {
-            return res.status(404).json({ message: "course not found" });
-        } else if (
-            course.status !== "Accepted" ||
-            !course.isPayment_ScreenShot_uploaded ||
-            !course.StudentId
-        ) {
-            return res.status(409).json({
-                message:
-                    "unauthorized , payment not uploaded or course not accepted or Student not assigned",
-            });
+
+        if (!course || !payment_request) {
+            await t.rollback();
+            return res
+                .status(404)
+                .json({ message: "Course or payment request not found" });
         }
-        await Courses.update(
-            { status: "Payed", isPayment_ScreenShot_Rejected: false },
-            { where: { id: courseId } }
+
+        await payment_request.update(
+            { status: "accepted" },
+            { transaction: t }
         );
+        await Course_Progress.create(
+            {
+                StudentId: studentId,
+                CourseId: courseId,
+                Course_Videos_number: course.Vedios_count,
+            },
+            { transaction: t }
+        );
+
         try {
-            await Teacher_Notifications.create({
-                title: "Payment Accepted",
-                text: "your payment has been successfully accepted and processed",
-                type: "payment_accepted",
-                TeacherId: course.TeacherId,
-                link: `/Teacher/Courses/${course.id}`,
-            });
-            await Student_Notifications.create({
-                title: "Teacher payed the fees",
-                text: "We are pleased to inform you that the Teacher has paid the fees, and you may now begin working on the course.",
-                type: "payment_accepted",
-                StudentId: course.StudentId,
-                link: `/Student/Process/${course.id}`,
-            });
+            await Teacher_Notifications.create(
+                {
+                    title: "Payment received",
+                    text: "A new student has paid the fees for your course.",
+                    type: "payment_received",
+                    TeacherId: course.TeacherId,
+                    link: `/Teacher/Payment/Courses/${course.id}`,
+                },
+                { transaction: t }
+            );
+
+            await Student_Notifications.create(
+                {
+                    title: "Your payment has been accepted",
+                    text: "You can now access the course content.",
+                    type: "payment_accepted",
+                    StudentId: studentId,
+                    link: `/Student/Purchased/Courses/${course.id}`,
+                },
+                { transaction: t }
+            );
         } catch (error) {
-            return res.status(500).json({ error: error.message });
+            await t.rollback();
+            return res
+                .status(500)
+                .json({ message: "Notification Error", error: error.message });
         }
-        res.status(200).json({ message: "course payment accepted" });
+
+        await t.commit(); // Commit transaction if all went well
+        res.status(200).json({ message: "Course payment accepted" });
     } catch (err) {
+        await t.rollback(); // Rollback transaction on error
         console.error("Error processing course payment approval:", err);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: err.message,
+        });
     }
 });
 router.post("/:courseId/Reject", Admin_midllware, async (req, res) => {
     const { courseId } = req.params;
+    const { studentId } = req.body; // We need studentId from the request body, same as in Accept
 
-    if (!courseId) {
-        return res
-            .status(409)
-            .json({ message: "Missing data: CourseId is required" });
+    // Check if courseId and studentId are provided
+    if (!courseId || !studentId) {
+        return res.status(409).json({
+            message: "Missing data: CourseId and StudentId are required",
+        });
     }
 
+    // Start a transaction
+    const t = await sequelize.transaction();
+
     try {
+        // Find the course and payment request
         const course = await Courses.findOne({
             where: { id: courseId },
+            transaction: t,
         });
-        if (!course) {
-            return res.status(404).json({ message: "course not found" });
-        } else if (
-            course.status !== "Accepted" ||
-            !course.isPayment_ScreenShot_uploaded ||
-            !course.StudentId
-        ) {
-            return res.status(409).json({
-                message:
-                    "unauthorized , payment not uploaded or course not accepted or Student not assigned",
-            });
+        const payment_request = await Course_Purcase_Requests.findOne({
+            where: { CourseId: courseId, StudentId: studentId },
+            transaction: t,
+        });
+
+        // Check if the course and payment request exist
+        if (!course || !payment_request) {
+            await t.rollback(); // Rollback transaction if not found
+            return res
+                .status(404)
+                .json({ message: "Course or payment request not found" });
         }
-        await Courses.update(
-            {
-                isPayment_ScreenShot_Rejected: true,
-                status: "Accepted",
-            },
-            { where: { id: courseId } }
+
+        // Update the payment request status to rejected
+        await payment_request.update(
+            { status: "rejected" },
+            { transaction: t }
         );
+
+        // Remove the course progress for the student if it exists
+        // await Course_Progress.destroy({
+        //     where: { CourseId: courseId, StudentId: studentId },
+        //     transaction: t,
+        // });
+
+        // Send notifications to both teacher and student
         try {
-            await Teacher_Notifications.create({
-                title: "Payment Rejected",
-                text: "We regret to inform you that your payment has been rejected, and we kindly request you to review your payment details and try again.",
-                type: "payment_rejected",
-                TeacherId: course.TeacherId,
-                link: `/Teacher/Courses/${course.id}`,
-            });
+            // Teacher notification
+
+            // Student notification
+            await Student_Notifications.create(
+                {
+                    title: "Your payment has been rejected",
+                    text: `Your payment for the course "${course.Title}" has been rejected. Please contact support for more details.`,
+                    type: "payment_rejected",
+                    StudentId: studentId,
+                    link: `/Student/Courses/${course.id}/Enrollment/?rejected=true`,
+                },
+                { transaction: t }
+            );
         } catch (error) {
+            await t.rollback(); // Rollback transaction if notification fails
             return res.status(500).json({ error: error.message });
         }
 
-        res.status(200).json({ message: "course payment Rejected" });
+        // Commit the transaction
+        await t.commit();
+
+        // Respond with success
+        res.status(200).json({
+            message: "Course payment rejected successfully",
+        });
     } catch (err) {
-        console.error("Error processing course payment approval:", err);
-        res.status(500).json({ message: "Internal Server Error" });
+        // Rollback the transaction in case of an error
+        await t.rollback();
+        console.error("Error processing course payment rejection:", err);
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: err.message,
+        });
     }
 });
+
 module.exports = router;
