@@ -127,7 +127,7 @@ router.post("/:courseId/Accept", Admin_midllware, async (req, res) => {
             {
                 StudentId: studentId,
                 CourseId: courseId,
-                Course_Videos_number: course.Vedios_count,
+                // Course_Videos_number: course.Vedios_count,
             },
             { transaction: t }
         );

@@ -49,10 +49,10 @@ const Delete_Course_Video = async (req, res) => {
 
         // Remove the video entry from the Course_Video table
         await Course_Video.destroy({ where: { id: videoId } });
-        await Courses.update(
-            { Vedios_count: course.Vedios_count + 1 },
-            { where: { id: courseId } }
-        );
+        // await Courses.update(
+        //     { Vedios_count: course.Vedios_count + 1 },
+        //     { where: { id: courseId } }
+        // );
         // Send success response
         return res.status(200).send({
             message: "Video deleted successfully!",

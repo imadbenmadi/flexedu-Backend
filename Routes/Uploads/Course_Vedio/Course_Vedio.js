@@ -74,10 +74,10 @@ const Upload_Course_Vedio = async (req, res) => {
             Video: fileLink,
             CourseId: course.id,
         });
-        await Courses.update(
-            { Vedios_count: course.Vedios_count + 1 },
-            { where: { id: new_course_in_db.id } }
-        );
+        // await Courses.update(
+        //     { Vedios_count: course.Vedios_count + 1 },
+        //     { where: { id: new_course_in_db.id } }
+        // );
         res.status(200).send({
             message: "Video uploaded successfully!",
             fileLink,

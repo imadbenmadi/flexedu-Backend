@@ -38,11 +38,11 @@ const Courses = sequelize.define("Courses", {
         allowNull: false,
         defaultValue: 0,
     },
-    Vedios_count: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-    },
+    // Vedios_count: {
+    //     type: DataTypes.INTEGER,
+    //     allowNull: false,
+    //     defaultValue: 0,
+    // },
     Rate: {
         type: DataTypes.FLOAT,
         allowNull: false,
