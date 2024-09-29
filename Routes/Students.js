@@ -19,6 +19,16 @@ router.get(
     Student_Middlware,
     StudentController.GetCourse
 );
+router.get(
+    "/:userId/Summaries",
+    Student_Middlware,
+    StudentController.Get_Summaries
+);
+router.get(
+    "/Summaries/:summaryId",
+    Student_Middlware,
+    StudentController.GetSummary
+);
 
 router.get(
     "/:userId/Notifications",
