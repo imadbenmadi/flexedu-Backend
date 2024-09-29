@@ -14,26 +14,10 @@ const Upload_Summary = async (req, res) => {
     try {
         const { Resume } = req.files;
         const userId = req.decoded.userId;
-        const { Title, Price, Description, Category } = req.body; // Price defaults to 0, Description to empty string
+        const { Title, Price, Description, Category, Pages_Count } = req.body; // Price defaults to 0, Description to empty string
 
-        if (!Resume) {
-            return res.status(400).send({
-                message: "No file uploaded",
-            });
-        } else if (!Title) {
-            return res.status(400).send({
-                message: "Title is required",
-            });
-        } else if (!Category) {
-            return res.status(400).send({
-                message: "Category is required",
-            });
-        }
-
-        if (!userId) {
-            return res.status(400).send({
-                message: "User ID is required",
-            });
+        if (!Resume || !Title || !Category || !Pages_Count) {
+            throw new Error("Missing required fields");
         }
 
         const allowedTypes = ["application/pdf"];
@@ -61,7 +45,9 @@ const Upload_Summary = async (req, res) => {
             Price: Price || 0, // Default to 0 if not provided
             Category: Category,
             Image: fileLink, // Storing the PDF link in the Image field
+            file_link: fileLink,
             TeacherId: userId,
+            Pages_Count: Pages_Count,
         });
 
         res.status(200).send({

@@ -23,6 +23,11 @@ const Summary = sequelize.define("Summary", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    file_link: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+
     TeacherId: {
         type: DataTypes.INTEGER,
         allowNull: false,
