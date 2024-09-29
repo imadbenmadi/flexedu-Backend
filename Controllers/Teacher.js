@@ -9,7 +9,13 @@ const {
     EditCourse,
     Get_Vedio,
 } = require("./Teacher/Courses");
-
+const {
+    GetSummaries,
+    GetSummary,
+    EditSummary,
+    DeleteSummary,
+    add_Summary,
+} = require("./Teacher/Summaries");
 const TeacherController = {
     getProfile,
     GetNotifications,
@@ -21,6 +27,11 @@ const TeacherController = {
     GetCourse,
     EditCourse,
     Get_Vedio,
+    GetSummaries,
+    GetSummary,
+    EditSummary,
+    DeleteSummary,
+    add_Summary,
 };
 
 module.exports = TeacherController;
