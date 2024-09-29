@@ -97,6 +97,7 @@ const Upload_summary_Payment = async (req, res) => {
                 screenShot: fileLink,
                 status: "pending",
                 StudentId: userId,
+                SummaryId: summaryId,
                 CCP_number: CCP_number,
                 Price: summary.Price,
             });

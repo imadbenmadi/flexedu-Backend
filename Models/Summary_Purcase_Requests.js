@@ -12,7 +12,7 @@ const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    CourseId: {
+    SummaryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
