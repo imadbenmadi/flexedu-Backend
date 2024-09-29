@@ -20,12 +20,12 @@ router.get(
     StudentController.GetCourse
 );
 router.get(
-    "/:userId/Summaries",
+    "/Summaries",
     Student_Middlware,
     StudentController.Get_Summaries
 );
 router.get(
-    "/:userId/Summaries/:summaryId",
+    "/Summaries/:summaryId",
     Student_Middlware,
     StudentController.GetSummary
 );

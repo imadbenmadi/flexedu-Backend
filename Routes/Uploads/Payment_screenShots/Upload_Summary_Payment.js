@@ -55,7 +55,7 @@ const Upload_summary_Payment = async (req, res) => {
         }
         const purcase = await Course_Purcase_Requests.findOne({
             where: {
-                summaryId: summaryId,
+                id: summaryId,
                 StudentId: userId,
             },
         });
@@ -78,7 +78,6 @@ const Upload_summary_Payment = async (req, res) => {
                 await purcase.create({
                     screenShot: fileLink,
                     status: "pending",
-                    summaryId: summaryId,
                     StudentId: userId,
                     CCP_number: CCP_number,
                     Price: summary.Price,
@@ -104,7 +103,6 @@ const Upload_summary_Payment = async (req, res) => {
             await purcase.create({
                 screenShot: fileLink,
                 status: "pending",
-                summaryId: summaryId,
                 StudentId: userId,
                 CCP_number: CCP_number,
                 Price: summary.Price,

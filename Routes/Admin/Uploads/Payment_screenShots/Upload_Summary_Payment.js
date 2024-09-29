@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const Course_Purcase_Requests = require("../../../../Models/Course_Purcase_Requests");
+const Summary_Purcase_Requests = require("../../../../Models/Summary_Purcase_Requests");
 const Summary = require("../../../../Models/Summary");
 const formidableMiddleware = require("express-formidable");
 
@@ -53,9 +53,9 @@ const Upload_summary_Payment = async (req, res) => {
                 message: "summary not found for the given userId",
             });
         }
-        const purcase = await Course_Purcase_Requests.findOne({
+        const purcase = await Summary_Purcase_Requests.findOne({
             where: {
-                summaryId: summaryId,
+                id: summaryId,
                 StudentId: userId,
             },
         });
@@ -75,14 +75,6 @@ const Upload_summary_Payment = async (req, res) => {
                 fs.copyFileSync(image.path, targetPath);
                 fs.unlinkSync(image.path);
                 // Update database with file link
-                await purcase.create({
-                    screenShot: fileLink,
-                    status: "pending",
-                    summaryId: summaryId,
-                    StudentId: userId,
-                    CCP_number: CCP_number,
-                    Price: summary.Price,
-                });
                 await purcase.update({
                     screenShot: fileLink,
                     status: "pending",
@@ -101,10 +93,9 @@ const Upload_summary_Payment = async (req, res) => {
             fs.copyFileSync(image.path, targetPath);
             fs.unlinkSync(image.path);
             // Update database with file link
-            await purcase.create({
+            await Summary_Purcase_Requests.create({
                 screenShot: fileLink,
                 status: "pending",
-                summaryId: summaryId,
                 StudentId: userId,
                 CCP_number: CCP_number,
                 Price: summary.Price,
