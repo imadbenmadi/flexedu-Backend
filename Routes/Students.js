@@ -9,7 +9,11 @@ router.put(
     Student_Middlware,
     StudentController.edit_profile
 );
-
+router.get(
+    "/:userId/Courses",
+    Student_Middlware,
+    StudentController.Get_Courses
+);
 router.get(
     "/Courses/:courseId",
     Student_Middlware,

@@ -5,6 +5,32 @@ const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
+const Get_Courses = async (req, res) => {
+    const userId = req.decoded.userId;
+    if (!userId)
+        return res.status(401).json({ error: "Unauthorized , missing userId" });
+    try {
+        const courses = await Courses.findAll({
+            where: {
+                TeacherId: userId,
+            },
+            include: [
+                {
+                    model: Course_Video,
+                    // as: "Course_Video",
+                },
+            ],
+            order: [["createdAt", "DESC"]],
+        });
+        if (!courses)
+            return res.status(404).json({ error: "No courses found." });
+        return res.status(200).json({ Courses: courses });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+};
+
 const GetCourse = async (req, res) => {
     const userId = req.decoded.userId;
     const courseId = req.params.courseId;
@@ -73,4 +99,5 @@ const GetCourse = async (req, res) => {
 
 module.exports = {
     GetCourse,
+    Get_Courses,
 };
