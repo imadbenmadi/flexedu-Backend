@@ -64,7 +64,7 @@ const Upload_summary_Payment = async (req, res) => {
                 message: "Unauthorized: pending request",
             });
         }
-        if (purcase.screenShot && purcase.status == "rejected") {
+        if (purcase &&  purcase?.screenShot && purcase.status == "rejected") {
             const previousFilename = purcase.screenShot.split("/").pop();
             const previousImagePath = `public/Payment/${previousFilename}`;
             try {
@@ -75,13 +75,6 @@ const Upload_summary_Payment = async (req, res) => {
                 fs.copyFileSync(image.path, targetPath);
                 fs.unlinkSync(image.path);
                 // Update database with file link
-                await purcase.create({
-                    screenShot: fileLink,
-                    status: "pending",
-                    StudentId: userId,
-                    CCP_number: CCP_number,
-                    Price: summary.Price,
-                });
                 await purcase.update({
                     screenShot: fileLink,
                     status: "pending",
