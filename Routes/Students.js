@@ -25,7 +25,7 @@ router.get(
     StudentController.Get_Summaries
 );
 router.get(
-    "/Summaries/:summaryId",
+    "/:userId/Summaries/:summaryId",
     Student_Middlware,
     StudentController.GetSummary
 );

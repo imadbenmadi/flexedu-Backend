@@ -6,16 +6,12 @@ const Get_Summaries = async (req, res) => {
     if (!userId)
         return res.status(401).json({ error: "Unauthorized , missing userId" });
     try {
-        const courses = await Summary.findAll({
-            where: {
-                TeacherId: userId,
-            },
-
+        const summarys = await Summary.findAll({
             order: [["createdAt", "DESC"]],
         });
-        if (!courses)
-            return res.status(404).json({ error: "No courses found." });
-        return res.status(200).json({ Summaries: courses });
+        if (!summarys)
+            return res.status(404).json({ error: "No summarys found." });
+        return res.status(200).json({ Summaries: summarys });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
@@ -24,23 +20,22 @@ const Get_Summaries = async (req, res) => {
 
 const GetSummary = async (req, res) => {
     const userId = req.decoded.userId;
-    const courseId = req.params.courseId;
-    if (!userId || !courseId)
+    const summaryId = req.params.summaryId;
+    if (!userId || !summaryId)
         return res
             .status(409)
-            .json({ error: "Unauthorized , missing userId or courseId" });
+            .json({ error: "Unauthorized , missing userId or summaryId" });
     try {
-        const course = await Summary.findOne({
+        const summary = await Summary.findOne({
             where: {
-                id: courseId,
+                id: summaryId,
                 // TeacherId: userId,
             },
 
             order: [["createdAt", "DESC"]],
         });
-        if (!course)
-            return res.status(404).json({ error: "course not found." });
-        let isEnrolled = false;
+        if (!summary)
+            return res.status(404).json({ error: "summary not found." });
         let paymentStatus = null;
         const student = await Students.findOne({
             where: {
@@ -49,7 +44,7 @@ const GetSummary = async (req, res) => {
         });
         const purcase = await Summary_Purcase_Requests.findOne({
             where: {
-                SummaryId: courseId,
+                id: summaryId,
                 StudentId: userId,
             },
         });
@@ -65,7 +60,7 @@ const GetSummary = async (req, res) => {
         return res.status(200).json({
             paymentStatus,
             purcase,
-            Summary: course,
+            Summary: summary,
         });
     } catch (error) {
         console.error(error);
