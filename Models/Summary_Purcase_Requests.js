@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
 const Students = require("./Student");
-const Courses = require("./Course");
-
-const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
+const Summaries = require("./Course");
+const Summaries = require("./Summary");
+const Summary_Purcase_Requests = sequelize.define("Summary_Purcase_Requests", {
     Price: {
         type: DataTypes.FLOAT,
         allowNull: false,
@@ -16,7 +16,7 @@ const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Courses,
+            model: Summaries,
             key: "id",
         },
         onDelete: "CASCADE",
@@ -42,16 +42,16 @@ const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
     },
 });
 
-Course_Purcase_Requests.belongsTo(Students, {
+Summary_Purcase_Requests.belongsTo(Students, {
     foreignKey: "StudentId",
     onDelete: "CASCADE",
 });
-Students.hasMany(Course_Purcase_Requests, { foreignKey: "StudentId" });
+Students.hasMany(Summary_Purcase_Requests, { foreignKey: "StudentId" });
 
-Course_Purcase_Requests.belongsTo(Courses, {
-    foreignKey: "CourseId",
+Summary_Purcase_Requests.belongsTo(Summaries, {
+    foreignKey: "SummaryId",
     onDelete: "CASCADE",
 });
-Courses.hasMany(Course_Purcase_Requests, { foreignKey: "CourseId" });
+Summaries.hasMany(Summary_Purcase_Requests, { foreignKey: "SummaryId" });
 
-module.exports = Course_Purcase_Requests;
+module.exports = Summary_Purcase_Requests;
