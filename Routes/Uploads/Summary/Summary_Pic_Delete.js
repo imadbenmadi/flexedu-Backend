@@ -14,7 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const Delete_summary_Image = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const summary = await Summary.findOne({ where: { id: userId } });
+        const summary = await Summary.findOne({ where: { TeacherId: userId } });
         if (!summary) {
             return res.status(404).send({
                 message: "summary not found for the given userId",
@@ -38,10 +38,10 @@ const Delete_summary_Image = async (req, res) => {
                 message: "summary Picture Not Found",
             });
         }
-        await Summaries.update({ Image: null }, { where: { id: userId } });
+        await Summary.update({ Image: null }, { where: { TeacherId: userId } });
         // Example response
         return res.status(200).send({
-            message: "summary summary picture deleted successfully!",
+            message: "summary picture deleted successfully!",
         });
     } catch (error) {
         // Error handling

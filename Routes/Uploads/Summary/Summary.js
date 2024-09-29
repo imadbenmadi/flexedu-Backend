@@ -15,6 +15,7 @@ const Upload_Summary = async (req, res) => {
         const { Resume } = req.files;
         const userId = req.decoded.userId;
         const { Title, Price, Description, Category, Pages_Count } = req.body; // Price defaults to 0, Description to empty string
+        console.log(req.body);
 
         if (!Resume || !Title || !Category || !Pages_Count) {
             throw new Error("Missing required fields");
@@ -44,7 +45,7 @@ const Upload_Summary = async (req, res) => {
             Description: Description || "", // Default to empty string if not provided
             Price: Price || 0, // Default to 0 if not provided
             Category: Category,
-            Image: fileLink, // Storing the PDF link in the Image field
+            // Image: fileLink, // Storing the PDF link in the Image field
             file_link: fileLink,
             TeacherId: userId,
             Pages_Count: Pages_Count,
