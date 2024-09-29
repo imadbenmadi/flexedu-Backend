@@ -14,6 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const Upload_summary_Image = async (req, res) => {
     try {
         const { summaryPic } = req.files;
+        const summaryId = req.params.summaryid;
         if (!summaryPic) {
             return res.status(400).send({
                 message: "No file uploaded",
@@ -42,7 +43,9 @@ const Upload_summary_Image = async (req, res) => {
         const uniqueSuffix = `summary-${userId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Summaries_Pictures/${uniqueSuffix}`;
-        const summary = await Summary.findOne({ where: { TeacherId: userId } });
+        const summary = await Summary.findOne({
+            where: { id: summaryId },
+        });
         if (!summary) {
             return res.status(404).send({
                 message: "summary not found for the given userId",
@@ -71,10 +74,7 @@ const Upload_summary_Image = async (req, res) => {
         fs.unlinkSync(summaryPic.path);
 
         // Update database with file link
-        await Summary.update(
-            { Image: fileLink },
-            { where: { TeacherId: userId } }
-        );
+        await Summary.update({ Image: fileLink }, { where: { id: summaryId } });
 
         // Example response
         res.status(200).send({

@@ -63,14 +63,21 @@ const Upload_Course_Vedio = async (req, res) => {
 
         // Update the course with the video link and details in the Course_Video table
         const course = await Courses.findOne({ where: { id: userId } });
-
-        await Course_Video.create({
+        if (!course) {
+            return res.status(404).send({
+                message: "Course not found for the given userId",
+            });
+        }
+        const new_course_in_db = await Course_Video.create({
             Title,
             Duration,
             Video: fileLink,
             CourseId: course.id,
         });
-
+        await Courses.update(
+            { Vedios_count: course.Vedios_count + 1 },
+            { where: { id: new_course_in_db.id } }
+        );
         res.status(200).send({
             message: "Video uploaded successfully!",
             fileLink,
