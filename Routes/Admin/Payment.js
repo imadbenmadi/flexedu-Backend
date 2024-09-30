@@ -255,7 +255,7 @@ router.get("/Summaries/:summaryId", Admin_midllware, async (req, res) => {
                     id: summaryId,
                     StudentId: { [Op.not]: null },
                 },
-                include: [{ model: Students }],
+                include: [{ model: Students }, { model: Summary }],
                 order: [["createdAt", "DESC"]],
             }
         );
@@ -286,7 +286,7 @@ router.post(
         try {
             const summary = await Summary.findOne({ where: { id: summaryId } });
             const payment_request = await Summary_Purcase_Requests.findOne({
-                where: { SummaryId: summaryId, StudentId: studentId },
+                where: { id: summaryId, StudentId: studentId },
             });
             if (!summary || !payment_request) {
                 await t.rollback();
@@ -296,14 +296,6 @@ router.post(
             }
             await payment_request.update(
                 { status: "accepted" },
-                { transaction: t }
-            );
-            await Course_Progress.create(
-                {
-                    StudentId: studentId,
-                    SummaryId: summaryId,
-                    // Course_Videos_number: course.Vedios_count,
-                },
                 { transaction: t }
             );
             try {
@@ -329,12 +321,10 @@ router.post(
                 );
             } catch (error) {
                 await t.rollback();
-                return res
-                    .status(500)
-                    .json({
-                        message: "Notification Error",
-                        error: error.message,
-                    });
+                return res.status(500).json({
+                    message: "Notification Error",
+                    error: error.message,
+                });
             }
             await t.commit(); // Commit transaction if all went well
             res.status(200).json({ message: "Summary payment accepted" });
@@ -372,7 +362,7 @@ router.post(
                 transaction: t,
             });
             const payment_request = await Summary_Purcase_Requests.findOne({
-                where: { SummaryId: summaryId, StudentId: studentId },
+                where: { id: summaryId, StudentId: studentId },
                 transaction: t,
             });
 
