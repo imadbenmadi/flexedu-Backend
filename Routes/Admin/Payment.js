@@ -229,7 +229,7 @@ router.get("/Summaries", Admin_midllware, async (req, res) => {
                     StudentId: { [Op.not]: null },
                     status: "pending",
                 },
-                include: [{ model: Students }],
+                include: [{ model: Students }, { model: Summary }],
                 order: [["createdAt", "DESC"]],
             }
         );

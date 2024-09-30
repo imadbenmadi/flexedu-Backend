@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
 const Students = require("./Student");
-const Summaries = require("./Course");
 const Summaries = require("./Summary");
 const Summary_Purcase_Requests = sequelize.define("Summary_Purcase_Requests", {
     Price: {
