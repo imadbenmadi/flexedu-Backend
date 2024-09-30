@@ -41,6 +41,16 @@ const edit_profile = async (req, res) => {
         if (linkedIn_Link !== undefined) updates.linkedIn_Link = linkedIn_Link;
         if (facebook_Link !== undefined) updates.facebook_Link = facebook_Link;
 
+        const emailExists = await Teachers.findOne({
+            where: { email: email },
+        });
+        const emailExistsInStudent = await Students.findOne({
+            where: { email: email },
+        });
+        if (emailExists || emailExistsInStudent) {
+            return res.status(409).json({ error: "Email already exists." });
+        }
+
         // Only update fields that exist in the 'updates' object
         await user_in_db.update(updates);
         return res

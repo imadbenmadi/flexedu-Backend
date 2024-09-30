@@ -30,7 +30,15 @@ const edit_profile = async (req, res) => {
         if (firstName !== undefined) updates.firstName = firstName;
         if (lastName !== undefined) updates.lastName = lastName;
         if (email !== undefined) updates.email = email;
-
+        const emailExists = await Students.findOne({
+            where: { email: email },
+        });
+        const emailExistsInTeacher = await Teachers.findOne({
+            where: { email: email },
+        });
+        if (emailExists || emailExistsInTeacher) {
+            return res.status(409).json({ error: "Email already exists." });
+        }
         // Only update fields that exist in the 'updates' object
         await user_in_db.update(updates);
         return res
