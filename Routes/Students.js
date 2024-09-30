@@ -40,5 +40,11 @@ router.delete(
     Student_Middlware,
     StudentController.DeleteNotification
 );
+// ______________________________________________________
+router.get(
+    "/:userId/Purcased",
+    Student_Middlware,
+    StudentController.GetPurcased
+);
 
 module.exports = router;
