@@ -14,7 +14,7 @@ const {
     GetPurchasedCourse,
     GetPurchasedSummary,
 } = require("./Student/Purchased");
-const { post_review } = require("./Student/Review");
+const { post_course_review, post_summary_review } = require("./Student/Review");
 const StudentController = {
     getProfile,
     GetNotifications,
@@ -28,7 +28,8 @@ const StudentController = {
     GetPurchasedCourse,
     GetPurchasedSummary,
     change_Progress,
-    post_review,
+    post_course_review,
+    post_summary_review,
 };
 
 module.exports = StudentController;

@@ -6,7 +6,7 @@ const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
-const Reviews = require("../../Models/Review");
+const Reviews = require("../../Models/Review_Course");
 const GetPurchased = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)

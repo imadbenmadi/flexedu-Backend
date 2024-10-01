@@ -3,7 +3,7 @@ const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
-const Reviews = require("../../Models/Review");
+const Reviews = require("../../Models/Review_Course");
 const Get_Courses = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -99,7 +99,7 @@ const GetCourse = async (req, res) => {
             paymentStatus,
             purcase,
             Course: course,
-            course_progress, 
+            course_progress,
         });
     } catch (error) {
         console.error(error);

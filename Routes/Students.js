@@ -62,6 +62,11 @@ router.post(
 router.post(
     "/:userId/Courses/:courseId/Review",
     Student_Middlware,
-    StudentController.post_review
+    StudentController.post_course_review
+);
+router.post(
+    "/:userId/Summaries/:summaryId/Review",
+    Student_Middlware,
+    StudentController.post_summary_review
 );
 module.exports = router;
