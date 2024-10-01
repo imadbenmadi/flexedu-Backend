@@ -1,4 +1,5 @@
 const Teachers = require("../../Models/Teacher");
+
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
     try {
@@ -61,4 +62,23 @@ const edit_profile = async (req, res) => {
         return res.status(500).json({ error: error });
     }
 };
-module.exports = { getProfile, edit_profile };
+const change_CCP = async (req, res) => {
+    const userId = req.decoded.userId;
+    const { CCP_number } = req.body;
+    try {
+        const user_in_db = await Teachers.findByPk(userId);
+        if (!user_in_db) {
+            return res.status(404).json({ error: "user not found." });
+        }
+
+        user_in_db.CCP_number = CCP_number;
+        await user_in_db.save();
+        return res
+            .status(200)
+            .json({ message: "Password Changed Successfully" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: error });
+    }
+};
+module.exports = { getProfile, edit_profile, change_CCP };

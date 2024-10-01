@@ -9,6 +9,11 @@ router.put(
     Teacher_Middlware,
     TeacherController.edit_profile
 );
+router.post(
+    "/:userId/CCP",
+    Teacher_Middlware,
+    TeacherController.change_CCP
+);
 router.get(
     "/:userId/Notifications",
     Teacher_Middlware,

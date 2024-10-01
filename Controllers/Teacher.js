@@ -1,4 +1,4 @@
-const { getProfile, edit_profile } = require("./Teacher/Profile");
+const { getProfile, edit_profile, change_CCP } = require("./Teacher/Profile");
 const { GetNotifications } = require("./Teacher/Notifications");
 const { DeleteNotification } = require("./Teacher/Notifications");
 const {
@@ -18,6 +18,7 @@ const {
 } = require("./Teacher/Summaries");
 const TeacherController = {
     getProfile,
+    change_CCP,
     GetNotifications,
     DeleteNotification,
     add_course,
