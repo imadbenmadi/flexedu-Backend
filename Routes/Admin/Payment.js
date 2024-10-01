@@ -58,17 +58,10 @@ router.get("/Courses/:courseId", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
-router.get("/Courses/:courseId/Accepted", Admin_midllware, async (req, res) => {
-    const courseId = req.params.courseId;
-    if (!courseId)
-        return res
-            .status(409)
-            .json({ message: "Missing data CourseId is required" });
-
+router.get("/Courses/Accepted", Admin_midllware, async (req, res) => {
     try {
         const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
             where: {
-                CourseId: courseId,
                 StudentId: { [Op.not]: null },
                 status: "accepted",
             },
@@ -83,17 +76,10 @@ router.get("/Courses/:courseId/Accepted", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
-router.get("/Courses/:courseId/Rejected", Admin_midllware, async (req, res) => {
-    const courseId = req.params.courseId;
-    if (!courseId)
-        return res
-            .status(409)
-            .json({ message: "Missing data CourseId is required" });
-
+router.get("/Courses/Rejected", Admin_midllware, async (req, res) => {
     try {
         const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
             where: {
-                CourseId: courseId,
                 StudentId: { [Op.not]: null },
                 status: "rejected",
             },
@@ -108,66 +94,46 @@ router.get("/Courses/:courseId/Rejected", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
-router.get(
-    "/Summaries/:summaryId/Accepted",
-    Admin_midllware,
-    async (req, res) => {
-        const summaryId = req.params.summaryId;
-        if (!summaryId)
-            return res
-                .status(409)
-                .json({ message: "Missing data SummaryId is required" });
-
-        try {
-            const summary_Purcase_Requests =
-                await Summary_Purcase_Requests.findAll({
-                    where: {
-                        SummaryId: summaryId,
-                        StudentId: { [Op.not]: null },
-                        status: "accepted",
-                    },
-                    include: [{ model: Students }, { model: Summary }],
-                    order: [["createdAt", "DESC"]],
-                });
-            res.status(200).json({
-                summary_Purcase_Requests: summary_Purcase_Requests,
-            });
-        } catch (err) {
-            console.error("Error fetching Summary courses:", err);
-            res.status(500).json({ message: err });
-        }
+router.get("/Summaries/Accepted", Admin_midllware, async (req, res) => {
+    try {
+        const summary_Purcase_Requests = await Summary_Purcase_Requests.findAll(
+            {
+                where: {
+                    StudentId: { [Op.not]: null },
+                    status: "accepted",
+                },
+                include: [{ model: Students }, { model: Summary }],
+                order: [["createdAt", "DESC"]],
+            }
+        );
+        res.status(200).json({
+            summary_Purcase_Requests: summary_Purcase_Requests,
+        });
+    } catch (err) {
+        console.error("Error fetching Summary courses:", err);
+        res.status(500).json({ message: err });
     }
-);
-router.get(
-    "/Summaries/:summaryId/Rejected",
-    Admin_midllware,
-    async (req, res) => {
-        const summaryId = req.params.summaryId;
-        if (!summaryId)
-            return res.status(409).json({
-                message: "Missing data SummaryId is required",
-            });
-
-        try {
-            const summary_Purcase_Requests =
-                await Summary_Purcase_Requests.findAll({
-                    where: {
-                        SummaryId: summaryId,
-                        StudentId: { [Op.not]: null },
-                        status: "rejected",
-                    },
-                    include: [{ model: Students }, { model: Summary }],
-                    order: [["createdAt", "DESC"]],
-                });
-            res.status(200).json({
-                summary_Purcase_Requests: summary_Purcase_Requests,
-            });
-        } catch (err) {
-            console.error("Error fetching Summary courses:", err);
-            res.status(500).json({ message: err });
-        }
+});
+router.get("/Summaries/Rejected", Admin_midllware, async (req, res) => {
+    try {
+        const summary_Purcase_Requests = await Summary_Purcase_Requests.findAll(
+            {
+                where: {
+                    StudentId: { [Op.not]: null },
+                    status: "rejected",
+                },
+                include: [{ model: Students }, { model: Summary }],
+                order: [["createdAt", "DESC"]],
+            }
+        );
+        res.status(200).json({
+            summary_Purcase_Requests: summary_Purcase_Requests,
+        });
+    } catch (err) {
+        console.error("Error fetching Summary courses:", err);
+        res.status(500).json({ message: err });
     }
-);
+});
 
 router.post("/Courses/:courseId/Accept", Admin_midllware, async (req, res) => {
     const { courseId } = req.params;
