@@ -9,11 +9,7 @@ router.put(
     Teacher_Middlware,
     TeacherController.edit_profile
 );
-router.post(
-    "/:userId/CCP",
-    Teacher_Middlware,
-    TeacherController.change_CCP
-);
+router.post("/:userId/CCP", Teacher_Middlware, TeacherController.change_CCP);
 router.get(
     "/:userId/Notifications",
     Teacher_Middlware,
@@ -78,6 +74,15 @@ router.post(
     TeacherController.add_Summary
 );
 // _________________________________________________________
-
+router.get(
+    "/:userId/Payments",
+    Teacher_Middlware,
+    TeacherController.Get_Payment
+);
+router.get(
+    "/:userId/CCP",
+    Teacher_Middlware,
+    TeacherController.get_teacher_ccp
+);
 
 module.exports = router;
