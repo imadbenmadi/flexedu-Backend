@@ -16,6 +16,7 @@ router.get("/Admins", Admin_midllware, async (req, res) => {
     }
 });
 router.use("/Courses", require("./Courses"));
+router.use("/Summaries", require("./Summaries"));
 router.use("/Payment", require("./Payment"));
 router.use("/Home", require("./Home"));
 router.use("/Contact", require("./Contact"));
