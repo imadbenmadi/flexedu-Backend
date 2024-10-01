@@ -1,6 +1,7 @@
 // const { Teacher_Courses } = require("../../Models/Course");
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
+const Teachers = require("../../Models/Teacher");
 const Summary = require("../../Models/Summary");
 const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
@@ -13,6 +14,10 @@ const Get_Payment = async (req, res) => {
         return res.status(401).json({ error: "Unauthorized , missing userId" });
     try {
         let course_Purcase_Requests = [];
+        const teacher = await Teachers.findByPk(userId);
+        if (!teacher) {
+            return res.status(404).json({ error: "Teacher not found." });
+        }
         const TeacherCourses = await Courses.findAll({
             where: {
                 TeacherId: userId,
@@ -27,6 +32,7 @@ const Get_Payment = async (req, res) => {
                 include: [
                     {
                         model: Courses,
+                        model: Students,
                         // as: "Course_Video",
                     },
                 ],
@@ -48,6 +54,8 @@ const Get_Payment = async (req, res) => {
                 include: [
                     {
                         model: Summary,
+                        model: Students,
+
                         // as: "Course_Video",
                     },
                 ],

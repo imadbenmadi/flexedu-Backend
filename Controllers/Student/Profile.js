@@ -1,5 +1,5 @@
 const Students = require("../../Models/Student");
-
+const Teachers = require("../../Models/Teacher");
 const getProfile = async (req, res) => {
     const userId = req.decoded.userId;
 

@@ -103,7 +103,7 @@ router.post("/Courses/:courseId/Accept", Admin_midllware, async (req, res) => {
                     text: "A new student has paid the fees for your course.",
                     type: "payment_received",
                     TeacherId: course.TeacherId,
-                    link: `/Teacher/Payments/Courses/${course.id}`,
+                    link: `/Teacher/Payments`,
                 },
                 { transaction: t }
             );
@@ -114,7 +114,7 @@ router.post("/Courses/:courseId/Accept", Admin_midllware, async (req, res) => {
                     text: "You can now access the course content.",
                     type: "payment_accepted",
                     StudentId: studentId,
-                    link: `/Student/Purchased/Courses/${course.id}`,
+                    link: `/Student/Purchased`,
                 },
                 { transaction: t }
             );
@@ -305,7 +305,7 @@ router.post(
                         text: "A new student has paid the fees for your Summary.",
                         type: "payment_received",
                         TeacherId: summary.TeacherId,
-                        link: `/Teacher/Payments/Summary/${summary.id}`,
+                        link: `/Teacher/Payments`,
                     },
                     { transaction: t }
                 );
@@ -315,7 +315,7 @@ router.post(
                         text: "You can now access the Summary content.",
                         type: "payment_accepted",
                         StudentId: studentId,
-                        link: `/Student/Purchased/Summary/${summary.id}`,
+                        link: `/Student/Purchased`,
                     },
                     { transaction: t }
                 );
