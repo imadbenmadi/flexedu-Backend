@@ -48,7 +48,10 @@ const Teachers = sequelize.define("Teachers", {
         type: DataTypes.STRING,
         allowNull: true,
     },
-    
+    CCP_KEY: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 });
 
 module.exports = Teachers;
