@@ -57,26 +57,6 @@ const Get_Payment = async (req, res) => {
         return res.status(200).json({
             course_Purcase_Requests: course_Purcase_Requests,
             summary_Purcase_Requests: summary_Purcase_Requests,
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Internal server error." });
-    }
-};
-
-const get_teacher_ccp = async (req, res) => {
-    const userId = req.decoded.userId;
-    if (!userId)
-        return res.status(401).json({ error: "Unauthorized , missing userId" });
-    try {
-        const teacher = await Teachers.findOne({
-            where: {
-                id: userId,
-            },
-        });
-        if (!teacher)
-            return res.status(404).json({ error: "teacher not found." });
-        return res.status(200).json({
             CCP_number: teacher.CCP_number,
         });
     } catch (error) {
@@ -86,6 +66,5 @@ const get_teacher_ccp = async (req, res) => {
 };
 
 module.exports = {
-    get_teacher_ccp,
     Get_Payment,
 };

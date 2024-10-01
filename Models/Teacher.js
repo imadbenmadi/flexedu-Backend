@@ -46,12 +46,9 @@ const Teachers = sequelize.define("Teachers", {
     },
     CCP_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
-    Phone_Number: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+    
 });
 
 module.exports = Teachers;

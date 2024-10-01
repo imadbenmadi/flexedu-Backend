@@ -16,7 +16,7 @@ const {
     DeleteSummary,
     add_Summary,
 } = require("./Teacher/Summaries");
-const { Get_Payment, get_teacher_ccp } = require("./Teacher/Payments");
+const { Get_Payment } = require("./Teacher/Payments");
 const TeacherController = {
     getProfile,
     change_CCP,
@@ -35,7 +35,6 @@ const TeacherController = {
     DeleteSummary,
     add_Summary,
     Get_Payment,
-    get_teacher_ccp,
 };
 
 module.exports = TeacherController;

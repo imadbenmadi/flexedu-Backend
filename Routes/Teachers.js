@@ -79,10 +79,6 @@ router.get(
     Teacher_Middlware,
     TeacherController.Get_Payment
 );
-router.get(
-    "/:userId/CCP",
-    Teacher_Middlware,
-    TeacherController.get_teacher_ccp
-);
+
 
 module.exports = router;
