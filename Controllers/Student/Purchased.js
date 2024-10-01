@@ -7,6 +7,7 @@ const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const Reviews = require("../../Models/Review_Course");
+const Review_Summary = require("../../Models/Review_Summary");
 const GetPurchased = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -155,6 +156,10 @@ const GetPurchasedSummary = async (req, res) => {
                 id: userId,
             },
         });
+        if (!student)
+            return res
+                .status(409)
+                .json({ error: "Unauthorized , not a student" });
         const purcase = await Summary_Purcase_Requests.findOne({
             where: {
                 SummaryId: summaryId,
@@ -170,16 +175,20 @@ const GetPurchasedSummary = async (req, res) => {
         if (purcase) {
             paymentStatus = purcase.status;
         }
-
-        if (!student)
-            return res
-                .status(409)
-                .json({ error: "Unauthorized , not a student" });
+        const reviews = await Review_Summary.findAll({
+            where: {
+                StudentId: userId,
+            },
+        });
+        if (reviews) {
+            isReviewed = true;
+        }
 
         return res.status(200).json({
             paymentStatus,
             purcase,
             Summary: summary,
+            isReviewed,
         });
     } catch (error) {
         console.error(error);

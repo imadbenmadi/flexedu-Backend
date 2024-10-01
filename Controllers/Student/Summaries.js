@@ -1,6 +1,7 @@
 const Summary = require("../../Models/Summary");
 const Students = require("../../Models/Student");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
+const Review_Summary = require("../../Models/Review_Summary");
 const Get_Summaries = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -56,11 +57,21 @@ const GetSummary = async (req, res) => {
             return res
                 .status(409)
                 .json({ error: "Unauthorized , not a student" });
+        let isReviewed = false;
+        const reviews = await Review_Summary.findAll({
+            where: {
+                StudentId: userId,
+            },
+        });
+        if (reviews) {
+            isReviewed = true;
+        }
 
         return res.status(200).json({
             paymentStatus,
             purcase,
             Summary: summary,
+            isReviewed,
         });
     } catch (error) {
         console.error(error);

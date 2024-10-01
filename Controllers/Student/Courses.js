@@ -89,7 +89,7 @@ const GetCourse = async (req, res) => {
                 StudentId: userId,
             },
         });
-        if (reviews) {
+        if (!reviews) {
             isReviewed = true;
         }
 

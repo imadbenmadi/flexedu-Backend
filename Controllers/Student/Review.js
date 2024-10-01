@@ -51,6 +51,9 @@ const post_course_review = async (req, res) => {
             rating: rating,
             review: review,
         });
+        await course.update({
+            Rate: (course.Rate + rating) / 2,
+        });
         if (!review_data)
             return res.status(404).json({ error: "Review not created." });
         return res.status(200).json({ Review: review_data });
@@ -82,20 +85,23 @@ const post_summary_review = async (req, res) => {
         });
         if (!summary)
             return res.status(404).json({ error: "Summary not found." });
-        const already_reviewed = await Review_Summary.findOne({
-            where: {
-                StudentId: userId,
-                SummaryId: summaryId,
-            },
-        });
-        if (already_reviewed)
-            return res.status(404).json({ error: "Review already exists." });
+        // const already_reviewed = await Review_Summary.findOne({
+        //     where: {
+        //         StudentId: userId,
+        //         SummaryId: summaryId,
+        //     },
+        // });
+        // if (already_reviewed)
+        //     return res.status(404).json({ error: "Review already exists." });
 
         const review_data = await Review_Summary.create({
             StudentId: userId,
             SummaryId: summaryId,
             rating: rating,
             review: review,
+        });
+        await summary.update({
+            Rate: (summary.Rate + rating) / 2,
         });
         if (!review_data)
             return res.status(404).json({ error: "Review not created." });
