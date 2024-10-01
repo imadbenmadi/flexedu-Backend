@@ -5,7 +5,11 @@ const {
 } = require("./Student/Notifications");
 const { GetCourse, Get_Courses } = require("./Student/Courses");
 const { Get_Summaries, GetSummary } = require("./Student/Summaries");
-const { GetPurchased, GetPurchasedCourse } = require("./Student/Purchased");
+const {
+    GetPurchased,
+    GetPurchasedCourse,
+    GetPurchasedSummary,
+} = require("./Student/Purchased");
 const StudentController = {
     getProfile,
     GetNotifications,
@@ -17,6 +21,7 @@ const StudentController = {
     GetSummary,
     GetPurchased,
     GetPurchasedCourse,
+    GetPurchasedSummary,
 };
 
 module.exports = StudentController;

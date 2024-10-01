@@ -47,5 +47,10 @@ router.get(
     Student_Middlware,
     StudentController.GetPurchasedCourse
 );
+router.get(
+    "/:userId/Purchased/Summaries/:summaryId",
+    Student_Middlware,
+    StudentController.GetPurchasedSummary
+);
 
 module.exports = router;
