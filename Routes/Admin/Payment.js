@@ -59,8 +59,13 @@ router.get("/Courses/:courseId", Admin_midllware, async (req, res) => {
     }
 });
 router.get("/Courses/Accepted", Admin_midllware, async (req, res) => {
+        console.log("hii");
+
     try {
+        
         const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
+            // where: { status: "Pending" },
+            // where: { isPayment_ScreenShot_uploaded: true },
             where: {
                 StudentId: { [Op.not]: null },
                 status: "accepted",
@@ -76,6 +81,7 @@ router.get("/Courses/Accepted", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
+
 router.get("/Courses/Rejected", Admin_midllware, async (req, res) => {
     try {
         const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
@@ -106,6 +112,8 @@ router.get("/Summaries/Accepted", Admin_midllware, async (req, res) => {
                 order: [["createdAt", "DESC"]],
             }
         );
+        // console.log(summary_Purcase_Requests);
+
         res.status(200).json({
             summary_Purcase_Requests: summary_Purcase_Requests,
         });
@@ -126,6 +134,8 @@ router.get("/Summaries/Rejected", Admin_midllware, async (req, res) => {
                 order: [["createdAt", "DESC"]],
             }
         );
+        // console.log(summary_Purcase_Requests);
+
         res.status(200).json({
             summary_Purcase_Requests: summary_Purcase_Requests,
         });

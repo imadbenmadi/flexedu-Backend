@@ -39,10 +39,7 @@ const Summary_Purcase_Requests = sequelize.define("Summary_Purcase_Requests", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    CCP_KEY: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
+    
 });
 
 Summary_Purcase_Requests.belongsTo(Students, {
