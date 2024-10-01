@@ -1,4 +1,3 @@
-// const { Teacher_Courses } = require("../../Models/Course");
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Teachers = require("../../Models/Teacher");

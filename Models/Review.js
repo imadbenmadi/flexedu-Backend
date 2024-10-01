@@ -1,14 +1,14 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db_connection");
-const Teachers = require("./Teacher");
+// const Teachers = require("./Teacher");
 const Students = require("./Student");
-
+const Courses = require("./Course");
 const Reviews = sequelize.define("Reviews", {
-    TeacherId: {
+    CourseId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Teachers,
+            model: Courses,
             key: "id",
         },
         onDelete: "CASCADE", // Ensure cascading deletes if a teacher is deleted
@@ -35,11 +35,11 @@ const Reviews = sequelize.define("Reviews", {
     },
 });
 
-// Setting up associations with Teachers and Students
-Reviews.belongsTo(Teachers, { foreignKey: "TeacherId", onDelete: "CASCADE" });
-Teachers.hasMany(Reviews, { foreignKey: "TeacherId" });
+// Setting up associations with Courses and Students
+Reviews.belongsTo(Courses, { foreignKey: "TeacherId", onDelete: "CASCADE" });
+Courses.hasMany(Reviews, { foreignKey: "TeacherId" });
 
 Reviews.belongsTo(Students, { foreignKey: "StudentId", onDelete: "CASCADE" });
 Students.hasMany(Reviews, { foreignKey: "StudentId" });
 
-module.exports =  Reviews ;
+module.exports = Reviews;

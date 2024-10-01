@@ -1,9 +1,9 @@
-// const { Teacher_Courses } = require("../../Models/Course");
 const Courses = require("../../Models/Course");
 const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
+const Reviews = require("../../Models/Review");
 const Get_Courses = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -54,6 +54,7 @@ const GetCourse = async (req, res) => {
         if (!course)
             return res.status(404).json({ error: "course not found." });
         let isEnrolled = false;
+        let isReviewed = false;
         let paymentStatus = null;
         const student = await Students.findOne({
             where: {
@@ -83,12 +84,22 @@ const GetCourse = async (req, res) => {
         if (course_progress) {
             isEnrolled = true;
         }
+        const reviews = await Reviews.findAll({
+            where: {
+                StudentId: userId,
+            },
+        });
+        if (reviews) {
+            isReviewed = true;
+        }
 
         return res.status(200).json({
             isEnrolled: isEnrolled,
+            isReviewed: isReviewed,
             paymentStatus,
             purcase,
             Course: course,
+            course_progress, 
         });
     } catch (error) {
         console.error(error);
