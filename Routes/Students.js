@@ -52,5 +52,11 @@ router.get(
     Student_Middlware,
     StudentController.GetPurchasedSummary
 );
+// ______________________________________________________
+router.post(
+    "/:userId/Courses/:courseId/Progress",
+    Student_Middlware,
+    StudentController.change_Progress
+);
 
 module.exports = router;

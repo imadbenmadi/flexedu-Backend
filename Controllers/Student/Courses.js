@@ -95,8 +95,72 @@ const GetCourse = async (req, res) => {
         return res.status(500).json({ error: "Internal server error." });
     }
 };
+const change_Progress = async (req, res) => {
+    const userId = req.decoded.userId;
+    const courseId = req.params.courseId;
+    const progress = req.body.progress;
+    if (!progress)
+        return res.status(409).json({ error: "progress is required." });
+    else if (!userId || !courseId)
+        return res
+            .status(409)
+            .json({ error: "Unauthorized , missing userId or courseId" });
+    try {
+        const course = await Courses.findOne({
+            where: {
+                id: courseId,
+                // TeacherId: userId,
+            },
+        });
+        if (!course)
+            return res.status(404).json({ error: "course not found." });
+        const student = await Students.findOne({
+            where: {
+                id: userId,
+            },
+        });
+        if (!student)
+            return res
+                .status(409)
+                .json({ error: "Unauthorized , not a student" });
+        const Course_vedios = await Course_Video.findAll({
+            where: {
+                CourseId: courseId,
+            },
+        });
+        if (!Course_vedios)
+            return res.status(404).json({ error: "No vedios found." });
+        else if (progress > Course_vedios.length)
+            return res
+                .status(409)
+                .json({ error: "progress is greater than total vedios." });
+        const course_progress = await Course_Progress.findOne({
+            where: {
+                StudentId: userId,
+                CourseId: courseId,
+            },
+        });
+        if (course_progress) {
+            await course_progress.update({
+                progress: req.body.progress,
+            });
+            return res.status(200).json({ message: "Progress updated." });
+        } else {
+            await Course_Progress.create({
+                StudentId: userId,
+                CourseId: courseId,
+                progress: req.body.progress,
+            });
+            return res.status(200).json({ message: "Progress updated." });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
+};
 
 module.exports = {
     GetCourse,
     Get_Courses,
+    change_Progress,
 };

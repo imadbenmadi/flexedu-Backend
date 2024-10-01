@@ -3,7 +3,11 @@ const {
     GetNotifications,
     DeleteNotification,
 } = require("./Student/Notifications");
-const { GetCourse, Get_Courses } = require("./Student/Courses");
+const {
+    GetCourse,
+    Get_Courses,
+    change_Progress,
+} = require("./Student/Courses");
 const { Get_Summaries, GetSummary } = require("./Student/Summaries");
 const {
     GetPurchased,
@@ -22,6 +26,7 @@ const StudentController = {
     GetPurchased,
     GetPurchasedCourse,
     GetPurchasedSummary,
+    change_Progress,
 };
 
 module.exports = StudentController;
