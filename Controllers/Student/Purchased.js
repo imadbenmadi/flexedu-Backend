@@ -7,7 +7,7 @@ const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
-const GetPurcased = async (req, res) => {
+const GetPurchased = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
         return res.status(401).json({ error: "Unauthorized , missing userId" });
@@ -51,7 +51,7 @@ const GetPurcased = async (req, res) => {
     }
 };
 
-const GetPurcased_Course = async (req, res) => {
+const GetPurchasedCourse = async (req, res) => {
     const userId = req.decoded.userId;
     const courseId = req.params.courseId;
     if (!userId || !courseId)
@@ -118,6 +118,6 @@ const GetPurcased_Course = async (req, res) => {
 };
 
 module.exports = {
-    GetPurcased_Course,
-    GetPurcased,
+    GetPurchasedCourse,
+    GetPurchased,
 };

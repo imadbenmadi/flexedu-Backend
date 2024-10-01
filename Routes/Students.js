@@ -19,11 +19,7 @@ router.get(
     Student_Middlware,
     StudentController.GetCourse
 );
-router.get(
-    "/Summaries",
-    Student_Middlware,
-    StudentController.Get_Summaries
-);
+router.get("/Summaries", Student_Middlware, StudentController.Get_Summaries);
 router.get(
     "/Summaries/:summaryId",
     Student_Middlware,
@@ -42,9 +38,14 @@ router.delete(
 );
 // ______________________________________________________
 router.get(
-    "/:userId/Purcased",
+    "/:userId/Purchased",
     Student_Middlware,
-    StudentController.GetPurcased
+    StudentController.GetPurchased
+);
+router.get(
+    "/:userId/Purchased/Courses/:courseId",
+    Student_Middlware,
+    StudentController.GetPurchasedCourse
 );
 
 module.exports = router;
