@@ -8,7 +8,12 @@ const Upload_Course_Vedio = async (req, res) => {
         const { CourseVedio } = req.files;
         const userId = req.decoded.userId;
         const { Title, Duration } = req.body; // Assuming title and duration are passed with the request
-
+        const courseId = req.params.courseId;
+        if (!courseId) {
+            return res.status(400).send({
+                message: "Course ID is required",
+            });
+        }
         // Define max size limit (e.g., 100MB)
         // const MAX_FILE_SIZE = 2000 * 1024 * 1024; // 100MB in bytes
 
@@ -62,7 +67,7 @@ const Upload_Course_Vedio = async (req, res) => {
         fs.unlinkSync(CourseVedio.path);
 
         // Update the course with the video link and details in the Course_Video table
-        const course = await Courses.findOne({ where: { id: userId } });
+        const course = await Courses.findOne({ where: { id: courseId } });
         if (!course) {
             return res.status(404).send({
                 message: "Course not found for the given userId",
@@ -81,6 +86,7 @@ const Upload_Course_Vedio = async (req, res) => {
         res.status(200).send({
             message: "Video uploaded successfully!",
             fileLink,
+            new_course_in_db,
         });
     } catch (error) {
         console.error("Error:", error);
