@@ -38,7 +38,7 @@ router.get("/:summaryId", Admin_Middleware, async (req, res) => {
         });
         if (!summary)
             return res.status(404).json({ error: "summary not found." });
-        return res.status(200).json({ Course: summary });
+        return res.status(200).json({ Summary: summary });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });
