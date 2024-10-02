@@ -7,6 +7,13 @@ const Admin_Middleware = require("../../Middlewares/Admin");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const courses = await Courses.findAll({
+            include: [
+                {
+                    model: Course_Video,
+                    // as: "Course_Video",
+                },
+            ],
+
             order: [["createdAt", "DESC"]],
         });
         if (!courses)
