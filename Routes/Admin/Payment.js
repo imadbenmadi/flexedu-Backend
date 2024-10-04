@@ -17,8 +17,6 @@ const {
 router.get("/Courses", Admin_midllware, async (req, res) => {
     try {
         const courses_Purcase_Requests = await Course_Purcase_Requests.findAll({
-            // where: { status: "Pending" },
-            // where: { isPayment_ScreenShot_uploaded: true },
             where: {
                 StudentId: { [Op.not]: null },
                 status: "pending",
@@ -34,35 +32,9 @@ router.get("/Courses", Admin_midllware, async (req, res) => {
         res.status(500).json({ message: err });
     }
 });
-router.get("/Courses/:courseId", Admin_midllware, async (req, res) => {
-    const courseId = req.params.courseId;
-    if (!courseId)
-        return res
-            .status(409)
-            .json({ message: "Missing data CourseId is required" });
 
-    try {
-        const course_Purcase_Requests = await Course_Purcase_Requests.findOne({
-            where: {
-                id: courseId,
-                StudentId: { [Op.not]: null },
-            },
-            include: [{ model: Students }, { model: Courses }],
-            order: [["createdAt", "DESC"]],
-        });
-        res.status(200).json({
-            course_Purcase_Requests: course_Purcase_Requests,
-        });
-    } catch (err) {
-        console.error("Error fetching Course courses:", err);
-        res.status(500).json({ message: err });
-    }
-});
 router.get("/Courses/Accepted", Admin_midllware, async (req, res) => {
-        console.log("hii");
-
     try {
-        
         const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
             // where: { status: "Pending" },
             // where: { isPayment_ScreenShot_uploaded: true },
@@ -88,6 +60,30 @@ router.get("/Courses/Rejected", Admin_midllware, async (req, res) => {
             where: {
                 StudentId: { [Op.not]: null },
                 status: "rejected",
+            },
+            include: [{ model: Students }, { model: Courses }],
+            order: [["createdAt", "DESC"]],
+        });
+        res.status(200).json({
+            course_Purcase_Requests: course_Purcase_Requests,
+        });
+    } catch (err) {
+        console.error("Error fetching Course courses:", err);
+        res.status(500).json({ message: err });
+    }
+});
+router.get("/Courses/:courseId", Admin_midllware, async (req, res) => {
+    const courseId = req.params.courseId;
+    if (!courseId)
+        return res
+            .status(409)
+            .json({ message: "Missing data CourseId is required" });
+
+    try {
+        const course_Purcase_Requests = await Course_Purcase_Requests.findOne({
+            where: {
+                id: courseId,
+                StudentId: { [Op.not]: null },
             },
             include: [{ model: Students }, { model: Courses }],
             order: [["createdAt", "DESC"]],
