@@ -4,6 +4,7 @@ const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Course_Video = require("../../Models/Course_Video");
+const { Op } = require("sequelize");
 
 const GetCourses = async (req, res) => {
     const userId = req.decoded.userId;
@@ -115,15 +116,17 @@ const Get_Vedio = async (req, res) => {
 //         return res.status(500).json({ error: "Internal server error." });
 //     }
 // };
-
 const DeleteCourse = async (req, res) => {
     const userId = req.decoded.userId;
     const courseId = req.params.courseId;
+
     if (!userId || !courseId)
         return res
-            .status(409)
-            .json({ error: "Unauthorized , missing userId or courseId" });
+            .status(401)
+            .json({ error: "Unauthorized, missing userId or courseId" });
+
     try {
+        // Fetch course once
         const course = await Courses.findOne({
             where: {
                 id: courseId,
@@ -131,39 +134,39 @@ const DeleteCourse = async (req, res) => {
             },
         });
         if (!course)
-            return res.status(404).json({ error: "course not found." });
-        const course_progress = await Course_Progress.findAll({
-            where: {
-                CourseId: courseId,
-            },
-        });
-        if (course_progress && course_progress.length > 0) {
-            return res.status(409).json({
-                message:
-                    "Unauthorized , course already boughted buy students ,  can't delete it.",
-            });
-        }
-        const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
-            where: {
-                CourseId: courseId,
-            },
-        });
-        if (course_Purcase_Requests && course_Purcase_Requests.length > 0) {
-            return res.status(409).json({
-                message:
-                    "Unauthorized , course already requested by students ,  can't delete it.",
-            });
-        }
-        const course_videos = await Course_Video.findAll({
-            where: {
-                CourseId: courseId,
-            },
-        });
-        await course_videos.forEach(async (vedio) => {
-            try {
-                const videoId = vedio.id; // Assuming videoId is passed in the route
+            return res.status(404).json({ error: "Course not found." });
 
-                // Find the video to delete
+        // Check if course is already bought or requested
+        const courseProgress = await Course_Progress.findAll({
+            where: { CourseId: courseId },
+        });
+        if (courseProgress.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been bought by students. Can't delete it.",
+            });
+        }
+
+        const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
+            where: {
+                CourseId: courseId,
+                Status: { [Op.or]: ["pending", "accepted"] },
+            },
+        });
+        if (coursePurchaseRequests.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been requested by students. Can't delete it.",
+            });
+        }
+
+        // Delete videos
+        const courseVideos = await Course_Video.findAll({
+            where: { CourseId: courseId },
+        });
+        await Promise.all(
+            courseVideos.map(async (video) => {
+                const videoId = video.id;
                 const courseVideo = await Course_Video.findOne({
                     where: { id: videoId, CourseId: course.id },
                 });
@@ -173,7 +176,6 @@ const DeleteCourse = async (req, res) => {
                     );
                 }
 
-                // Extract the video file path
                 const previousVideoFilename =
                     courseVideo.Video.split("/").pop();
                 const previousVideoPath = path.join(
@@ -181,80 +183,42 @@ const DeleteCourse = async (req, res) => {
                     previousVideoFilename
                 );
 
-                // Delete the video file if it exists
                 if (fs.existsSync(previousVideoPath)) {
                     try {
                         fs.unlinkSync(previousVideoPath);
                     } catch (error) {
-                        return res.status(400).send({
-                            message:
-                                "Could not delete video file: " + error.message,
-                        });
+                        console.error("Error deleting file: ", error);
                     }
                 }
 
-                // Remove the video entry from the Course_Video table
+                // Remove video entry from the database
                 await Course_Video.destroy({ where: { id: videoId } });
-                // await Courses.update(
-                //     { Vedios_count: course.Vedios_count + 1 },
-                //     { where: { id: courseId } }
-                // );
-                // Send success response
-                return res.status(200).send({
-                    message: "Video deleted successfully!",
-                });
-            } catch (error) {
-                // Error handling
-                console.error("Error:", error);
-                return res.status(500).send({
-                    message: "Error deleting the video",
-                    error: error.message,
-                });
-            }
-        });
-        try {
-            const Course = await Courses.findOne({ where: { id: courseId } });
-            if (!Course) {
-                return res.status(404).send({
-                    message: "Course not found for the given userId",
-                });
-            }
-            if (Course?.Image) {
-                const previousFilename = Course?.Image.split("/").pop();
-                const previousImagePath = `public/Courses_Pictures/${previousFilename}`;
+            })
+        );
+
+        // Delete course image
+        if (course?.Image) {
+            const previousImageFilename = course.Image.split("/").pop();
+            const previousImagePath = path.join(
+                "public/Courses_Pictures",
+                previousImageFilename
+            );
+
+            if (fs.existsSync(previousImagePath)) {
                 try {
-                    if (fs.existsSync(previousImagePath)) {
-                        fs.unlinkSync(previousImagePath);
-                    }
+                    fs.unlinkSync(previousImagePath);
                 } catch (error) {
-                    return res.status(400).send({
-                        message:
-                            "Could not delete Course picture : " +
-                            error.message,
-                    });
+                    console.error("Error deleting file: ", error);
                 }
-            } else {
-                return res.status(200).send({
-                    message: "Course Picture Not Found",
-                });
             }
-            await Courses.update({ Image: null }, { where: { id: courseId } });
-            // Example response
-            return res.status(200).send({
-                message: "Course Course picture deleted successfully!",
-            });
-        } catch (error) {
-            // Error handling
-            console.error("Error:", error);
-            res.status(500).send({
-                message: "Error processing the uploaded file",
-                error: error.message,
-            });
         }
 
+        // Delete course from the database
         await course.destroy();
 
-        return res.status(200).json({ message: "course deleted." });
+        return res
+            .status(200)
+            .json({ message: "Course deleted successfully." });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });

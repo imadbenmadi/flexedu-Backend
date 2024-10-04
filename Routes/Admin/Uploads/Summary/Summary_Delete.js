@@ -19,7 +19,7 @@ const Delete_Summary = async (req, res) => {
         }
 
         // Extract the resume file path
-        const previousResumeFilename = teacherResume.Resume.split("/").pop();
+        const previousResumeFilename = teacherResume.file_link.split("/").pop();
         const previousResumePath = path.join(
             "public/Summaries",
             previousResumeFilename
