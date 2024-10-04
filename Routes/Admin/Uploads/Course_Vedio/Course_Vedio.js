@@ -5,6 +5,13 @@ const Course_Video = require("../../../../Models/Course_Video");
 
 const Upload_Course_Vedio = async (req, res) => {
     try {
+        const courseId = req.params.courseId;
+        if (!courseId) {
+            return res.status(400).send({
+                message: "Course ID is required",
+            });
+        }
+
         const { CourseVedio } = req.files;
         const userId = req.decoded.userId;
         const { Title, Duration } = req.body; // Assuming title and duration are passed with the request
@@ -62,7 +69,7 @@ const Upload_Course_Vedio = async (req, res) => {
         fs.unlinkSync(CourseVedio.path);
 
         // Update the course with the video link and details in the Course_Video table
-        const course = await Courses.findOne({ where: { id: userId } });
+        const course = await Courses.findOne({ where: { id: courseId } });
 
         await Course_Video.create({
             Title,

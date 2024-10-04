@@ -14,7 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const Delete_summary_Image = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const summaryId = req.params.summaryid;
+        const summaryId = req.params.summaryId;
         const summary = await Summary.findOne({
             where: { id: summaryId },
         });

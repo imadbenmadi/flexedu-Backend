@@ -1,8 +1,8 @@
-
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
+const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Course_Video = require("../../Models/Course_Video");
 
 const GetCourses = async (req, res) => {
@@ -132,13 +132,128 @@ const DeleteCourse = async (req, res) => {
         });
         if (!course)
             return res.status(404).json({ error: "course not found." });
-        await course.destroy();
-        // We have to delete all the Vedios of this course too
-        // we have to delete the course ownership from the students too
-        // we have to delete the couse progress of the students too
-        // we have to delete the reviews of this course too
+        const course_progress = await Course_Progress.findAll({
+            where: {
+                CourseId: courseId,
+            },
+        });
+        if (course_progress && course_progress.length > 0) {
+            return res.status(409).json({
+                message:
+                    "Unauthorized , course already boughted buy students ,  can't delete it.",
+            });
+        }
+        const course_Purcase_Requests = await Course_Purcase_Requests.findAll({
+            where: {
+                CourseId: courseId,
+            },
+        });
+        if (course_Purcase_Requests && course_Purcase_Requests.length > 0) {
+            return res.status(409).json({
+                message:
+                    "Unauthorized , course already requested by students ,  can't delete it.",
+            });
+        }
+        const course_videos = await Course_Video.findAll({
+            where: {
+                CourseId: courseId,
+            },
+        });
+        await course_videos.forEach(async (vedio) => {
+            try {
+                const videoId = vedio.id; // Assuming videoId is passed in the route
 
-        // the teacher can not delete an already boughted course
+                // Find the video to delete
+                const courseVideo = await Course_Video.findOne({
+                    where: { id: videoId, CourseId: course.id },
+                });
+                if (!courseVideo) {
+                    throw new Error(
+                        "Video not found for the given courseId and videoId"
+                    );
+                }
+
+                // Extract the video file path
+                const previousVideoFilename =
+                    courseVideo.Video.split("/").pop();
+                const previousVideoPath = path.join(
+                    "public/Courses_Videos",
+                    previousVideoFilename
+                );
+
+                // Delete the video file if it exists
+                if (fs.existsSync(previousVideoPath)) {
+                    try {
+                        fs.unlinkSync(previousVideoPath);
+                    } catch (error) {
+                        return res.status(400).send({
+                            message:
+                                "Could not delete video file: " + error.message,
+                        });
+                    }
+                }
+
+                // Remove the video entry from the Course_Video table
+                await Course_Video.destroy({ where: { id: videoId } });
+                // await Courses.update(
+                //     { Vedios_count: course.Vedios_count + 1 },
+                //     { where: { id: courseId } }
+                // );
+                // Send success response
+                return res.status(200).send({
+                    message: "Video deleted successfully!",
+                });
+            } catch (error) {
+                // Error handling
+                console.error("Error:", error);
+                return res.status(500).send({
+                    message: "Error deleting the video",
+                    error: error.message,
+                });
+            }
+        });
+        try {
+            const Course = await Courses.findOne({ where: { id: courseId } });
+            if (!Course) {
+                return res.status(404).send({
+                    message: "Course not found for the given userId",
+                });
+            }
+            if (Course?.Image) {
+                const previousFilename = Course?.Image.split("/").pop();
+                const previousImagePath = `public/Courses_Pictures/${previousFilename}`;
+                try {
+                    if (fs.existsSync(previousImagePath)) {
+                        fs.unlinkSync(previousImagePath);
+                    }
+                } catch (error) {
+                    return res.status(400).send({
+                        message:
+                            "Could not delete Course picture : " +
+                            error.message,
+                    });
+                }
+            } else {
+                return res.status(200).send({
+                    message: "Course Picture Not Found",
+                });
+            }
+            await Courses.update({ Image: null }, { where: { id: courseId } });
+            // Example response
+            return res.status(200).send({
+                message: "Course Course picture deleted successfully!",
+            });
+        } catch (error) {
+            // Error handling
+            console.error("Error:", error);
+            res.status(500).send({
+                message: "Error processing the uploaded file",
+                error: error.message,
+            });
+        }
+
+        await course.destroy();
+
         return res.status(200).json({ message: "course deleted." });
     } catch (error) {
         console.error(error);
