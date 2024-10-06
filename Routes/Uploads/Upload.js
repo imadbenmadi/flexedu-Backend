@@ -97,7 +97,7 @@ router.delete(
     Delete_Course_Video
 ); // ______________________________________________________
 router.post(
-    `/Summaries/:summaryid/Image`,
+    `/Summaries/:summaryId/Image`,
     (req, res, next) => {
         req.body = req.fields;
         next();
@@ -106,7 +106,7 @@ router.post(
     upload_Summary_Pic
 );
 router.delete(
-    `/Summaries/:summaryid/Image`,
+    `/Summaries/:summaryId/Image`,
     (req, res, next) => {
         req.body = req.fields;
         next();
@@ -125,7 +125,7 @@ router.post(
     upload_Summary
 );
 router.delete(
-    `/Summaries/:summaryid`,
+    `/Summaries/:summaryId`,
     (req, res, next) => {
         req.body = req.fields;
         next();

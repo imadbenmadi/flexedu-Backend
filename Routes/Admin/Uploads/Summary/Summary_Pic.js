@@ -13,6 +13,12 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Upload_summary_Image = async (req, res) => {
     try {
+        const summaryId = req.params.summaryId; // Assuming summaryId is passed in the route
+        if (!summaryId) {
+            return res.status(400).send({
+                message: "summary ID is required",
+            });
+        }
         const { summaryPic } = req.files;
         if (!summaryPic) {
             return res.status(400).send({
@@ -42,7 +48,7 @@ const Upload_summary_Image = async (req, res) => {
         const uniqueSuffix = `summary-${userId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Summaries_Pictures/${uniqueSuffix}`;
-        const summary = await Summary.findOne({ where: { id: userId } });
+        const summary = await Summary.findOne({ where: { id: summaryId } });
         if (!summary) {
             return res.status(404).send({
                 message: "summary not found for the given userId",
@@ -66,12 +72,15 @@ const Upload_summary_Image = async (req, res) => {
         // );
 
         // Copy the file to the desired location and delete the original
-        const targetPath = path.join("public/Summaries_Pictures/", uniqueSuffix);
+        const targetPath = path.join(
+            "public/Summaries_Pictures/",
+            uniqueSuffix
+        );
         fs.copyFileSync(summaryPic.path, targetPath);
         fs.unlinkSync(summaryPic.path);
 
         // Update database with file link
-        await Summary.update({ Image: fileLink }, { where: { id: userId } });
+        await Summary.update({ Image: fileLink }, { where: { id: summaryId } });
 
         // Example response
         res.status(200).send({

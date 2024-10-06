@@ -13,6 +13,12 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Upload_Course_Image = async (req, res) => {
     try {
+        const courseId = req.params.courseId; // Assuming courseId is passed in the route
+        if (!courseId) {
+            return res.status(400).send({
+                message: "Course ID is required",
+            });
+        }
         const { CoursePic } = req.files;
         if (!CoursePic) {
             return res.status(400).send({
@@ -42,7 +48,7 @@ const Upload_Course_Image = async (req, res) => {
         const uniqueSuffix = `Course-${userId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Courses_Pictures/${uniqueSuffix}`;
-        const Course = await Courses.findOne({ where: { id: userId } });
+        const Course = await Courses.findOne({ where: { id: courseId } });
         if (!Course) {
             return res.status(404).send({
                 message: "Course not found for the given userId",
@@ -71,7 +77,7 @@ const Upload_Course_Image = async (req, res) => {
         fs.unlinkSync(CoursePic.path);
 
         // Update database with file link
-        await Courses.update({ Image: fileLink }, { where: { id: userId } });
+        await Courses.update({ Image: fileLink }, { where: { id: courseId } });
 
         // Example response
         res.status(200).send({

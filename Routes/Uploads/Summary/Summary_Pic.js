@@ -14,7 +14,7 @@ const uploadMiddleware = formidableMiddleware({
 const Upload_summary_Image = async (req, res) => {
     try {
         const { summaryPic } = req.files;
-        const summaryId = req.params.summaryid;
+        const summaryId = req.params.summaryId;
         if (!summaryPic) {
             return res.status(400).send({
                 message: "No file uploaded",
@@ -69,7 +69,10 @@ const Upload_summary_Image = async (req, res) => {
         // );
 
         // Copy the file to the desired location and delete the original
-        const targetPath = path.join("public/Summaries_Pictures/", uniqueSuffix);
+        const targetPath = path.join(
+            "public/Summaries_Pictures/",
+            uniqueSuffix
+        );
         fs.copyFileSync(summaryPic.path, targetPath);
         fs.unlinkSync(summaryPic.path);
 

@@ -108,7 +108,6 @@ router.get("/Summaries/Accepted", Admin_midllware, async (req, res) => {
                 order: [["createdAt", "DESC"]],
             }
         );
-        // console.log(summary_Purcase_Requests);
 
         res.status(200).json({
             summary_Purcase_Requests: summary_Purcase_Requests,
@@ -130,7 +129,6 @@ router.get("/Summaries/Rejected", Admin_midllware, async (req, res) => {
                 order: [["createdAt", "DESC"]],
             }
         );
-        // console.log(summary_Purcase_Requests);
 
         res.status(200).json({
             summary_Purcase_Requests: summary_Purcase_Requests,

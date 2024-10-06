@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Courses = require("../../Models/Course");
 const Course_Video = require("../../Models/Course_Video");
+const Course_Progress = require("../../Models/Course_Progress");
 
 const Admin_Middleware = require("../../Middlewares/Admin");
 router.get("/", Admin_Middleware, async (req, res) => {
@@ -107,25 +108,102 @@ router.put("/:courseId", Admin_Middleware, async (req, res) => {
 });
 router.delete("/:courseId", Admin_Middleware, async (req, res) => {
     const courseId = req.params.courseId;
+
     if (!courseId)
         return res
-            .status(409)
-            .json({ error: "Unauthorized , missing userId or courseId" });
+            .status(401)
+            .json({ error: "Unauthorized, missing  courseId" });
+
     try {
+        // Fetch course once
         const course = await Courses.findOne({
             where: {
                 id: courseId,
             },
         });
         if (!course)
-            return res.status(404).json({ error: "course not found." });
+            return res.status(404).json({ error: "Course not found." });
+
+        // Check if course is already bought or requested
+        const courseProgress = await Course_Progress.findAll({
+            where: { CourseId: courseId },
+        });
+        if (courseProgress.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been bought by students. Can't delete it.",
+            });
+        }
+
+        const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
+            where: { CourseId: courseId },
+        });
+        if (coursePurchaseRequests.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been requested by students. Can't delete it.",
+            });
+        }
+
+        // Delete videos
+        const courseVideos = await Course_Video.findAll({
+            where: { CourseId: courseId },
+        });
+        await Promise.all(
+            courseVideos.map(async (video) => {
+                const videoId = video.id;
+                const courseVideo = await Course_Video.findOne({
+                    where: { id: videoId, CourseId: course.id },
+                });
+                if (!courseVideo) {
+                    throw new Error(
+                        "Video not found for the given courseId and videoId"
+                    );
+                }
+
+                const previousVideoFilename =
+                    courseVideo.Video.split("/").pop();
+                const previousVideoPath = path.join(
+                    "public/Courses_Videos",
+                    previousVideoFilename
+                );
+
+                if (fs.existsSync(previousVideoPath)) {
+                    try {
+                        fs.unlinkSync(previousVideoPath);
+                    } catch (error) {
+                        console.error("Error deleting file: ", error);
+                    }
+                }
+
+                // Remove video entry from the database
+                await Course_Video.destroy({ where: { id: videoId } });
+            })
+        );
+
+        // Delete course image
+        if (course?.Image) {
+            const previousImageFilename = course.Image.split("/").pop();
+            const previousImagePath = path.join(
+                "public/Courses_Pictures",
+                previousImageFilename
+            );
+
+            if (fs.existsSync(previousImagePath)) {
+                try {
+                    fs.unlinkSync(previousImagePath);
+                } catch (error) {
+                    console.error("Error deleting file: ", error);
+                }
+            }
+        }
+
+        // Delete course from the database
         await course.destroy();
-        // We have to delete all the Vedios of this course too
-        // we have to delete the course ownership from the students too
-        // we have to delete the couse progress of the students too
-        // we have to delete the reviews of this course too
-        // we have to delete the notifications of this course too
-        return res.status(200).json({ message: "course deleted." });
+
+        return res
+            .status(200)
+            .json({ message: "Course deleted successfully." });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal server error." });

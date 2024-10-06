@@ -2,7 +2,9 @@ const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Students = require("../../Models/Student");
 const Course_Progress = require("../../Models/Course_Progress");
+const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Course_Video = require("../../Models/Course_Video");
+const { Op } = require("sequelize");
 
 const GetCourses = async (req, res) => {
   const userId = req.decoded.userId;
@@ -112,34 +114,113 @@ const Get_Vedio = async (req, res) => {
 //         return res.status(500).json({ error: "Internal server error." });
 //     }
 // };
-
 const DeleteCourse = async (req, res) => {
-  const userId = req.decoded.userId;
-  const courseId = req.params.courseId;
-  if (!userId || !courseId)
-    return res
-      .status(409)
-      .json({ error: "Unauthorized , missing userId or courseId" });
-  try {
-    const course = await Courses.findOne({
-      where: {
-        id: courseId,
-        TeacherId: userId,
-      },
-    });
-    if (!course) return res.status(404).json({ error: "course not found." });
-    await course.destroy();
-    // We have to delete all the Vedios of this course too
-    // we have to delete the course ownership from the students too
-    // we have to delete the couse progress of the students too
-    // we have to delete the reviews of this course too
+    const userId = req.decoded.userId;
+    const courseId = req.params.courseId;
 
-    // the teacher can not delete an already boughted course
-    return res.status(200).json({ message: "course deleted." });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal server error." });
-  }
+    if (!userId || !courseId)
+        return res
+            .status(401)
+            .json({ error: "Unauthorized, missing userId or courseId" });
+
+    try {
+        // Fetch course once
+        const course = await Courses.findOne({
+            where: {
+                id: courseId,
+                TeacherId: userId,
+            },
+        });
+        if (!course)
+            return res.status(404).json({ error: "Course not found." });
+
+        // Check if course is already bought or requested
+        const courseProgress = await Course_Progress.findAll({
+            where: { CourseId: courseId },
+        });
+        if (courseProgress.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been bought by students. Can't delete it.",
+            });
+        }
+
+        const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
+            where: {
+                CourseId: courseId,
+                Status: { [Op.or]: ["pending", "accepted"] },
+            },
+        });
+        if (coursePurchaseRequests.length > 0) {
+            return res.status(403).json({
+                message:
+                    "Unauthorized, course has been requested by students. Can't delete it.",
+            });
+        }
+
+        // Delete videos
+        const courseVideos = await Course_Video.findAll({
+            where: { CourseId: courseId },
+        });
+        await Promise.all(
+            courseVideos.map(async (video) => {
+                const videoId = video.id;
+                const courseVideo = await Course_Video.findOne({
+                    where: { id: videoId, CourseId: course.id },
+                });
+                if (!courseVideo) {
+                    throw new Error(
+                        "Video not found for the given courseId and videoId"
+                    );
+                }
+
+                const previousVideoFilename =
+                    courseVideo.Video.split("/").pop();
+                const previousVideoPath = path.join(
+                    "public/Courses_Videos",
+                    previousVideoFilename
+                );
+
+                if (fs.existsSync(previousVideoPath)) {
+                    try {
+                        fs.unlinkSync(previousVideoPath);
+                    } catch (error) {
+                        console.error("Error deleting file: ", error);
+                    }
+                }
+
+                // Remove video entry from the database
+                await Course_Video.destroy({ where: { id: videoId } });
+            })
+        );
+
+        // Delete course image
+        if (course?.Image) {
+            const previousImageFilename = course.Image.split("/").pop();
+            const previousImagePath = path.join(
+                "public/Courses_Pictures",
+                previousImageFilename
+            );
+
+            if (fs.existsSync(previousImagePath)) {
+                try {
+                    fs.unlinkSync(previousImagePath);
+                } catch (error) {
+                    console.error("Error deleting file: ", error);
+                }
+            }
+        }
+
+        // Delete course from the database
+        await course.destroy();
+
+        return res
+            .status(200)
+            .json({ message: "Course deleted successfully." });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal server error." });
+    }
 };
 
 const add_course = async (req, res) => {

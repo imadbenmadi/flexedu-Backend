@@ -14,7 +14,8 @@ const uploadMiddleware = formidableMiddleware({
 const Delete_Course_Image = async (req, res) => {
     try {
         const userId = req.decoded.userId;
-        const Course = await Courses.findOne({ where: { id: userId } });
+        const courseId = req.params.courseId; // Assuming courseId is passed in the route
+        const Course = await Courses.findOne({ where: { id:courseId  } });
         if (!Course) {
             return res.status(404).send({
                 message: "Course not found for the given userId",
@@ -38,7 +39,7 @@ const Delete_Course_Image = async (req, res) => {
                 message: "Course Picture Not Found",
             });
         }
-        await Courses.update({ Image: null }, { where: { id: userId } });
+        await Courses.update({ Image: null }, { where: { id: courseId } });
         // Example response
         return res.status(200).send({
             message: "Course Course picture deleted successfully!",
