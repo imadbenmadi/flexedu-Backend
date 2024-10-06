@@ -263,7 +263,7 @@ const EditCourse = async (req, res) => {
   const userId = req.decoded.userId;
   const courseId = req.params.courseId;
   const { Title, Description, Price, Category } = req.body;
-  if (!userId || !courseId || !Title || !Description || !Price || !Category)
+  if (!userId || !courseId || !Title || !Description || !Category)
     return res.status(409).json({
       error:
         "Unauthorized , missing userId or courseId or Title or Description or Price or Category",
