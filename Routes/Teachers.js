@@ -3,6 +3,19 @@ const router = express.Router();
 
 const Teacher_Middlware = require("../Middlewares/Teacher");
 const TeacherController = require("../Controllers/Teacher");
+
+router.get(
+  "/:userId/CoursesWithStudentCount",
+  // Teacher_Middlware,
+  TeacherController.getCoursesWithStudentCount
+);
+
+router.get(
+  "/:userId/SummariesWithStudentCount",
+  // Teacher_Middlware,
+  TeacherController.GetSummariesWithStudentsCount
+);
+
 router.get("/:userId/Profile", Teacher_Middlware, TeacherController.getProfile);
 router.put(
   "/:userId/Profile",
@@ -74,10 +87,6 @@ router.post(
   TeacherController.add_Summary
 );
 // _________________________________________________________
-router.get(
-  "/:userId/Payments",
-  Teacher_Middlware,
-  TeacherController.Get_Payment
-);
+router.get("/:userId/Payments", TeacherController.Get_Payment);
 
 module.exports = router;
