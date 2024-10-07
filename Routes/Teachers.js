@@ -6,13 +6,13 @@ const TeacherController = require("../Controllers/Teacher");
 
 router.get(
   "/:userId/CoursesWithStudentCount",
-  // Teacher_Middlware,
+  Teacher_Middlware,
   TeacherController.getCoursesWithStudentCount
 );
 
 router.get(
   "/:userId/SummariesWithStudentCount",
-  // Teacher_Middlware,
+  Teacher_Middlware,
   TeacherController.GetSummariesWithStudentsCount
 );
 
@@ -87,6 +87,10 @@ router.post(
   TeacherController.add_Summary
 );
 // _________________________________________________________
-router.get("/:userId/Payments", TeacherController.Get_Payment);
+router.get(
+  "/:userId/Payments",
+  Teacher_Middlware,
+  TeacherController.Get_Payment
+);
 
 module.exports = router;
