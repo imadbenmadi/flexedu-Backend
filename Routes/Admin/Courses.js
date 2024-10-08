@@ -83,7 +83,7 @@ router.get("/:courseId/Videos/:vedioId", Admin_Middleware, async (req, res) => {
 router.put("/:courseId", Admin_Middleware, async (req, res) => {
     const courseId = req.params.courseId;
     const { Title, Description, Price, Category } = req.body;
-    if (!courseId || !Title || !Description || !Price || !Category)
+    if (!courseId || !Title || !Description || !Category)
         return res.status(409).json({
             error: "Unauthorized , missing courseId or Title or Description or Price or Category",
         });

@@ -157,7 +157,7 @@ const add_Summary = async (req, res) => {
   const { Title, Description, Price, Category } = req.body;
 
   // Check if all required fields are present
-  if (!userId || !Title || !Description || !Price || !Category) {
+  if (!userId || !Title || !Description || !Category) {
     return res.status(409).json({
       error:
         "Unauthorized: missing userId, Title, Description, Price, duration, or Category",
