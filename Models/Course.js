@@ -13,7 +13,7 @@ const Courses = sequelize.define("Courses", {
     },
     Price: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     Category: {
         type: DataTypes.STRING,
@@ -35,7 +35,7 @@ const Courses = sequelize.define("Courses", {
     },
     Students_count: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0,
     },
     // Vedios_count: {

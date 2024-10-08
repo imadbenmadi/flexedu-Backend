@@ -168,6 +168,7 @@ router.post("/Courses/:courseId/Accept", Admin_midllware, async (req, res) => {
             { status: "accepted" },
             { transaction: t }
         );
+        await course.increment("Students_count", { by: 1, transaction: t });
         await Course_Progress.create(
             {
                 StudentId: studentId,
@@ -205,10 +206,7 @@ router.post("/Courses/:courseId/Accept", Admin_midllware, async (req, res) => {
                 .status(500)
                 .json({ message: "Notification Error", error: error.message });
         }
-        await course.update(
-            { Students_count: course.Students_count + 1 },
-            { transaction: t }
-        );
+
         await t.commit(); // Commit transaction if all went well
         res.status(200).json({ message: "Course payment accepted" });
     } catch (err) {
@@ -382,6 +380,10 @@ router.post(
                 { status: "accepted" },
                 { transaction: t }
             );
+            await summary.increment("Students_count", {
+                by: 1,
+                transaction: t,
+            });
             try {
                 await Teacher_Notifications.create(
                     {
@@ -410,10 +412,7 @@ router.post(
                     error: error.message,
                 });
             }
-            await summary.update(
-                { Students_count: summary.Students_count + 1 },
-                { transaction: t }
-            );
+
             await t.commit(); // Commit transaction if all went well
             res.status(200).json({ message: "Summary payment accepted" });
         } catch (err) {

@@ -13,7 +13,7 @@ const Summary = sequelize.define("Summary", {
     },
     Price: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     Category: {
         type: DataTypes.STRING,
@@ -40,7 +40,7 @@ const Summary = sequelize.define("Summary", {
     },
     Students_count: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0,
     },
     Pages_Count: {
