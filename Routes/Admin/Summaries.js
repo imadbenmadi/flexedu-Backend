@@ -48,7 +48,7 @@ router.get("/:summaryId", Admin_Middleware, async (req, res) => {
 router.put("/:summaryId", Admin_Middleware, async (req, res) => {
     const summaryId = req.params.summaryId;
     const { Title, Description, Price, Category } = req.body;
-    if (!summaryId || !Title || !Description || !Price || !Category)
+    if (!summaryId || !Title || !Description || !Category)
         return res.status(409).json({
             error: "Unauthorized , missing summaryId or Title or Description or Price or Category",
         });
