@@ -132,6 +132,12 @@ const GetPurchasedCourse = async (req, res) => {
             where: {
                 CourseId: courseId,
             },
+            include: [
+                {
+                    model: Students,
+                    attributes: ["id", "FirstName", "LastName"],
+                },
+            ],
         });
         return res.status(200).json({
             isEnrolled: isEnrolled,
@@ -203,6 +209,12 @@ const GetPurchasedSummary = async (req, res) => {
             where: {
                 SummaryId: summaryId,
             },
+            include: [
+                {
+                    model: Students,
+                    attributes: ["id", "FirstName", "LastName"],
+                },
+            ],
         });
         return res.status(200).json({
             paymentStatus,
