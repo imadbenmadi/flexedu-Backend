@@ -5,11 +5,11 @@ const Summaries = require("./Summary");
 const Summary_Purcase_Requests = sequelize.define("Summary_Purcase_Requests", {
     Price: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     screenShot: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     SummaryId: {
         type: DataTypes.INTEGER,
@@ -37,9 +37,8 @@ const Summary_Purcase_Requests = sequelize.define("Summary_Purcase_Requests", {
     },
     CCP_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
-    
 });
 
 Summary_Purcase_Requests.belongsTo(Students, {

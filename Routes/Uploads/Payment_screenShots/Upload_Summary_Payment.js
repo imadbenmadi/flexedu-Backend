@@ -14,18 +14,45 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Upload_summary_Payment = async (req, res) => {
     try {
+        const userId = req.decoded.userId;
+        const summaryId = req.params.summaryId;
+        if (!userId || !summaryId) {
+            return res.status(400).send({
+                message: "Messing data ",
+            });
+        }
+        const summary = await Summary.findOne({
+            where: { id: summaryId },
+        });
+        if (!summary) {
+            return res.status(404).send({
+                message: "summary not found for the given userId",
+            });
+        }
+        if (!summary.Price || summary.Price == 0 || summary.Price == null) {
+            await Summary_Purcase_Requests.create({
+                screenShot: null,
+                status: "accepted",
+                SummaryId: summaryId,
+                StudentId: userId,
+                Price: 0,
+                CCP_number: null,
+            });
+            await summary.increment("Students_count", {
+                by: 1,
+            });
+            return res.status(200).send({ message: "Enrolled successfully" });
+        }
         const { image } = req.files;
         if (!image) {
             return res.status(400).send({
                 message: "No file uploaded",
             });
         }
-        const userId = req.decoded.userId;
         const { CCP_number } = req.body;
-        const summaryId = req.params.summaryId;
-        if (!userId || !summaryId || !CCP_number) {
+        if (!CCP_number) {
             return res.status(400).send({
-                message: "Messing data ",
+                message: "Messing data, CCP_number is required",
             });
         }
         const allowedTypes = [
@@ -45,14 +72,7 @@ const Upload_summary_Payment = async (req, res) => {
         const uniqueSuffix = `summary_Payment-${userId}-${summaryId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Payment/${uniqueSuffix}`;
-        const summary = await Summary.findOne({
-            where: { id: summaryId },
-        });
-        if (!summary) {
-            return res.status(404).send({
-                message: "summary not found for the given userId",
-            });
-        }
+
         const purcase = await Summary_Purcase_Requests.findOne({
             where: {
                 id: summaryId,

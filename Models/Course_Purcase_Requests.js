@@ -6,11 +6,11 @@ const Courses = require("./Course");
 const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
     Price: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
     },
     screenShot: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     CourseId: {
         type: DataTypes.INTEGER,
@@ -38,9 +38,8 @@ const Course_Purcase_Requests = sequelize.define("Course_Purcase_Requests", {
     },
     CCP_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
-    
 });
 
 Course_Purcase_Requests.belongsTo(Students, {

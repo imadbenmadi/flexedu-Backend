@@ -3,7 +3,7 @@ const path = require("path");
 const Course_Purcase_Requests = require("../../../Models/Course_Purcase_Requests");
 const Courses = require("../../../Models/Course");
 const formidableMiddleware = require("express-formidable");
-
+const Course_Progress = require("../../../Models/Course_Progress");
 const uploadMiddleware = formidableMiddleware({
     uploadDir: "public/Payment/",
     keepExtensions: true,
@@ -13,19 +13,55 @@ const uploadMiddleware = formidableMiddleware({
 
 // Upload handler
 const Upload_Course_Payment = async (req, res) => {
+    console.log("Upload_Course_Payment");
+    
     try {
+        const userId = req.decoded.userId;
+        const courseId = req.params.courseId;
+        if (!userId || !courseId) {
+            return res.status(400).send({
+                message: "Messing data ",
+            });
+        }
+        const course = await Courses.findOne({
+            where: { id: courseId },
+        });
+        if (!course) {
+            return res.status(404).send({
+                message: "course not found for the given userId",
+            });
+        }
+        if (!course.Price || course.Price == 0 || course.Price == null) {
+            console.log("free course");
+            
+            await Course_Purcase_Requests.create({
+                screenShot: null,
+                status: "accepted",
+                CourseId: courseId,
+                StudentId: userId,
+                TeacherId: course.TeacherId,
+                Price: 0,
+                CCP_number: null,
+            });
+            await course.increment("Students_count", { by: 1 });
+            await Course_Progress.create({
+                StudentId: userId,
+                CourseId: courseId,
+                // Course_Videos_number: course.Vedios_count,
+            });
+
+            return res.status(200).send({ message: "Enrolled successfully" });
+        }
+        const { CCP_number } = req.body;
+        if (!CCP_number) {
+            return res.status(400).send({
+                message: "CCP_number is required",
+            });
+        }
         const { image } = req.files;
         if (!image) {
             return res.status(400).send({
                 message: "No file uploaded",
-            });
-        }
-        const userId = req.decoded.userId;
-        const { CCP_number } = req.body;
-        const courseId = req.params.courseId;
-        if (!userId || !courseId || !CCP_number) {
-            return res.status(400).send({
-                message: "Messing data ",
             });
         }
         const allowedTypes = [
@@ -45,14 +81,7 @@ const Upload_Course_Payment = async (req, res) => {
         const uniqueSuffix = `Course_Payment-${userId}-${courseId}-${Date.now()}${fileExtension}`;
 
         const fileLink = `/Payment/${uniqueSuffix}`;
-        const course = await Courses.findOne({
-            where: { id: courseId },
-        });
-        if (!course) {
-            return res.status(404).send({
-                message: "course not found for the given userId",
-            });
-        }
+
         const purcase = await Course_Purcase_Requests.findOne({
             where: {
                 CourseId: courseId,
