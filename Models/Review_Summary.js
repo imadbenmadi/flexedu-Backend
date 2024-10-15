@@ -37,10 +37,10 @@ const Review_Summary = sequelize.define("Review_Summary", {
 
 // Setting up associations with Summary and Students
 Review_Summary.belongsTo(Summary, {
-    foreignKey: "TeacherId",
+    foreignKey: "CourseId",
     onDelete: "CASCADE",
 });
-Summary.hasMany(Review_Summary, { foreignKey: "TeacherId" });
+Summary.hasMany(Review_Summary, { foreignKey: "CourseId" });
 
 Review_Summary.belongsTo(Students, {
     foreignKey: "StudentId",

@@ -36,8 +36,8 @@ const Reviews = sequelize.define("Reviews", {
 });
 
 // Setting up associations with Courses and Students
-Reviews.belongsTo(Courses, { foreignKey: "TeacherId", onDelete: "CASCADE" });
-Courses.hasMany(Reviews, { foreignKey: "TeacherId" });
+Reviews.belongsTo(Courses, { foreignKey: "CourseId", onDelete: "CASCADE" });
+Courses.hasMany(Reviews, { foreignKey: "CourseId" });
 
 Reviews.belongsTo(Students, { foreignKey: "StudentId", onDelete: "CASCADE" });
 Students.hasMany(Reviews, { foreignKey: "StudentId" });
