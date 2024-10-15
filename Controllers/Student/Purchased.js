@@ -128,12 +128,18 @@ const GetPurchasedCourse = async (req, res) => {
         if (reviews) {
             isReviewed = true;
         }
+        const all_reviews = await Reviews.findAll({
+            where: {
+                CourseId: courseId,
+            },
+        });
         return res.status(200).json({
             isEnrolled: isEnrolled,
             isReviewed: isReviewed,
             paymentStatus,
             purcase,
             Course: course,
+            all_reviews,
         });
     } catch (error) {
         console.error(error);
@@ -193,12 +199,17 @@ const GetPurchasedSummary = async (req, res) => {
         if (reviews) {
             isReviewed = true;
         }
-
+        const all_reviews = await Review_Summary.findAll({
+            where: {
+                SummaryId: summaryId,
+            },
+        });
         return res.status(200).json({
             paymentStatus,
             purcase,
             Summary: summary,
             isReviewed,
+            all_reviews,
         });
     } catch (error) {
         console.error(error);
