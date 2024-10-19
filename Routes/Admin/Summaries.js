@@ -55,7 +55,7 @@ router.put("/:summaryId", Admin_Middleware, async (req, res) => {
             error: "Unauthorized , missing summaryId or Title or Description or Price or Category",
         });
     try {
-        const summary = await Summaries.findOne({
+        const summary = await Summary.findOne({
             where: {
                 id: summaryId,
             },
@@ -80,7 +80,7 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
             .status(409)
             .json({ error: "Unauthorized , missing userId or summaryId" });
     try {
-        const summary = await Summaries.findOne({
+        const summary = await Summary.findOne({
             where: {
                 id: summaryId,
             },
