@@ -11,11 +11,11 @@ const Teachers = require("../../Models/Teacher");
 router.get("/", adminMiddleware, async (req, res) => {
     try {
         const students = await Students.findAll({
-            attributes: { exclude: ["password"] },
+            // attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
         const teachers = await Teachers.findAll({
-            attributes: { exclude: ["password"] },
+            // attributes: { exclude: ["password"] },
             order: [["createdAt", "DESC"]],
         });
 
@@ -47,7 +47,7 @@ router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
     try {
         const Teacher = await Teachers.findOne({
             where: { id: TeacherId },
-            attributes: { exclude: ["password"] },
+            // attributes: { exclude: ["password"] },
         });
         if (!Teacher)
             return res.status(404).json({ message: "Teacher not found" });
@@ -65,7 +65,7 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
     try {
         const Student = await Students.findOne({
             where: { id: StudentId },
-            attributes: { exclude: ["password"] },
+            // attributes: { exclude: ["password"] },
         });
         if (!Student)
             return res.status(404).json({ message: "Student not found" });
