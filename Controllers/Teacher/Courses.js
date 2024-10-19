@@ -6,6 +6,7 @@ const { Op } = require("sequelize");
 const path = require("path");
 const Course_Meets = require("../../Models/Course_Meets");
 const fs = require("fs");
+const Reviews = require("../../Models/Review_Course");
 const Students = require("../../Models/Student");
 const {
     Student_Notifications,
@@ -24,6 +25,13 @@ const GetCourses = async (req, res) => {
                 {
                     model: Course_Video,
                     // as: "Course_Video",
+                },
+                {
+                    model: Course_Meets,
+                    // as: "Course_Meets",
+                },
+                {
+                    model: Reviews,
                 },
             ],
             order: [["createdAt", "DESC"]],

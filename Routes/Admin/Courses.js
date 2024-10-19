@@ -13,6 +13,7 @@ const {
     Student_Notifications,
     Teacher_Notifications,
 } = require("../../Models/Notifications");
+const Reviews = require("../../Models/Review_Course");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const courses = await Courses.findAll({
@@ -52,6 +53,9 @@ router.get("/:courseId", Admin_Middleware, async (req, res) => {
                 {
                     model: Course_Meets,
                     // as: "Course_Meets",
+                },
+                {
+                    model: Reviews,
                 },
             ],
             order: [["createdAt", "DESC"]],

@@ -5,6 +5,7 @@ const Students = require("../../Models/Student");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const path = require("path");
 const fs = require("fs");
+const Review_Summary = require("../../Models/Review_Summary");
 const {
     Student_Notifications,
     Teacher_Notifications,
@@ -42,6 +43,12 @@ const GetSummary = async (req, res) => {
                 id: summaryId,
                 TeacherId: userId,
             },
+            include: [
+                {
+                    model: Review_Summary,
+                    // as: "Course_Video",
+                },
+            ],
         });
         if (!summary) {
             return res.status(404).json({ error: "Summary not found." });

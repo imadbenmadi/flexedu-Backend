@@ -11,6 +11,7 @@ const {
     Student_Notifications,
     Teacher_Notifications,
 } = require("../../Models/Notifications");
+const Review_Summary = require("../../Models/Review_Summary");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const summarys = await Summary.findAll({
@@ -35,6 +36,12 @@ router.get("/:summaryId", Admin_Middleware, async (req, res) => {
             where: {
                 id: summaryId,
             },
+            include: [
+                {
+                    model: Review_Summary,
+                    // as: "Course_Video",
+                },
+            ],
 
             order: [["createdAt", "DESC"]],
         });
