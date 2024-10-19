@@ -1,10 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const Summary = require("../../Models/Course");
+const Summary = require("../../Models/Summary");
 const Course_Video = require("../../Models/Course_Video");
 const fs = require("fs");
-
+const path = require("path");
+const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const Admin_Middleware = require("../../Middlewares/Admin");
+const Students = require("../../Models/Student");
+const {
+    Student_Notifications,
+    Teacher_Notifications,
+} = require("../../Models/NotifTeacher_Notificationsications");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const summarys = await Summary.findAll({
@@ -29,12 +35,7 @@ router.get("/:summaryId", Admin_Middleware, async (req, res) => {
             where: {
                 id: summaryId,
             },
-            include: [
-                {
-                    model: Course_Video,
-                    // as: "Course_Video",
-                },
-            ],
+
             order: [["createdAt", "DESC"]],
         });
         if (!summary)
@@ -86,6 +87,48 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
         });
         if (!summary)
             return res.status(404).json({ error: "summary not found." });
+        const summaryPurcaseRequests = await Summary_Purcase_Requests.findAll({
+            where: {
+                SummaryId: summaryId,
+            },
+        });
+        if (summaryPurcaseRequests.length > 0) {
+            // return res.status(409).json({
+            //     error: "Summary has purcase requests, cannot delete.",
+            // });
+            let counter = 0;
+            await Promise.all(
+                summaryPurcaseRequests.map(async (request) => {
+                    const students = await Students.findOne({
+                        where: {
+                            id: request.StudentId,
+                        },
+                    });
+                    if (students) {
+                        await Student_Notifications.create({
+                            StudentId: request.StudentId,
+                            title: "Summary deleted",
+                            text: `The summary ${summary.Title} has been deleted by the Admin.
+                             Your request has been cancelled , please Contact the Support for Any issue.`,
+                        });
+                        counter++;
+                    }
+                })
+            );
+            if (counter > 0) {
+                await Teacher_Notifications.create({
+                    TeacherId: summary.TeacherId,
+                    title: "Summary deleted",
+                    text: `The summary ${summary.Title} has been deleted bu the Admin. 
+                     ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
+                });
+            }
+            await Summary_Purcase_Requests.destroy({
+                where: {
+                    SummaryId: summaryId,
+                },
+            });
+        }
         if (summary.Image) {
             const previousFilename = summary.Image.split("/").pop();
             const previousImagePath = `public/Summaries_Pictures/${previousFilename}`;

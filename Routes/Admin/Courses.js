@@ -7,6 +7,12 @@ const path = require("path");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Admin_Middleware = require("../../Middlewares/Admin");
 const fs = require("fs");
+const Course_Meets = require("../../Models/Course_Meets");
+const Students = require("../../Models/Student");
+const {
+    Student_Notifications,
+    Teacher_Notifications,
+} = require("../../Models/Notifications");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const courses = await Courses.findAll({
@@ -42,6 +48,10 @@ router.get("/:courseId", Admin_Middleware, async (req, res) => {
                 {
                     model: Course_Video,
                     // as: "Course_Video",
+                },
+                {
+                    model: Course_Meets,
+                    // as: "Course_Meets",
                 },
             ],
             order: [["createdAt", "DESC"]],
@@ -125,27 +135,99 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
         });
         if (!course)
             return res.status(404).json({ error: "Course not found." });
-
+        let courseMeet = await Course_Meets.findAll({
+            where: { CourseId: courseId },
+        });
+        if (courseMeet.length > 0) {
+            await Course_Meets.destroy({
+                where: { CourseId: courseId },
+            });
+        }
         // Check if course is already bought or requested
-        // const courseProgress = await Course_Progress.findAll({
-        //     where: { CourseId: courseId },
-        // });
-        // if (courseProgress.length > 0) {
-        //     return res.status(403).json({
-        //         message:
-        //             "Unauthorized, course has been bought by students. Can't delete it.",
-        //     });
-        // }
-
-        // const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
-        //     where: { CourseId: courseId },
-        // });
-        // if (coursePurchaseRequests.length > 0) {
-        //     return res.status(403).json({
-        //         message:
-        //             "Unauthorized, course has been requested by students. Can't delete it.",
-        //     });
-        // }
+        const courseProgress = await Course_Progress.findAll({
+            where: { CourseId: courseId },
+        });
+        if (courseProgress.length > 0) {
+            // return res.status(403).json({
+            //     message:
+            //         "Unauthorized, course has been bought by students. Can't delete it.",
+            // });
+            let counter = 0;
+            await Promise.all(
+                courseProgress.map(async (progress) => {
+                    const students = await Students.findOne({
+                        where: { id: progress.StudentId },
+                    });
+                    if (students) {
+                        await Student_Notifications.create({
+                            StudentId: progress.StudentId,
+                            title: "Course deleted",
+                            text: `The course ${course.Title} has been deleted by the teacher.
+                            Please contact the Support for more information.`,
+                        });
+                        counter++;
+                    }
+                })
+            );
+            if (counter > 0) {
+                await Teacher_Notifications.create({
+                    TeacherId: course.TeacherId,
+                    title: "course deleted",
+                    text: `The course ${course.Title} has been deleted by the Admin. 
+                     ${counter} Student Lost Access to the Course. Please contact the Support for more information.`,
+                });
+            }
+            await Course_Progress.destroy({
+                where: { CourseId: courseId },
+            });
+        }
+        const pendingCourseRequests = await Course_Purcase_Requests.findAll({
+            where: { CourseId: courseId },
+            status: "pending",
+        });
+        if (pendingCourseRequests.length > 0) {
+            // return res.status(403).json({
+            //     message:
+            //         "Unauthorized, course has been requested by students. Can't delete it.",
+            // });
+            let counter = 0;
+            await Promise.all(
+                pendingCourseRequests.map(async (request) => {
+                    const students = await Students.findOne({
+                        where: { id: request.StudentId },
+                    });
+                    if (students) {
+                        await Student_Notifications.create({
+                            StudentId: request.StudentId,
+                            title: "Course deleted",
+                            text: `The course ${course.Title} has been deleted by the Admin.
+                             Your request has been cancelled , please Contact the Support for Any issue.`,
+                        });
+                        counter++;
+                    }
+                })
+            );
+            if (counter > 0) {
+                await Teacher_Notifications.create({
+                    TeacherId: course.TeacherId,
+                    title: "Course deleted",
+                    text: `The course ${course.Title} has been deleted by the Admin.
+                     ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
+                });
+            }
+        }
+        const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
+            where: { CourseId: courseId },
+        });
+        if (coursePurchaseRequests.length > 0) {
+            // return res.status(403).json({
+            //     message:
+            //         "Unauthorized, course has been requested by students. Can't delete it.",
+            // });
+            await Course_Purcase_Requests.destroy({
+                where: { CourseId: courseId },
+            });
+        }
 
         // Delete videos
         const courseVideos = await Course_Video.findAll({

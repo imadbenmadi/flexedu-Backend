@@ -6,7 +6,10 @@ const Students = require("../../Models/Student");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const path = require("path");
 const fs = require("fs");
-
+const {
+    Student_Notifications,
+    Teacher_Notifications,
+} = require("../../Models/Notifications");
 const GetSummaries = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -69,16 +72,46 @@ const DeleteSummary = async (req, res) => {
         if (!summary) {
             return res.status(404).json({ error: "Summary not found." });
         }
-        // const summaryPurcaseRequests = await Summary_Purcase_Requests.findAll({
-        //     where: {
-        //         SummaryId: summaryId,
-        //     },
-        // });
-        // if (summaryPurcaseRequests.length > 0) {
-        //     return res.status(409).json({
-        //         error: "Summary has purcase requests, cannot delete.",
-        //     });
-        // }
+        const summaryPurcaseRequests = await Summary_Purcase_Requests.findAll({
+            where: {
+                SummaryId: summaryId,
+            },
+        });
+        if (summaryPurcaseRequests.length > 0) {
+            // return res.status(409).json({
+            //     error: "Summary has purcase requests, cannot delete.",
+            // });
+            await Promise.all(
+                summaryPurcaseRequests.map(async (request) => {
+                    const students = await Students.findOne({
+                        where: {
+                            id: request.StudentId,
+                        },
+                    });
+                    if (students) {
+                        await Student_Notifications.create({
+                            StudentId: request.StudentId,
+                            title: "Summary deleted",
+                            text: `The summary ${summary.Title} has been deleted by the teacher.
+                             Your request has been cancelled , please Contact the Support for Any issue.`,
+                        });
+                    }
+                })
+            );
+            if (counter > 0) {
+                await Teacher_Notifications.create({
+                    TeacherId: summary.TeacherId,
+                    title: "Summary deleted",
+                    text: `The summary ${summary.Title} has been deleted by you. 
+                     ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
+                });
+            }
+            await Summary_Purcase_Requests.destroy({
+                where: {
+                    SummaryId: summaryId,
+                },
+            });
+        }
         if (summary.Image) {
             const previousFilename = summary.Image.split("/").pop();
             const previousImagePath = `public/Summaries_Pictures/${previousFilename}`;
