@@ -4,6 +4,8 @@ const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Reviews = require("../../Models/Review_Course");
+const Course_Meets = require("../../Models/Course_Meets");
+
 const Get_Courses = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -42,6 +44,8 @@ const GetCourse = async (req, res) => {
             include: [
                 {
                     model: Course_Video,
+                    model: Course_Meets,
+
                     // as: "Course_Video",
                 },
             ],
