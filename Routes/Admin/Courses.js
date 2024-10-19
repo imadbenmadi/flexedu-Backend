@@ -3,6 +3,7 @@ const router = express.Router();
 const Courses = require("../../Models/Course");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Progress = require("../../Models/Course_Progress");
+const path = require("path");
 
 const Admin_Middleware = require("../../Middlewares/Admin");
 router.get("/", Admin_Middleware, async (req, res) => {

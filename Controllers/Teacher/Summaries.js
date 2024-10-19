@@ -4,6 +4,7 @@ const { Teacher_Notifications } = require("../../Models/Notifications");
 const Summaries = require("../../Models/Summary");
 const Students = require("../../Models/Student");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
+const path = require("path");
 
 const GetSummaries = async (req, res) => {
   const userId = req.decoded.userId;

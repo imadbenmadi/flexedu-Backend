@@ -5,6 +5,7 @@ const Course_Progress = require("../../Models/Course_Progress");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Course_Video = require("../../Models/Course_Video");
 const { Op } = require("sequelize");
+const path = require("path");
 
 const GetCourses = async (req, res) => {
   const userId = req.decoded.userId;
