@@ -4,7 +4,7 @@ const Courses = require("../../Models/Course");
 const Course_Video = require("../../Models/Course_Video");
 const Course_Progress = require("../../Models/Course_Progress");
 const path = require("path");
-
+const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Admin_Middleware = require("../../Middlewares/Admin");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {

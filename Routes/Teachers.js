@@ -5,92 +5,108 @@ const Teacher_Middlware = require("../Middlewares/Teacher");
 const TeacherController = require("../Controllers/Teacher");
 
 router.get(
-  "/:userId/CoursesWithStudentCount",
-  Teacher_Middlware,
-  TeacherController.getCoursesWithStudentCount
+    "/:userId/CoursesWithStudentCount",
+    Teacher_Middlware,
+    TeacherController.getCoursesWithStudentCount
 );
 
 router.get(
-  "/:userId/SummariesWithStudentCount",
-  Teacher_Middlware,
-  TeacherController.GetSummariesWithStudentsCount
+    "/:userId/SummariesWithStudentCount",
+    Teacher_Middlware,
+    TeacherController.GetSummariesWithStudentsCount
 );
 
 router.get("/:userId/Profile", Teacher_Middlware, TeacherController.getProfile);
 router.put(
-  "/:userId/Profile",
-  Teacher_Middlware,
-  TeacherController.edit_profile
+    "/:userId/Profile",
+    Teacher_Middlware,
+    TeacherController.edit_profile
 );
 router.post("/:userId/CCP", Teacher_Middlware, TeacherController.change_CCP);
 router.get(
-  "/:userId/Notifications",
-  Teacher_Middlware,
-  TeacherController.GetNotifications
+    "/:userId/Notifications",
+    Teacher_Middlware,
+    TeacherController.GetNotifications
 );
 router.delete(
-  "/:userId/Notifications/:notificationId",
-  Teacher_Middlware,
-  TeacherController.DeleteNotification
+    "/:userId/Notifications/:notificationId",
+    Teacher_Middlware,
+    TeacherController.DeleteNotification
 );
 // _________________________________________________________
 router.get("/:userId/Courses", Teacher_Middlware, TeacherController.GetCourses);
 router.get(
-  "/:userId/Courses/:courseId",
-  Teacher_Middlware,
-  TeacherController.GetCourse
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.GetCourse
 );
 router.get(
-  "/:userId/Courses/:courseId/Videos/:vedioId",
-  Teacher_Middlware,
-  TeacherController.Get_Vedio
+    "/:userId/Courses/:courseId/Videos/:vedioId",
+    Teacher_Middlware,
+    TeacherController.Get_Vedio
 );
 router.post(
-  "/:userId/Courses",
-  Teacher_Middlware,
-  TeacherController.add_course
+    "/:userId/Courses",
+    Teacher_Middlware,
+    TeacherController.add_course
 );
 router.delete(
-  "/:userId/Courses/:courseId",
-  Teacher_Middlware,
-  TeacherController.DeleteCourse
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.DeleteCourse
 );
 router.put(
-  "/:userId/Courses/:courseId",
-  Teacher_Middlware,
-  TeacherController.EditCourse
+    "/:userId/Courses/:courseId",
+    Teacher_Middlware,
+    TeacherController.EditCourse
 );
 // _________________________________________________________
 router.get(
-  "/:userId/Summaries",
-  Teacher_Middlware,
-  TeacherController.GetSummaries
+    "/:userId/Summaries",
+    Teacher_Middlware,
+    TeacherController.GetSummaries
 );
 router.get(
-  "/:userId/Summaries/:summaryId",
-  Teacher_Middlware,
-  TeacherController.GetSummary
+    "/:userId/Summaries/:summaryId",
+    Teacher_Middlware,
+    TeacherController.GetSummary
 );
 router.put(
-  "/:userId/Summaries/:summaryId",
-  Teacher_Middlware,
-  TeacherController.EditSummary
+    "/:userId/Summaries/:summaryId",
+    Teacher_Middlware,
+    TeacherController.EditSummary
 );
 router.delete(
-  "/:userId/Summaries/:summaryId",
-  Teacher_Middlware,
-  TeacherController.DeleteSummary
+    "/:userId/Summaries/:summaryId",
+    Teacher_Middlware,
+    TeacherController.DeleteSummary
 );
 router.post(
-  "/:userId/Summaries",
-  Teacher_Middlware,
-  TeacherController.add_Summary
+    "/:userId/Summaries",
+    Teacher_Middlware,
+    TeacherController.add_Summary
 );
 // _________________________________________________________
 router.get(
-  "/:userId/Payments",
-  Teacher_Middlware,
-  TeacherController.Get_Payment
+    "/:userId/Payments",
+    Teacher_Middlware,
+    TeacherController.Get_Payment
+);
+// _________________________________________________________
+router.get(
+    "/:userId/Courses/:courseId/Meetings",
+    Teacher_Middlware,
+    TeacherController.GetMeetings
+);
+router.get(
+    "/:userId/Courses/:courseId/Meetings/:meetingId",
+    Teacher_Middlware,
+    TeacherController.GetMeeting
+);
+router.post(
+    "/:userId/Courses/:courseId/Meetings",
+    Teacher_Middlware,
+    TeacherController.AddMeeting
 );
 
 module.exports = router;
