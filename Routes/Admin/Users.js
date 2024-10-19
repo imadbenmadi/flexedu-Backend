@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const adminMiddleware = require("../../Middlewares/Admin");
 const Students = require("../../Models/Student");
+const fs = require("fs");
 
 const Teachers = require("../../Models/Teacher");
 // const {
@@ -75,8 +76,6 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
-
 
 // router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
 //     const TeacherId = req.params.id;

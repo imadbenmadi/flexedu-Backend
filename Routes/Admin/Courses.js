@@ -6,6 +6,7 @@ const Course_Progress = require("../../Models/Course_Progress");
 const path = require("path");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Admin_Middleware = require("../../Middlewares/Admin");
+const fs = require("fs");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const courses = await Courses.findAll({
@@ -126,25 +127,25 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
             return res.status(404).json({ error: "Course not found." });
 
         // Check if course is already bought or requested
-        const courseProgress = await Course_Progress.findAll({
-            where: { CourseId: courseId },
-        });
-        if (courseProgress.length > 0) {
-            return res.status(403).json({
-                message:
-                    "Unauthorized, course has been bought by students. Can't delete it.",
-            });
-        }
+        // const courseProgress = await Course_Progress.findAll({
+        //     where: { CourseId: courseId },
+        // });
+        // if (courseProgress.length > 0) {
+        //     return res.status(403).json({
+        //         message:
+        //             "Unauthorized, course has been bought by students. Can't delete it.",
+        //     });
+        // }
 
-        const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
-            where: { CourseId: courseId },
-        });
-        if (coursePurchaseRequests.length > 0) {
-            return res.status(403).json({
-                message:
-                    "Unauthorized, course has been requested by students. Can't delete it.",
-            });
-        }
+        // const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
+        //     where: { CourseId: courseId },
+        // });
+        // if (coursePurchaseRequests.length > 0) {
+        //     return res.status(403).json({
+        //         message:
+        //             "Unauthorized, course has been requested by students. Can't delete it.",
+        //     });
+        // }
 
         // Delete videos
         const courseVideos = await Course_Video.findAll({

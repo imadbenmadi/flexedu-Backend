@@ -7,6 +7,8 @@ const Course_Video = require("../../Models/Course_Video");
 const { Op } = require("sequelize");
 const path = require("path");
 const Course_Meets = require("../../Models/Course_Meets");
+const fs = require("fs");
+
 const GetCourses = async (req, res) => {
   const userId = req.decoded.userId;
   if (!userId)

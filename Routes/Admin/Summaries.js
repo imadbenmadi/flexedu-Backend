@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Summary = require("../../Models/Course");
 const Course_Video = require("../../Models/Course_Video");
+const fs = require("fs");
 
 const Admin_Middleware = require("../../Middlewares/Admin");
 router.get("/", Admin_Middleware, async (req, res) => {
@@ -85,12 +86,36 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
         });
         if (!summary)
             return res.status(404).json({ error: "summary not found." });
+        if (summary.Image) {
+            const previousFilename = summary.Image.split("/").pop();
+            const previousImagePath = `public/Summaries_Pictures/${previousFilename}`;
+            try {
+                if (fs.existsSync(previousImagePath)) {
+                    fs.unlinkSync(previousImagePath);
+                }
+            } catch (error) {
+                console.error("Error deleting previous image:", error);
+            }
+        }
+        if (summary.file_link) {
+            const previousResumeFilename = summary.file_link.split("/").pop();
+            const previousResumePath = path.join(
+                "public/Summaries",
+                previousResumeFilename
+            );
+            if (fs.existsSync(previousResumePath)) {
+                try {
+                    fs.unlinkSync(previousResumePath);
+                } catch (error) {
+                    return res.status(400).send({
+                        message:
+                            "Could not delete resume file: " + error.message,
+                    });
+                }
+            }
+        }
         await summary.destroy();
-        // We have to delete all the Vedios of this summary too
-        // we have to delete the summary ownership from the students too
-        // we have to delete the couse progress of the students too
-        // we have to delete the reviews of this summary too
-        // we have to delete the notifications of this summary too
+
         return res.status(200).json({ message: "summary deleted." });
     } catch (error) {
         console.error(error);
