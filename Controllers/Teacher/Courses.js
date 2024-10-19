@@ -6,7 +6,7 @@ const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Course_Video = require("../../Models/Course_Video");
 const { Op } = require("sequelize");
 const path = require("path");
-
+const Course_Meets = require("../../Models/Course_Meets");
 const GetCourses = async (req, res) => {
   const userId = req.decoded.userId;
   if (!userId)
@@ -47,6 +47,7 @@ const GetCourse = async (req, res) => {
       include: [
         {
           model: Course_Video,
+          model: Course_Meets,
           // as: "Course_Video",
         },
       ],

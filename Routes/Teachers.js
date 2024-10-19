@@ -108,5 +108,10 @@ router.post(
     Teacher_Middlware,
     TeacherController.AddMeeting
 );
+router.delete(
+    "/:userId/Courses/:courseId/Meetings/:meetingId",
+    Teacher_Middlware,
+    TeacherController.DeleteMeeting
+);
 
 module.exports = router;
