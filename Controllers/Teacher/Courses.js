@@ -175,6 +175,7 @@ const DeleteCourse = async (req, res) => {
                              Your request has been cancelled , please Contact the Support for Any issue.`,
                             link: "/Student/Purchased",
                         });
+
                         pending_counter++;
                     }
                 })
