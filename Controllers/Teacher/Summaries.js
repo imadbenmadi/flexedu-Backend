@@ -1,6 +1,5 @@
 // const  Teachers  = require("../../Models/Teacher");
 // const { Teacher_Summaries } = require("../../Models/Summary");
-const { Teacher_Notifications } = require("../../Models/Notifications");
 const Summaries = require("../../Models/Summary");
 const Students = require("../../Models/Student");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
@@ -81,6 +80,7 @@ const DeleteSummary = async (req, res) => {
             // return res.status(409).json({
             //     error: "Summary has purcase requests, cannot delete.",
             // });
+            let counter = 0;
             await Promise.all(
                 summaryPurcaseRequests.map(async (request) => {
                     const students = await Students.findOne({
@@ -95,6 +95,7 @@ const DeleteSummary = async (req, res) => {
                             text: `The summary ${summary.Title} has been deleted by the teacher.
                              Your request has been cancelled , please Contact the Support for Any issue.`,
                         });
+                        counter++;
                     }
                 })
             );

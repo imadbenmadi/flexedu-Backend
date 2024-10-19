@@ -10,7 +10,7 @@ const Students = require("../../Models/Student");
 const {
     Student_Notifications,
     Teacher_Notifications,
-} = require("../../Models/NotifTeacher_Notificationsications");
+} = require("../../Models/Notifications");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const summarys = await Summary.findAll({
