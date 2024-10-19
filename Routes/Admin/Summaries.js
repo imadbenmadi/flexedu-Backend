@@ -110,6 +110,7 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
                             title: "Summary deleted",
                             text: `The summary ${summary.Title} has been deleted by the Admin.
                              Your request has been cancelled , please Contact the Support for Any issue.`,
+                            link: "/Student/Purchased",
                         });
                         counter++;
                     }
@@ -121,6 +122,7 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
                     title: "Summary deleted",
                     text: `The summary ${summary.Title} has been deleted bu the Admin. 
                      ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
+                    link: "/Teacher/Payments",
                 });
             }
             await Summary_Purcase_Requests.destroy({

@@ -94,6 +94,7 @@ const DeleteSummary = async (req, res) => {
                             title: "Summary deleted",
                             text: `The summary ${summary.Title} has been deleted by the teacher.
                              Your request has been cancelled , please Contact the Support for Any issue.`,
+                            link: "/Student/Purchased",
                         });
                         counter++;
                     }
@@ -105,6 +106,7 @@ const DeleteSummary = async (req, res) => {
                     title: "Summary deleted",
                     text: `The summary ${summary.Title} has been deleted by you. 
                      ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
+                    link: "/Teacher/Payments",
                 });
             }
             await Summary_Purcase_Requests.destroy({

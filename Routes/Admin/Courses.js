@@ -149,7 +149,6 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
             where: { CourseId: courseId },
         });
         if (courseProgress.length > 0) {
-
             await Promise.all(
                 courseProgress.map(async (progress) => {
                     const students = await Students.findOne({
@@ -173,7 +172,11 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
         }
         const pendingCourseRequests = await Course_Purcase_Requests.findAll({
             where: { CourseId: courseId },
-            status: "pending",
+            // status: "pending",
+            Price: {
+                [Op.ne]: 0, // Price not equal to 0
+                [Op.not]: null, // Price not null
+            },
         });
         if (pendingCourseRequests.length > 0) {
             await Promise.all(

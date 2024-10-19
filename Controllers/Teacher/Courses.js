@@ -142,6 +142,7 @@ const DeleteCourse = async (req, res) => {
                             title: "Course deleted",
                             text: `The course ${course.Title} has been deleted by the teacher.
                             Please contact the Support for more information.`,
+                            link: "/Student/Purchased",
                         });
                         progress_counter++;
                     }
@@ -154,7 +155,11 @@ const DeleteCourse = async (req, res) => {
         }
         const pendingCourseRequests = await Course_Purcase_Requests.findAll({
             where: { CourseId: courseId },
-            status: "pending",
+            // status: "pending",
+            Price: {
+                [Op.ne]: 0, // Price not equal to 0
+                [Op.not]: null, // Price not null
+            },
         });
         if (pendingCourseRequests.length > 0) {
             await Promise.all(
@@ -168,6 +173,7 @@ const DeleteCourse = async (req, res) => {
                             title: "Course deleted",
                             text: `The course ${course.Title} has been deleted by the Admin.
                              Your request has been cancelled , please Contact the Support for Any issue.`,
+                            link: "/Student/Purchased",
                         });
                         pending_counter++;
                     }
@@ -182,6 +188,7 @@ const DeleteCourse = async (req, res) => {
                      ${progress_counter} Student Lost Access to the Course. 
                      ${pending_counter} requests have been cancelled.
                       Please contact the Support for more information.`,
+                link: "/Teacher/Payments",
             });
         }
         const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
