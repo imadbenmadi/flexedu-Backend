@@ -143,16 +143,13 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
                 where: { CourseId: courseId },
             });
         }
-        // Check if course is already bought or requested
+        let progress_counter = 0;
+        let pending_counter = 0;
         const courseProgress = await Course_Progress.findAll({
             where: { CourseId: courseId },
         });
         if (courseProgress.length > 0) {
-            // return res.status(403).json({
-            //     message:
-            //         "Unauthorized, course has been bought by students. Can't delete it.",
-            // });
-            let counter = 0;
+
             await Promise.all(
                 courseProgress.map(async (progress) => {
                     const students = await Students.findOne({
@@ -162,21 +159,14 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
                         await Student_Notifications.create({
                             StudentId: progress.StudentId,
                             title: "Course deleted",
-                            text: `The course ${course.Title} has been deleted by the teacher.
+                            text: `The course ${course.Title} has been deleted by the Admin.
                             Please contact the Support for more information.`,
                         });
-                        counter++;
+                        progress_counter++;
                     }
                 })
             );
-            if (counter > 0) {
-                await Teacher_Notifications.create({
-                    TeacherId: course.TeacherId,
-                    title: "course deleted",
-                    text: `The course ${course.Title} has been deleted by the Admin. 
-                     ${counter} Student Lost Access to the Course. Please contact the Support for more information.`,
-                });
-            }
+
             await Course_Progress.destroy({
                 where: { CourseId: courseId },
             });
@@ -186,11 +176,6 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
             status: "pending",
         });
         if (pendingCourseRequests.length > 0) {
-            // return res.status(403).json({
-            //     message:
-            //         "Unauthorized, course has been requested by students. Can't delete it.",
-            // });
-            let counter = 0;
             await Promise.all(
                 pendingCourseRequests.map(async (request) => {
                     const students = await Students.findOne({
@@ -203,27 +188,25 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
                             text: `The course ${course.Title} has been deleted by the Admin.
                              Your request has been cancelled , please Contact the Support for Any issue.`,
                         });
-                        counter++;
+                        pending_counter++;
                     }
                 })
             );
-            if (counter > 0) {
-                await Teacher_Notifications.create({
-                    TeacherId: course.TeacherId,
-                    title: "Course deleted",
-                    text: `The course ${course.Title} has been deleted by the Admin.
-                     ${counter} requests have been cancelled. please Contact the Support for Any issue.`,
-                });
-            }
+        }
+        if (progress_counter > 0 || pending_counter.length > 0) {
+            await Teacher_Notifications.create({
+                TeacherId: course.TeacherId,
+                title: "course deleted",
+                text: `The course ${course.Title} has been deleted by the Admin. 
+                     ${progress_counter} Student Lost Access to the Course. 
+                     ${pending_counter} requests have been cancelled.
+                      Please contact the Support for more information.`,
+            });
         }
         const coursePurchaseRequests = await Course_Purcase_Requests.findAll({
             where: { CourseId: courseId },
         });
         if (coursePurchaseRequests.length > 0) {
-            // return res.status(403).json({
-            //     message:
-            //         "Unauthorized, course has been requested by students. Can't delete it.",
-            // });
             await Course_Purcase_Requests.destroy({
                 where: { CourseId: courseId },
             });
