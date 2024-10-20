@@ -66,6 +66,9 @@ const GetCourse = async (req, res) => {
                     model: Course_Meets,
                     // as: "Course_Meets",
                 },
+                {
+                    model: Reviews,
+                },
             ],
             order: [["createdAt", "DESC"]],
         });
