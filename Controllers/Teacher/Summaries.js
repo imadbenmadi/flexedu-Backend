@@ -21,8 +21,8 @@ const GetSummaries = async (req, res) => {
             },
             order: [["createdAt", "DESC"]],
         });
-        if (!summarys)
-            return res.status(404).json({ error: "No summarys found." });
+        // if (!summarys)
+        //     return res.status(404).json({ error: "No summarys found." });
         return res.status(200).json({ Summaries: summarys });
     } catch (error) {
         console.error(error);

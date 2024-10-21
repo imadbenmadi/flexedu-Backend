@@ -15,11 +15,11 @@ const GetMeetings = async (req, res) => {
         const meetings = await Course_Meets.findAll({
             where: { CourseId: courseId },
         });
-        if (!meetings) {
-            return res
-                .status(404)
-                .json({ message: "No meetings found for this course." });
-        }
+        // if (!meetings) {
+        //     return res
+        //         .status(404)
+        //         .json({ message: "No meetings found for this course." });
+        // }
         res.json(meetings);
     } catch (error) {
         res.status(500).json({

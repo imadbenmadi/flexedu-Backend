@@ -26,8 +26,8 @@ router.get("/", Admin_Middleware, async (req, res) => {
 
             order: [["createdAt", "DESC"]],
         });
-        if (!courses)
-            return res.status(404).json({ error: "No courses found." });
+        // if (!courses)
+        //     return res.status(404).json({ error: "No courses found." });
         return res.status(200).json({ Courses: courses });
     } catch (error) {
         console.error(error);

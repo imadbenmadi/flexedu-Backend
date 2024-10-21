@@ -11,8 +11,8 @@ const GetNotifications = async (req, res) => {
             },
             order: [["createdAt", "DESC"]],
         });
-        if (!notifications)
-            return res.status(404).json({ error: "No notifications found." });
+        // if (!notifications)
+        //     return res.status(404).json({ error: "No notifications found." });
         return res.status(200).json({ Notifications: notifications });
     } catch (error) {
         console.error(error);

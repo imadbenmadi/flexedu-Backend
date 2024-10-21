@@ -17,8 +17,8 @@ router.get("/", Admin_Middleware, async (req, res) => {
         const summarys = await Summary.findAll({
             order: [["createdAt", "DESC"]],
         });
-        if (!summarys)
-            return res.status(404).json({ error: "No summarys found." });
+        // if (!summarys)
+        //     return res.status(404).json({ error: "No summarys found." });
         return res.status(200).json({ Summary: summarys });
     } catch (error) {
         console.error(error);

@@ -28,8 +28,7 @@ router.get("/Teachers", adminMiddleware, async (req, res) => {
             where: { id: TeacherId },
             // attributes: { exclude: ["password"] },
         });
-        if (!Teacher)
-            return res.status(404).json({ message: "Teacher not found" });
+
         res.status(200).json({ user: Teacher });
     } catch (err) {
         console.error("Error fetching Teacher:", err);
@@ -46,8 +45,7 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
             where: { id: StudentId },
             // attributes: { exclude: ["password"] },
         });
-        if (!Student)
-            return res.status(404).json({ message: "Student not found" });
+
         res.status(200).json({ user: Student });
     } catch (err) {
         console.error("Error fetching Student:", err);
