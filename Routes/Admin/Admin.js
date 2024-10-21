@@ -22,4 +22,5 @@ router.use("/Home", require("./Home"));
 router.use("/Contact", require("./Contact"));
 router.use("/Users", require("./Users"));
 router.use("/upload", require("./Uploads/Upload"));
+router.use("/Reviews", require("./Reviews"));
 module.exports = router;

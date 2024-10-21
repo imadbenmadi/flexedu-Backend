@@ -27,6 +27,11 @@ const {
     AddMeeting,
     DeleteMeeting,
 } = require("./Teacher/Meeting");
+
+const {
+    Delete_course_review,
+    Delete_summary_review,
+} = require("./Teacher/Reviews");
 const TeacherController = {
     getProfile,
     getCoursesWithStudentCount,
@@ -51,6 +56,8 @@ const TeacherController = {
     GetMeeting,
     AddMeeting,
     DeleteMeeting,
+    Delete_course_review,
+    Delete_summary_review,
 };
 
 module.exports = TeacherController;
