@@ -35,7 +35,15 @@ router.get("/Teachers", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-
+router.get("/Students", adminMiddleware, async (req, res) => {
+    try {
+        const students = await Students.findAll();
+        res.status(200).json({ students });
+    } catch (err) {
+        console.error("Error fetching Students:", err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 router.get("/Students/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
@@ -53,7 +61,23 @@ router.get("/Students/:id", adminMiddleware, async (req, res) => {
     }
 });
 
-router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
+router.get("/Teachers/:id", adminMiddleware, async (req, res) => {
+    const TeacherId = req.params.id;
+    if (!TeacherId)
+        return res.status(409).json({ message: "Teacher ID is required" });
+    try {
+        const Teacher = await Teachers.findOne({
+            where: { id: TeacherId },
+            // attributes: { exclude: ["password"] },
+        });
+
+        res.status(200).json({ user: Teacher });
+    } catch (err) {
+        console.error("Error fetching Teacher:", err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+router.delete("/Teachers/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
     if (!TeacherId)
         return res.status(409).json({ message: "Teacher id is required" });
@@ -296,7 +320,7 @@ router.delete("/Teacher/:id", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
-router.delete("/Student/:id", adminMiddleware, async (req, res) => {
+router.delete("/Students/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
         return res.status(409).json({ message: "Student id is required" });
