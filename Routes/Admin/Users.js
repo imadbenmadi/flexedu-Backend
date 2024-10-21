@@ -335,5 +335,28 @@ router.delete("/Student/:id", adminMiddleware, async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 });
+router.get("/", adminMiddleware, async (req, res) => {
+    try {
+        const students = await Students.findAll();
+        const students_to_send = students.map((student) => {
+            return {
+                ...student.dataValues,
+                userType: "student",
+            };
+        });
+        const teachers = await Teachers.findAll();
+        const teachers_to_send = teachers.map((teacher) => {
+            return {
+                ...teacher.dataValues,
+                userType: "teacher",
+            };
+        });
+        const users = [...students_to_send, ...teachers_to_send];
 
+        res.status(200).json({ users });
+    } catch (err) {
+        console.error("Error fetching users:", err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 module.exports = router;
