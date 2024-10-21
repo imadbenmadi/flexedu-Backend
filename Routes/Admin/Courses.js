@@ -271,7 +271,12 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
                 }
             }
         }
-
+        await Reviews.destroy(
+            {
+                where: { CourseId: course.id },
+            },
+            { transaction: t }
+        );
         // Delete course from the database
         await course.destroy();
 

@@ -166,6 +166,11 @@ router.delete("/:summaryId", Admin_Middleware, async (req, res) => {
                 }
             }
         }
+        await Review_Summary.destroy({
+            where: {
+                SummaryId: summaryId,
+            },
+        });
         await summary.destroy();
 
         return res.status(200).json({ message: "summary deleted." });
