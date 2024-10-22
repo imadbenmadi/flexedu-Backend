@@ -56,6 +56,12 @@ router.get("/:courseId", Admin_Middleware, async (req, res) => {
                 },
                 {
                     model: Reviews,
+                    include: [
+                        {
+                            model: Students,
+                            // attributes: ["id", "Name", "Image"],
+                        },
+                    ],
                 },
             ],
             order: [["createdAt", "DESC"]],

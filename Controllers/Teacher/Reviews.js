@@ -10,14 +10,13 @@ const Delete_course_review = async (req, res) => {
             .status(409)
             .json({ error: "Unauthorized , missing reviewId" });
     try {
-        const review = await Review_Summary.findOne({
+        const review = await Reviews.findOne({
             where: {
                 id: reviewId,
             },
         });
-        if (!review)
-            return res.status(404).json({ error: "review not found." });
-        await review.destroy();
+      
+        if (review) await review.destroy();
         return res.status(200).json({ message: "review deleted successfully" });
     } catch (error) {
         console.error(error);
@@ -31,14 +30,13 @@ const Delete_summary_review = async (req, res) => {
             .status(409)
             .json({ error: "Unauthorized , missing reviewId" });
     try {
-        const review = await Reviews.findOne({
+        const review = await Review_Summary.findOne({
             where: {
                 id: reviewId,
             },
         });
-        if (!review)
-            return res.status(404).json({ error: "review not found." });
-        await review.destroy();
+
+        if (review) await review.destroy();
         return res.status(200).json({ message: "review deleted successfully" });
     } catch (error) {
         console.error(error);

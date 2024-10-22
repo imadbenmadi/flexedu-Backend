@@ -32,6 +32,12 @@ const GetCourses = async (req, res) => {
                 },
                 {
                     model: Reviews,
+                    include: [
+                        {
+                            model: Students,
+                            // attributes: ["id", "Name", "Image"],
+                        },
+                    ],
                 },
             ],
             order: [["createdAt", "DESC"]],
@@ -68,6 +74,12 @@ const GetCourse = async (req, res) => {
                 },
                 {
                     model: Reviews,
+                    include: [
+                        {
+                            model: Students,
+                            // attributes: ["id", "Name", "Image"],
+                        },
+                    ],
                 },
             ],
             order: [["createdAt", "DESC"]],

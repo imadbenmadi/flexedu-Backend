@@ -33,6 +33,16 @@ router.delete(
     Teacher_Middlware,
     TeacherController.DeleteNotification
 );
+router.delete(
+    "/:userId/Courses/:courseId/Reviews/:reviewId",
+    Teacher_Middlware,
+    TeacherController.Delete_course_review
+);
+router.delete(
+    "/:userId/Summaries/:summaryId/Reviews/:reviewId",
+    Teacher_Middlware,
+    TeacherController.Delete_summary_review
+);
 // _________________________________________________________
 router.get("/:userId/Courses", Teacher_Middlware, TeacherController.GetCourses);
 router.get(
@@ -113,14 +123,5 @@ router.delete(
     Teacher_Middlware,
     TeacherController.DeleteMeeting
 );
-router.delete(
-    "/:userId/Courses/:courseId/Reviews/:reviewId",
-    Teacher_Middlware,
-    TeacherController.Delete_course_review
-);
-router.delete(
-    "/:userId/Summaries/:summaryId/Reviews/:reviewId",
-    Teacher_Middlware,
-    TeacherController.Delete_summary_review
-);
+
 module.exports = router;
