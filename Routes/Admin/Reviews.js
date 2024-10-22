@@ -17,9 +17,7 @@ router.delete("/Summaries/:reviewId", adminMiddleware, async (req, res) => {
                 id: reviewId,
             },
         });
-        if (!review)
-            return res.status(404).json({ error: "review not found." });
-        await review.destroy();
+        if (review) await review.destroy();
         return res.status(200).json({ message: "review deleted successfully" });
     } catch (error) {
         console.error(error);
@@ -38,9 +36,7 @@ router.delete("/Courses/:reviewId", adminMiddleware, async (req, res) => {
                 id: reviewId,
             },
         });
-        if (!review)
-            return res.status(404).json({ error: "review not found." });
-        await review.destroy();
+        if (review) await review.destroy();
         return res.status(200).json({ message: "review deleted successfully" });
     } catch (error) {
         console.error(error);
