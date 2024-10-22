@@ -7,7 +7,10 @@ const Course_Meets = sequelize.define("Course_Meets", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-
+    time: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
     CourseId: {
         type: DataTypes.INTEGER,
         allowNull: false,
