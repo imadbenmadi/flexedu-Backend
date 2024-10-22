@@ -1,12 +1,7 @@
 const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Course_Meets = require("../../Models/Course_Meets");
-const Students = require("../../Models/Student");
-const Course_Progress = require("../../Models/Course_Progress");
-const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
-const Course_Video = require("../../Models/Course_Video");
 const { Op } = require("sequelize");
-const path = require("path");
 
 // Controller to get all meetings for a course
 const GetMeetings = async (req, res) => {
@@ -14,12 +9,8 @@ const GetMeetings = async (req, res) => {
     try {
         const meetings = await Course_Meets.findAll({
             where: { CourseId: courseId },
+            order: [["time", "ASC"]], // Sorting by time, earliest first
         });
-        // if (!meetings) {
-        //     return res
-        //         .status(404)
-        //         .json({ message: "No meetings found for this course." });
-        // }
         res.json(meetings);
     } catch (error) {
         res.status(500).json({
@@ -51,17 +42,25 @@ const GetMeeting = async (req, res) => {
 // Controller to add a new meeting
 const AddMeeting = async (req, res) => {
     const { courseId } = req.params;
-    const { Link } = req.body;
+    const { Link, time } = req.body;
+
+    // Validate that Link and time are provided
+    if (!Link || !time) {
+        return res.status(400).json({ message: "Link and time are required." });
+    }
 
     try {
         const course = await Courses.findOne({ where: { id: courseId } });
         if (!course) {
             return res.status(404).json({ message: "Course not found." });
         }
+
         const newMeeting = await Course_Meets.create({
             Link,
+            time, // Include the time when creating the meeting
             CourseId: courseId,
         });
+
         res.status(201).json(newMeeting);
     } catch (error) {
         res.status(500).json({

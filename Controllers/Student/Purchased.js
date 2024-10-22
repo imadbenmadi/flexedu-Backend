@@ -8,6 +8,7 @@ const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const Reviews = require("../../Models/Review_Course");
 const Review_Summary = require("../../Models/Review_Summary");
+const Course_Meets = require("../../Models/Course_Meets");
 const GetPurchased = async (req, res) => {
     const userId = req.decoded.userId;
     if (!userId)
@@ -76,6 +77,9 @@ const GetPurchasedCourse = async (req, res) => {
                 {
                     model: Course_Video,
                     // as: "Course_Video",
+                },
+                {
+                    model: Course_Meets,
                 },
             ],
             order: [["createdAt", "DESC"]],
