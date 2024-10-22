@@ -81,9 +81,9 @@ router.delete("/Teachers/:id", adminMiddleware, async (req, res) => {
     const TeacherId = req.params.id;
     if (!TeacherId)
         return res.status(409).json({ message: "Teacher id is required" });
-    try {
-        const t = await sequelize.transaction(); // Start a transaction
+    const t = await sequelize.transaction(); // Start a transaction
 
+    try {
         const Courses_of_Teacher = await Courses.findAll(
             {
                 where: { TeacherId },
@@ -324,9 +324,9 @@ router.delete("/Students/:id", adminMiddleware, async (req, res) => {
     const StudentId = req.params.id;
     if (!StudentId)
         return res.status(409).json({ message: "Student id is required" });
-    try {
-        const t = await sequelize.transaction(); // Start a transaction
+    const t = await sequelize.transaction(); // Start a transaction
 
+    try {
         await Course_Progress.destroy({ where: { StudentId }, transaction: t });
 
         await Summary_Purcase_Requests.destroy({

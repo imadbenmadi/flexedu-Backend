@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const Summary = require("../../Models/Summary");
-const Course_Video = require("../../Models/Course_Video");
 const fs = require("fs");
 const path = require("path");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");

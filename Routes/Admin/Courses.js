@@ -14,6 +14,8 @@ const {
     Teacher_Notifications,
 } = require("../../Models/Notifications");
 const Reviews = require("../../Models/Review_Course");
+const { Op } = require("sequelize");
+const sequelize = require("../../config/db_connection");
 router.get("/", Admin_Middleware, async (req, res) => {
     try {
         const courses = await Courses.findAll({
@@ -153,6 +155,7 @@ router.delete("/:courseId", Admin_Middleware, async (req, res) => {
                 where: { CourseId: courseId },
             });
         }
+        const t = await sequelize.transaction();
         let progress_counter = 0;
         let pending_counter = 0;
         const courseProgress = await Course_Progress.findAll({

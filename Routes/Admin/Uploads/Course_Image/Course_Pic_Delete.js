@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Courses = require("../../../../Models/Course");
 const formidableMiddleware = require("express-formidable");
 
@@ -13,7 +12,6 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Delete_Course_Image = async (req, res) => {
     try {
-        const userId = req.decoded.userId;
         const courseId = req.params.courseId; // Assuming courseId is passed in the route
         const Course = await Courses.findOne({ where: { id:courseId  } });
         if (!Course) {

@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Teachers = require("../../../../Models/Teacher");
 const formidableMiddleware = require("express-formidable");
 

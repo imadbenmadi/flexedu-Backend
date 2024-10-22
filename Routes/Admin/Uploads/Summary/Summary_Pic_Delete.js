@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Summary = require("../../../../Models/Summary");
 const formidableMiddleware = require("express-formidable");
 
@@ -13,7 +12,6 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Delete_summary_Image = async (req, res) => {
     try {
-        const userId = req.decoded.userId;
         const summaryId = req.params.summaryId; // Assuming summaryId is passed in the route
         if (!summaryId) {
             return res.status(400).send({
@@ -44,7 +42,7 @@ const Delete_summary_Image = async (req, res) => {
                 message: "summary Picture Not Found",
             });
         }
-        await Summaries.update({ Image: null }, { where: { id: summaryId } });
+        await Summary.update({ Image: null }, { where: { id: summaryId } });
         // Example response
         return res.status(200).send({
             message: "summary summary picture deleted successfully!",

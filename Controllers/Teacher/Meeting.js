@@ -1,7 +1,5 @@
-const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Course_Meets = require("../../Models/Course_Meets");
-const { Op } = require("sequelize");
 
 // Controller to get all meetings for a course
 const GetMeetings = async (req, res) => {

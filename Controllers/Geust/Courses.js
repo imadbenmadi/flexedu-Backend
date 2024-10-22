@@ -1,6 +1,4 @@
 const Courses = require("../../Models/Course");
-const Students = require("../../Models/Student");
-const Course_Progress = require("../../Models/Course_Progress");
 const Course_Video = require("../../Models/Course_Video");
 
 const GetCourses = async (req, res) => {

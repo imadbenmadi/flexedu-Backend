@@ -6,7 +6,6 @@ const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const Course_Progress = require("../../Models/Course_Progress");
 const Students = require("../../Models/Student");
-const Teachers = require("../../Models/Teacher");
 const Admin_midllware = require("../../Middlewares/Admin");
 const { Op } = require("sequelize");
 const sequelize = require("../../config/db_connection");

@@ -47,7 +47,6 @@ const verifyAdmin = async (req, res, next) => {
                     message: "unauthorized : Invalid tokens ",
                 });
             }
-            // req.user = admin;
         } else if (decoded.userType != "admin") {
             return res.status(401).json({
                 message: "unauthorized : Invalid tokens ",

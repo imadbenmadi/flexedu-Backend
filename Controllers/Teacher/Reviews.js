@@ -1,4 +1,3 @@
-const express = require("express");
 
 const Reviews = require("../../Models/Review_Course"); // Done
 const Review_Summary = require("../../Models/Review_Summary"); // Done

@@ -1,4 +1,3 @@
-const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Summary = require("../../Models/Summary");
 const Students = require("../../Models/Student");

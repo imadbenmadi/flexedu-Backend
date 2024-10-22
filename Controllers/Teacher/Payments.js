@@ -1,10 +1,7 @@
-const { Teacher_Notifications } = require("../../Models/Notifications");
 const Courses = require("../../Models/Course");
 const Teachers = require("../../Models/Teacher");
 const Summary = require("../../Models/Summary");
 const Students = require("../../Models/Student");
-const Course_Progress = require("../../Models/Course_Progress");
-const Course_Video = require("../../Models/Course_Video");
 const Course_Purcase_Requests = require("../../Models/Course_Purcase_Requests");
 const Summary_Purcase_Requests = require("../../Models/Summary_Purcase_Requests");
 const { Sequelize } = require("sequelize");

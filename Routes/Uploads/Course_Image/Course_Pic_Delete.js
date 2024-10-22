@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Courses = require("../../../Models/Course");
 const formidableMiddleware = require("express-formidable");
 
@@ -20,7 +19,6 @@ const Delete_Course_Image = async (req, res) => {
             });
         }
 
-        const userId = req.decoded.userId;
         const Course = await Courses.findOne({ where: { id: courseId } });
         if (!Course) {
             return res.status(404).send({

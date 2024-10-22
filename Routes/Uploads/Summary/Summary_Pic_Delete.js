@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const Summary = require("../../../Models/Summary");
 const formidableMiddleware = require("express-formidable");
 
@@ -13,7 +12,6 @@ const uploadMiddleware = formidableMiddleware({
 // Upload handler
 const Delete_summary_Image = async (req, res) => {
     try {
-        const userId = req.decoded.userId;
         const summaryId = req.params.summaryId;
         const summary = await Summary.findOne({
             where: { id: summaryId },
