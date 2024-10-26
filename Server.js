@@ -9,7 +9,21 @@ const allowedOrigins = [
     "http://localhost:5173/",
     "http://localhost:5174",
     "http://localhost:5174/",
-    // "http://localhost:3500",
+    //____________________________
+    "http://api.flexedu-dz.com/",
+    "http://api.flexedu-dz.com",
+    "https://api.flexedu-dz.com/",
+    "https://api.flexedu-dz.com",
+    //____________________________
+    "https://dashboard.flexedu-dz.com/",
+    "https://dashboard.flexedu-dz.com",
+    "http://dashboard.flexedu-dz.com/",
+    "http://dashboard.flexedu-dz.com",
+    //____________________________
+    "https://flexedu-dz.com/",
+    "https://flexedu-dz.com",
+    "http://flexedu-dz.com/",
+    "http://flexedu-dz.com",
 ];
 const corsOptions = {
     origin: (origin, callback) => {
