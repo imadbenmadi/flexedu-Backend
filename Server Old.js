@@ -5,10 +5,10 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const fs = require("fs");
 const allowedOrigins = [
-    "http://localhost:5173",
-    "http://localhost:5173/",
-    "http://localhost:5174",
-    "http://localhost:5174/",
+    //"http://localhost:5173",
+    //////"http://localhost:5173/",
+    ////"http://localhost:5174",
+    //"http://localhost:5174/",
     //____________________________
     "http://api.flexedu-dz.com/",
     "http://api.flexedu-dz.com",
@@ -67,12 +67,16 @@ const directories = [
 directories.forEach((dir) => {
     ensureDirectoryExists(path.join(__dirname, dir));
 });
-
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Update with allowed origins if needed
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 app.use("/", express.static(path.join(__dirname, "/public")));
-app.use(
-    "/Summaries",
-    express.static(path.join(__dirname, " /public/Summaries"))
-);
 
 app.get("/", (req, res) => {
     res.send("Hello from flexEducation");

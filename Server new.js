@@ -4,37 +4,27 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const fs = require("fs");
+
 const allowedOrigins = [
-    "http://localhost:5173",
-    "http://localhost:5173/",
-    "http://localhost:5174",
-    "http://localhost:5174/",
-    //____________________________
-    "http://api.flexedu-dz.com/",
     "http://api.flexedu-dz.com",
-    "https://api.flexedu-dz.com/",
     "https://api.flexedu-dz.com",
-    //____________________________
-    "https://dashboard.flexedu-dz.com/",
     "https://dashboard.flexedu-dz.com",
-    "http://dashboard.flexedu-dz.com/",
     "http://dashboard.flexedu-dz.com",
-    //____________________________
-    "https://flexedu-dz.com/",
     "https://flexedu-dz.com",
-    "http://flexedu-dz.com/",
     "http://flexedu-dz.com",
 ];
+
 const corsOptions = {
     origin: (origin, callback) => {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {
-            callback(new Error(`Not allowed by CORS , origin : ${origin}`));
+            callback(new Error(`Not allowed by CORS, origin: ${origin}`));
         }
     },
     optionsSuccessStatus: 200,
 };
+
 const credentials = (req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -42,6 +32,7 @@ const credentials = (req, res, next) => {
     }
     next();
 };
+
 require("dotenv").config();
 
 app.use(cookieParser());
@@ -68,12 +59,19 @@ directories.forEach((dir) => {
     ensureDirectoryExists(path.join(__dirname, dir));
 });
 
-app.use("/", express.static(path.join(__dirname, "/public")));
-app.use(
-    "/Summaries",
-    express.static(path.join(__dirname, " /public/Summaries"))
-);
+// Serve static files with CORS headers from the public directory
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header("Access-Control-Allow-Origin", origin);
+        res.header("Access-Control-Allow-Credentials", "true");
+    }
+    next();
+});
 
+app.use(express.static(path.join(__dirname, "public")));
+
+// Routes
 app.get("/", (req, res) => {
     res.send("Hello from flexEducation");
 });
@@ -95,6 +93,6 @@ app.use("/Add_Admin", require("./Routes/Auth/Admin/Admin_Add"));
 app.use("/Admin_Logout", require("./Routes/Auth/Admin/Admin_Logout"));
 app.use("/Admin_CheckAuth", require("./Routes/Auth/Admin/Admin_CheckAuth"));
 
-app.listen(3000);
+app.listen(3000, () => console.log("Server running on port 3000"));
 
 module.exports = app;
